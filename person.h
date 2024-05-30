@@ -46,7 +46,7 @@ class Actor : public Person {
 
 class Director : public Person {
    private:
-    std::vector<const Film*> films = {};  // should be sorted by id/name
+    std::vector<const Film*> films = {};  // should be sorted by name
 
    public:
     using Person::Person;

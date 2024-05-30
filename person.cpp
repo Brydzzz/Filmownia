@@ -22,7 +22,7 @@ void Actor::addRole(const std::string& character, const Film& film) {
     auto it = std::lower_bound(roles.begin(), roles.end(), newRole);
 
     if (it != roles.end() && it->film->getID() == film.getID()) {
-        throw std::invalid_argument("This role exists");
+        throw std::invalid_argument("There is already a role for this film");
     }
     roles.insert(it, newRole);
 }
@@ -37,7 +37,16 @@ void Actor::displayRoles(std::ostream& os) const {
 
 const std::vector<const Film*>& Director::getFilms() const { return films; }
 
-void Director::addFilm(const Film& film) { films.push_back(&film); }
+void Director::addFilm(const Film& film) {
+    auto it = std::lower_bound(films.begin(), films.end(), &film,
+                               [](const Film* lhs, const Film* rhs) {
+                                   return lhs->getTitle() < rhs->getTitle();
+                               });
+    if (it != films.end() && (*it)->getID() == film.getID()) {
+        throw std::invalid_argument("Film is already on the list");
+    }
+    films.insert(it, &film);
+}
 
 void Director::displayFilms(std::ostream& os) const {
     os << "Films directed by " << this->name << ":\n";

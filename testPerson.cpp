@@ -61,7 +61,7 @@ TEST(actor_test, add_role_duplicate) {
         {}, 144, {}, {}, "");
     a.addRole("Mia Dolan", f1);
     a.addRole("Bella Baxter", f2);
-    ASSERT_THROW(a.addRole("Mia Dolan", f1), std::exception);
+    ASSERT_THROW(a.addRole("Mia Dola", f1), std::exception);
 }
 
 TEST(actor_test, add_role_check_if_alphabetically) {
@@ -140,6 +140,42 @@ TEST(director_test, add_film) {
     d.addFilm(f2);
     ASSERT_EQ(d.getFilms().size(), 2);
 }
+
+TEST(director_test, add_film_duplicate) {
+    Director d(3, "Yorgos Lanthimos", 23, 9, 1973);
+    Film f1(3, "The Favourite", 2018, {film_genre::Drama}, {},
+            "England, early 18th century. The close relationship between Queen "
+            "Anne and Sarah Churchill is threatened by the arrival of Sarah's "
+            "cousin, Abigail Hill, resulting in a bitter rivalry between the "
+            "two cousins to be the Queen's favourite.",
+            {}, 120, {}, {}, "");
+    Film f2(4, "Poor Things", 2024, {film_genre::Comedy}, {},
+            "Brought back to life by an unorthodox scientist, a young woman "
+            "runs "
+            "off with a lawyer on a whirlwind adventure across the continents.",
+            {}, 144, {}, {}, "");
+    d.addFilm(f1);
+    d.addFilm(f2);
+    ASSERT_THROW(d.addFilm(f1), std::exception);
+}
+
+TEST(director_test, add_film_same_title) {
+    Director d(3, "Yorgos Lanthimos", 23, 9, 1973);
+    Film f1(17, "Poor Things", 2001, {film_genre::Comedy}, {},
+            "Brought back to life by an unorthodox scientist, a young woman "
+            "runs "
+            "off with a lawyer on a whirlwind adventure across the continents.",
+            {}, 144, {}, {}, "");
+    Film f2(4, "Poor Things", 2024, {film_genre::Comedy}, {},
+            "Brought back to life by an unorthodox scientist, a young woman "
+            "runs "
+            "off with a lawyer on a whirlwind adventure across the continents.",
+            {}, 144, {}, {}, "");
+    d.addFilm(f1);
+    d.addFilm(f2);
+    ASSERT_EQ(d.getFilms().size(), 2);
+}
+
 TEST(director_test, display_films) {
     Director d(3, "Yorgos Lanthimos", 23, 9, 1973);
     ASSERT_EQ(d.getFilms().empty(), true);
@@ -159,10 +195,9 @@ TEST(director_test, display_films) {
     d.addFilm(f2);
     std::stringstream ss;
     d.displayFilms(ss);
-    ASSERT_EQ(
-        ss.str(),
-        "Films directed by Yorgos Lanthimos:\n\"The Favourite\" (2018)\n\"Poor "
-        "Things\" (2024)\n");
+    ASSERT_EQ(ss.str(),
+              "Films directed by Yorgos Lanthimos:\n\"Poor "
+              "Things\" (2024)\n\"The Favourite\" (2018)\n");
 }
 
 TEST(producer_test, constructor) {
