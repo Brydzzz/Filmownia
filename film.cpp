@@ -160,7 +160,7 @@ std::map<std::string, std::string> Film::parsePeople(std::string &people)
         if (name.size() > 2)
         {
             // name.erase(0, 1);
-            name.erase(name.size() - 1);
+            // name.erase(name.size() - 1);
             std::string role;
             std::getline(ss, role, ',');
             role.erase(0, role.find_first_not_of(" "));
@@ -177,7 +177,7 @@ std::map<std::string, std::string> parsePeople(std::string &people)
     char l1, l2;
     std::stringstream s(people);
     s >> l1;
-    s >> l2;
+    // s >> l2;
     std::string actrole;
     std::map<std::string, std::string> ncast;
     while (std::getline(s, actrole, ']'))
@@ -190,13 +190,13 @@ std::map<std::string, std::string> parsePeople(std::string &people)
         std::getline(ss, name, ',');
         if (name.size() > 2)
         {
-            name.erase(0, 1);
-            name.erase(name.size() - 1);
+            // name.erase(0, 1);
+            // name.erase(name.size() - 1);
             std::string role;
             std::getline(ss, role, ',');
             role.erase(0, role.find_first_not_of(" "));
-            role.erase(0, 1);
-            role.erase(role.size() - 1);
+            // role.erase(0, 1);
+            // role.erase(role.size() - 1);
             ncast[name] = role;
         }
     }
@@ -255,7 +255,6 @@ std::string strGenres(std::vector<film_genre> grs)
 std::string listToStr(std::map<std::string, std::string> mp)
 {
     std::stringstream ss;
-    ss << '\"';
     ss << '[';
     for (const auto &actrole : mp)
     {
@@ -263,9 +262,12 @@ std::string listToStr(std::map<std::string, std::string> mp)
         ss << actrole.first << ", " << actrole.second << ']' << ", ";
     }
     std::string result = ss.str();
+    if (result.size() < 2)
+    {
+        return "[]";
+    }
     result.resize(result.size() - 2);
     result += ']';
-    result += '\"';
     return result;
 }
 

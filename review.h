@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <sstream>
+#include "film.h"
 class Film;
 
 class Review
@@ -19,7 +20,9 @@ public:
     const unsigned int &getID() const;
     const Film *getFilm();
     const unsigned int &getScore();
-    friend std::ostream &operator<<(std::ostream &os, Review &rev);
     const std::string &getContent();
+    const std::string &getUser();
+    std::ostream &write(std::ostream &os);
     friend bool operator==(const Review &lrev, const Review &rrev);
+    friend std::ostream &operator<<(std::ostream &os, Review &rev);
 };

@@ -15,10 +15,10 @@ const std::string &Review::getContent()
     return content;
 }
 
-std::ostream &operator<<(std::ostream &os, Review &rev)
+std::ostream &Review::write(std::ostream &os)
 {
-    os << rev.getScore() << std::endl;
-    os << rev.getContent() << std::endl;
+    os << getScore() << std::endl;
+    os << getContent() << std::endl;
     return os;
 }
 bool operator==(const Review &lrev, const Review &rrev)
@@ -29,4 +29,19 @@ bool operator==(const Review &lrev, const Review &rrev)
 const unsigned int &Review::getID() const
 {
     return id;
+}
+
+const std::string &Review::getUser()
+{
+    return User;
+}
+
+std::ostream &operator<<(std::ostream &os, Review &rev)
+{
+    os << rev.getID() << ';';
+    os << rev.getUser() << ';';
+    os << rev.getFilm()->getID() << ';';
+    os << rev.getScore() << ';';
+    os << rev.getContent();
+    return os;
 }
