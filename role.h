@@ -1,8 +1,6 @@
+#pragma once
 #ifndef ROLE_H
 #define ROLE_H
-
-#include "film.cpp"
-#include "review.cpp"
 
 class User;
 class Role {

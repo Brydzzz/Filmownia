@@ -18,11 +18,12 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(csvReader)
-set(PROJECT_SOURCES_USER user.h)
 
-set(PROJECT_SOURCES_FILM film.cpp review.cpp film.h review.h)
+set(PROJECT_SOURCES_FILM film.h review.h film.cpp review.cpp )
 
-set(PROJECT_SOURCES_PERSON person.h person.cpp date.h date.cpp film.h review.h film.cpp review.cpp)
+set(PROJECT_SOURCES_USER user.h admin.h logged.h guest.h role.h user.cpp logged.cpp guest.cpp role.cpp ${PROJECT_SOURCES_FILM})
+
+set(PROJECT_SOURCES_PERSON person.h person.cpp date.h date.cpp ${PROJECT_SOURCES_FILM})
 
 include_directories("${csvreader_SOURCE_DIR}")
 

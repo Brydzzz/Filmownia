@@ -1,5 +1,7 @@
 #include "user.h"
 
+#include <algorithm>
+
 #include "admin.h"
 #include "guest.h"
 #include "logged.h"

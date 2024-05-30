@@ -1,5 +1,6 @@
-#include "film.cpp"
-#include "role.cpp"
+#pragma once
+#include "film.h"
+#include "role.h"
 
 class Admin : public Role {
    public:

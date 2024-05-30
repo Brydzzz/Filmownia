@@ -3,8 +3,11 @@
 #include <iostream>
 #include <sstream>
 
-#include "user.cpp"
-
+#include "admin.h"
+#include "guest.h"
+#include "logged.h"
+#include "role.h"
+#include "user.h"
 // std::cin for testing purposes
 class InputSimulator {
     std::istringstream input;

@@ -1,7 +1,8 @@
+#pragma once
 #include <vector>
 
+#include "review.h"
 #include "role.h"
-
 class Logged : public Role {
     std::vector<Review> reviews;
 

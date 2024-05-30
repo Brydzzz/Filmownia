@@ -1,3 +1,6 @@
+#pragma once
+#include <string>
+
 #include "role.h"
 class Guest : public Role {
    public:

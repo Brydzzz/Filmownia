@@ -1,5 +1,7 @@
 #include "logged.h"
 
+#include <algorithm>
+#include <iostream>
 Logged::Logged(Review const& review) { reviews.push_back(review); }
 Logged::Logged(Logged const& l_user) { reviews = l_user.reviews; }
 Logged::Logged(std::initializer_list<Review> revs) { reviews = revs; }
