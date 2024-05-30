@@ -1,16 +1,18 @@
 #pragma once
-#ifndef ROLE_H
-#define ROLE_H
+#include <string>
+#include "user.h"
 
 class User;
-class Role {
-   protected:
-    User* user;
+class Role
+{
+protected:
+    User *user;
+    std::string name = "guest";
 
-   public:
-    Role() = default;
-    User* getUser();
+public:
+    Role() : user(){};
+    User *getUser();
+    const std::string getName() const;
+    void setName(const std::string &new_name);
     void browse();
 };
-
-#endif

@@ -9,15 +9,16 @@
 
 // tymczasowo zakładamy ze pierwsze dane w pliku to admin
 class Role;
-class User {
+class User
+{
     std::string login = "guest";
     Role *role;
 
-   public:
-    User() = default;
+public:
+    User() : role(){};
     const std::string &getLogin() const;
     void setLogin(std::string const &new_login);
-    const Role *const &getRole() const;
+    const Role *getRole() const;
     void setRole(Role *new_role);
     void log_in(std::string fname = "../passwords.txt");
     void log_out();
