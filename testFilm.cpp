@@ -139,6 +139,7 @@ TEST(filmTest, csvConstructTest)
     std::map<std::string, std::string> expected3 = {
         {"James Cameron", "Producer"},
         {"Jon Landau", "Producer"}};
+    ASSERT_EQ(f.getProducers(), expected3);
 }
 
 TEST(filmTest, outOperatorTest)
