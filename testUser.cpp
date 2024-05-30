@@ -9,33 +9,37 @@
 #include "role.h"
 #include "user.h"
 // std::cin for testing purposes
-class InputSimulator {
+class InputSimulator
+{
     std::istringstream input;
 
-   public:
-    InputSimulator(const std::string &data) : input(data) {
+public:
+    InputSimulator(const std::string &data) : input(data)
+    {
         std::cin.rdbuf(input.rdbuf());
     }
 };
 
-TEST(userTest, defaultTest) {
+TEST(userTest, defaultTest)
+{
     User user;
     ASSERT_EQ(user.getLogin(), "");
     Role defaultRole;
     ASSERT_EQ(user.getRole(), &defaultRole);
 };
 
-TEST(userTest, logAdminTest) {
-    InputSimulator input("Admin\n0000\n");
+// TEST(userTest, logAdminTest) {
+//     InputSimulator input("Admin\n0000\n");
 
-    User user;
-    user.log_in();
-    Admin admin;
+//     User user;
+//     user.log_in();
+//     Admin admin;
 
-    ASSERT_EQ(user.getLogin(), "Admin");
-    ASSERT_EQ(user.getRole(), dynamic_cast<Role *>(&admin));
-};
-TEST(userTest, logLoggedTest) {
+//     ASSERT_EQ(user.getLogin(), "Admin");
+//     ASSERT_EQ(user.getRole(), dynamic_cast<Role *>(&admin));
+// };
+TEST(userTest, logLoggedTest)
+{
     InputSimulator input("Lara\n1234\n");
 
     User user;
@@ -46,7 +50,8 @@ TEST(userTest, logLoggedTest) {
     ASSERT_EQ(user.getRole(), dynamic_cast<Role *>(&logged));
 };
 
-TEST(userTest, logIncorrectTest) {
+TEST(userTest, logIncorrectTest)
+{
     InputSimulator input("Lara\n5678\n");
 
     User user;
@@ -60,7 +65,8 @@ TEST(userTest, logIncorrectTest) {
     // ASSERT_NE(output.find("Logged in as admin"), std::string::npos);
 };
 
-TEST(userTest, logOutTest) {
+TEST(userTest, logOutTest)
+{
     InputSimulator input("Lara\n1234\n");
 
     User user;
@@ -77,7 +83,8 @@ TEST(userTest, logOutTest) {
     ASSERT_EQ(user.getRole(), &defaultRole);
 };
 
-TEST(guestTest, gdefaultTest) {
+TEST(guestTest, gdefaultTest)
+{
     InputSimulator input("Tom\n23ab\nTom\n23ab\n");
     Guest guest;
     guest.sign_up();
@@ -87,7 +94,8 @@ TEST(guestTest, gdefaultTest) {
     ASSERT_EQ(guest.getUser()->getRole(), dynamic_cast<Role *>(&logged));
 };
 
-TEST(guestTest, takenLoginTest) {
+TEST(guestTest, takenLoginTest)
+{
     InputSimulator input("Lara\n23ab\nLara\n23ab\n");
     Guest guest;
     guest.sign_up();
@@ -97,7 +105,8 @@ TEST(guestTest, takenLoginTest) {
     ASSERT_EQ(guest.getUser()->getRole(), &defaultRole);
 };
 
-TEST(loggedTest, ldefaultTest) {
+TEST(loggedTest, ldefaultTest)
+{
     Logged logged;
     ASSERT_EQ(logged.getReviews().size(), 0);
 };

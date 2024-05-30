@@ -17,17 +17,17 @@ TEST(filmTest, gettersTest)
 TEST(filmTest, addReviewTest)
 {
     Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama}, {}, "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
-    f.addReview(Review(f, 1, std::string("Tomek"), 7, std::string("Very good movie")));
+    f.addReview(Review(&f, 1, std::string("Tomek"), 7, std::string("Very good movie")));
     auto revs = f.getReviews();
     auto film = revs[0].getFilm();
-    ASSERT_EQ(film.getTitle(), "All Quiet on The Western Front");
+    ASSERT_EQ(film->getTitle(), "All Quiet on The Western Front");
 };
 
 TEST(filmTest, ratingTest)
 {
     Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama}, {}, "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
-    f.addReview(Review(f, 1, std::string("Tomek"), 7, std::string("Very good movie")));
-    f.addReview(Review(f, 1, std::string("Tomek"), 9, std::string("Very good movie")));
+    f.addReview(Review(&f, 1, std::string("Tomek"), 7, std::string("Very good movie")));
+    f.addReview(Review(&f, 1, std::string("Tomek"), 9, std::string("Very good movie")));
     ASSERT_EQ(f.getRating(), 8);
 }
 
@@ -48,8 +48,8 @@ TEST(filmTest, eqOperatorFalseTest)
 TEST(filmTest, writeTest)
 {
     Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama}, {{"Me", "The main character"}, {"Him", "The other character"}}, "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
-    f.addReview(Review(f, 1, std::string("Tomek"), 7, std::string("Very good movie")));
-    f.addReview(Review(f, 2, std::string("Tomek"), 9, std::string("Very good movie")));
+    f.addReview(Review(&f, 1, std::string("Tomek"), 7, std::string("Very good movie")));
+    f.addReview(Review(&f, 2, std::string("Tomek"), 9, std::string("Very good movie")));
     std::ostringstream os;
     f.write(os);
     ASSERT_EQ(os.str(), "\"All Quiet on The Western Front\"\n2022  120\n8\nFamous anti war movie based on a novel\n1. Him - The other character\n2. Me - The main character\n");
@@ -58,50 +58,50 @@ TEST(filmTest, writeTest)
 TEST(reviewTest, constructTest)
 {
     Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama}, {{"Me", "The main character"}, {"Him", "The other character"}}, "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
-    Review r(f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
+    Review r(&f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
 }
 
 TEST(reviewTest, getFilmTest)
 {
     Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama}, {{"Me", "The main character"}, {"Him", "The other character"}}, "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
-    Review r(f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
-    ASSERT_EQ(r.getFilm(), f);
+    Review r(&f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
+    ASSERT_EQ(*r.getFilm(), f);
 }
 
 TEST(reviewTest, getScoreTest)
 {
     Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama}, {{"Me", "The main character"}, {"Him", "The other character"}}, "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
-    Review r(f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
+    Review r(&f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
     ASSERT_EQ(r.getScore(), 7);
 }
 
 TEST(reviewTest, eqOperatorTest)
 {
     Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama}, {{"Me", "The main character"}, {"Him", "The other character"}}, "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
-    Review r(f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
-    Review r2(f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
+    Review r(&f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
+    Review r2(&f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
     ASSERT_TRUE(r == r2);
 }
 
 TEST(reviewTest, eqOperatornotEqTest)
 {
     Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama}, {{"Me", "The main character"}, {"Him", "The other character"}}, "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
-    Review r(f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
-    Review r2(f, 2, std::string("Tomek"), 7, std::string("Very good movie"));
+    Review r(&f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
+    Review r2(&f, 2, std::string("Tomek"), 7, std::string("Very good movie"));
     ASSERT_FALSE(r == r2);
 }
 
 TEST(reviewTest, getContentTest)
 {
     Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama}, {{"Me", "The main character"}, {"Him", "The other character"}}, "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
-    Review r(f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
+    Review r(&f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
     ASSERT_EQ(r.getContent(), "Very good movie");
 }
 
 TEST(reviewTest, outOperatorTest)
 {
     Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama}, {{"Me", "The main character"}, {"Him", "The other character"}}, "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
-    Review r(f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
+    Review r(&f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
     std::ostringstream os;
     os << r;
     ASSERT_EQ(os.str(), "7\nVery good movie\n");

@@ -1,6 +1,6 @@
 #include "review.h"
 
-const Film &Review::getFilm()
+const Film *Review::getFilm()
 {
     return film;
 }
