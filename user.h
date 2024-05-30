@@ -15,7 +15,7 @@ class User
     Role *role;
 
 public:
-    User() : role(){};
+    User(){};
     const std::string &getLogin() const;
     void setLogin(std::string const &new_login);
     const Role *getRole() const;

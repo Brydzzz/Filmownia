@@ -10,7 +10,7 @@ protected:
     std::string name = "guest";
 
 public:
-    Role() : user(){};
+    Role(){};
     User *getUser();
     const std::string getName() const;
     void setName(const std::string &new_name);
