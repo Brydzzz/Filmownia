@@ -5,20 +5,22 @@
 #include "film.h"
 #include "person.h"
 TEST(person_test, constructor) {
-    Person p("Tomasz Smoleń", 21, 5, 2004);
+    Person p(1,"Tomasz Smoleń", 21, 5, 2004);
     ASSERT_EQ(p.getName(), "Tomasz Smoleń");
+    ASSERT_EQ(p.getId(), 1);
     ASSERT_EQ(p.getBirthDate().getDay(), 21);
     ASSERT_EQ(p.getBirthDate().getMonth(), 5);
     ASSERT_EQ(p.getBirthDate().getYear(), 2004);
 }
 
 TEST(person_test, constructor_wrong_date) {
-    ASSERT_THROW(Person("Tomasz Smoleń", 32, 5, 2004), std::exception);
+    ASSERT_THROW(Person(1, "Tomasz Smoleń", 32, 5, 2004), std::exception);
 }
 
 TEST(actor_test, constructor) {
-    Actor a("Emma Stone", 6, 11, 1988);
+    Actor a(2, "Emma Stone", 6, 11, 1988);
     ASSERT_EQ(a.getName(), "Emma Stone");
+    ASSERT_EQ(a.getId(), 2);
     ASSERT_EQ(a.getBirthDate().getDay(), 6);
     ASSERT_EQ(a.getBirthDate().getMonth(), 11);
     ASSERT_EQ(a.getBirthDate().getYear(), 1988);
@@ -26,7 +28,7 @@ TEST(actor_test, constructor) {
 }
 
 TEST(actor_test, add_role) {
-    Actor a("Emma Stone", 6, 11, 1988);
+    Actor a(2, "Emma Stone", 6, 11, 1988);
     ASSERT_EQ(a.getRoles().empty(), true);
     Film f1(1, "La La Land", 2017, {film_genre::Drama}, {}, "Masterpiece", {},
             128, {}, {}, "");
@@ -42,7 +44,7 @@ TEST(actor_test, add_role) {
 }
 
 TEST(actor_test, display_roles) {
-    Actor a("Emma Stone", 6, 11, 1988);
+    Actor a(2, "Emma Stone", 6, 11, 1988);
     ASSERT_EQ(a.getRoles().empty(), true);
     Film f1(1, "La La Land", 2017, {film_genre::Drama}, {}, "Masterpiece", {},
             128, {}, {}, "");
@@ -63,7 +65,7 @@ TEST(actor_test, display_roles) {
 }
 
 TEST(director_test, constructor) {
-    Director d("Yorgos Lanthimos", 23, 9, 1973);
+    Director d(3, "Yorgos Lanthimos", 23, 9, 1973);
     ASSERT_EQ(d.getName(), "Yorgos Lanthimos");
     ASSERT_EQ(d.getBirthDate().getDay(), 23);
     ASSERT_EQ(d.getBirthDate().getMonth(), 9);
@@ -72,7 +74,7 @@ TEST(director_test, constructor) {
 }
 
 TEST(director_test, add_film) {
-    Director d("Yorgos Lanthimos", 23, 9, 1973);
+    Director d(3, "Yorgos Lanthimos", 23, 9, 1973);
     ASSERT_EQ(d.getFilms().empty(), true);
     Film f1(3, "The Favourite", 2018, {film_genre::Drama}, {},
             "England, early 18th century. The close relationship between Queen "
@@ -91,7 +93,7 @@ TEST(director_test, add_film) {
     ASSERT_EQ(d.getFilms().size(), 2);
 }
 TEST(director_test, display_films) {
-    Director d("Yorgos Lanthimos", 23, 9, 1973);
+    Director d(3, "Yorgos Lanthimos", 23, 9, 1973);
     ASSERT_EQ(d.getFilms().empty(), true);
     Film f1(3, "The Favourite", 2018, {film_genre::Drama}, {},
             "England, early 18th century. The close relationship between Queen "
@@ -116,7 +118,7 @@ TEST(director_test, display_films) {
 }
 
 TEST(producer_test, constructor) {
-    Producer p("Kevin Feige", 2, 6, 1973);
+    Producer p(4, "Kevin Feige", 2, 6, 1973);
     ASSERT_EQ(p.getName(), "Kevin Feige");
     ASSERT_EQ(p.getBirthDate().getDay(), 2);
     ASSERT_EQ(p.getBirthDate().getMonth(), 6);
@@ -125,7 +127,7 @@ TEST(producer_test, constructor) {
 }
 
 TEST(producer_test, add_job) {
-    Producer p("Kevin Feige", 2, 6, 1973);
+    Producer p(4, "Kevin Feige", 2, 6, 1973);
     ASSERT_EQ(p.getJobs().empty(), true);
     Film f1(3, "The Avengers", 2012, {film_genre::Action}, {},
             "When an unexpected enemy emerges and threatens global safety and "
@@ -146,7 +148,7 @@ TEST(producer_test, add_job) {
 }
 
 TEST(producer_test, display_jobs) {
-    Producer p("Kevin Feige", 2, 6, 1973);
+    Producer p(4, "Kevin Feige", 2, 6, 1973);
     ASSERT_EQ(p.getJobs().empty(), true);
     Film f1(3, "The Avengers", 2012, {film_genre::Action}, {},
             "When an unexpected enemy emerges and threatens global safety and "
@@ -171,7 +173,7 @@ TEST(producer_test, display_jobs) {
 }
 
 TEST(writer_test, constructor) {
-    Writer w("Jon Spaihts", 4, 2, 1970);
+    Writer w(5, "Jon Spaihts", 4, 2, 1970);
     ASSERT_EQ(w.getName(), "Jon Spaihts");
     ASSERT_EQ(w.getBirthDate().getDay(), 4);
     ASSERT_EQ(w.getBirthDate().getMonth(), 2);
@@ -180,7 +182,7 @@ TEST(writer_test, constructor) {
 }
 
 TEST(writer_test, add_job) {
-    Writer w("Jon Spaihts", 4, 2, 1970);
+    Writer w(5, "Jon Spaihts", 4, 2, 1970);
     ASSERT_EQ(w.getJobs().empty(), true);
     Film f1(5, "Dune", 2021, {film_genre::SciFi}, {},
             "Paul Atreides, a brilliant and gifted young man born into a great "
@@ -201,7 +203,7 @@ TEST(writer_test, add_job) {
 }
 
 TEST(writer_test, display_jobs) {
-    Writer w("Jon Spaihts", 4, 2, 1970);
+    Writer w(5, "Jon Spaihts", 4, 2, 1970);
     ASSERT_EQ(w.getJobs().empty(), true);
     Film f1(5, "Dune", 2021, {film_genre::SciFi}, {},
             "Paul Atreides, a brilliant and gifted young man born into a great "

@@ -3,6 +3,8 @@
 #include "film.h"
 const std::string& Person::getName() const { return name; }
 
+const unsigned int Person::getId() const { return id; }
+
 Date Person::getBirthDate() const { return birthDate; }
 
 const std::vector<Actor::Role>& Actor::getRoles() const { return roles; }
