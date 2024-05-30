@@ -7,7 +7,7 @@
 int main()
 {
     std::vector<Film> list;
-    io::CSVReader<10, io::trim_chars<' '>, io::no_quote_escape<';'>> in("../movies2.csv");
+    io::CSVReader<10, io::trim_chars<' '>, io::no_quote_escape<';'>> in("../movies.csv");
     in.read_header(io::ignore_missing_column, "ID", "Title", "Genres", "Year", "Runtime", "Description", "Cast", "Director", "Writers", "Producers");
     unsigned int ID;
     std::string Title;
