@@ -2,8 +2,6 @@
 
 #include "user.h"
 
-Guest::Guest() : Role() {}
-
 void Guest::sign_up(std::string fname)
 {
     std::string user_login, user_password;
@@ -34,7 +32,6 @@ void Guest::sign_up(std::string fname)
         std::cerr << "Could not open the file!" << std::endl;
         return;
     }
-
     user->setLogin(user_login);
     std::ofstream file;
     file.open(fname, std::ios::app); // Open in append mode
@@ -44,6 +41,7 @@ void Guest::sign_up(std::string fname)
         std::cerr << "Could not open the file!" << std::endl;
         return;
     }
-    file << user_login << " " << user_password << '\n';
+    file << "\n"
+         << user_login << " " << user_password << '\n';
     file.close();
 }

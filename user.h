@@ -11,11 +11,12 @@
 class Role;
 class User
 {
+private:
     std::string login = "guest";
     Role *role;
 
 public:
-    User(){};
+    User() = default;
     const std::string &getLogin() const;
     void setLogin(std::string const &new_login);
     const Role *getRole() const;

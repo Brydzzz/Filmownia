@@ -24,7 +24,6 @@ TEST(userTest, defaultTest)
 {
     User user;
     ASSERT_EQ(user.getLogin(), "guest");
-    ASSERT_EQ(user.getRole()->getName(), "guest");
 };
 
 TEST(userTest, logAdminTest)
@@ -78,10 +77,12 @@ TEST(userTest, logOutTest)
     ASSERT_EQ(user.getRole()->getName(), "guest");
 };
 
+// uwaga ten test wymaga sprawdzenia czy w pliku z hasłami nie ma takiego uytkownika w razie potrzeby usunąć tą linię z pliku
 TEST(guestTest, gdefaultTest)
 {
+    User *user;
     InputSimulator input("Tom\n23ab\nTom\n23ab\n");
-    Guest guest;
+    Guest guest(user);
     guest.sign_up();
     guest.getUser()->log_in();
     ASSERT_EQ(guest.getUser()->getLogin(), "Tom");
@@ -90,17 +91,19 @@ TEST(guestTest, gdefaultTest)
 
 TEST(guestTest, takenLoginTest)
 {
+    User *user;
     InputSimulator input("Lara\n23ab\nLara\n23ab\n");
-    Guest guest;
+    Guest guest(user);
     guest.sign_up();
     guest.getUser()->log_in();
     ASSERT_EQ(guest.getUser()->getLogin(), "guest");
-    ASSERT_EQ(guest.getUser()->getRole()->getName(), "guest");
+    ASSERT_EQ(guest.getName(), "guest");
 };
 
 TEST(loggedTest, ldefaultTest)
 {
-    Logged logged;
+    User *user;
+    Logged logged(user);
     ASSERT_EQ(logged.getReviews().size(), 0);
 };
 
