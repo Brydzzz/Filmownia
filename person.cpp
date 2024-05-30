@@ -1,5 +1,7 @@
 #include "person.h"
 
+#include <algorithm>
+
 #include "film.h"
 const std::string& Person::getName() const { return name; }
 
@@ -7,16 +9,28 @@ const unsigned int Person::getId() const { return id; }
 
 Date Person::getBirthDate() const { return birthDate; }
 
+bool Person::operator==(const Person& other) { return id == other.id; }
+
 const std::vector<Actor::Role>& Actor::getRoles() const { return roles; }
 
+bool Actor::Role::operator<(const Role& other) const {
+    return film->getTitle() < other.film->getTitle();
+}
+
 void Actor::addRole(const std::string& character, const Film& film) {
-    roles.emplace_back(character, film);  // TODO add sorted by id
+    Role newRole(character, film);
+    auto it = std::lower_bound(roles.begin(), roles.end(), newRole);
+
+    if (it != roles.end() && it->film->getID() == film.getID()) {
+        throw std::invalid_argument("This role exists");
+    }
+    roles.insert(it, newRole);
 }
 
 void Actor::displayRoles(std::ostream& os) const {
     os << this->name << "'s roles: \n";
     for (const auto& role : roles) {
-        os << "As " << role.character << " in \"" << role.film.getTitle()
+        os << "As " << role.character << " in \"" << role.film->getTitle()
            << "\"\n";
     }
 }

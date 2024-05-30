@@ -1,11 +1,12 @@
 #include <gtest/gtest.h>
 
 #include <sstream>
+#include <stdexcept>
 
 #include "film.h"
 #include "person.h"
 TEST(person_test, constructor) {
-    Person p(1,"Tomasz Smoleń", 21, 5, 2004);
+    Person p(1, "Tomasz Smoleń", 21, 5, 2004);
     ASSERT_EQ(p.getName(), "Tomasz Smoleń");
     ASSERT_EQ(p.getId(), 1);
     ASSERT_EQ(p.getBirthDate().getDay(), 21);
@@ -27,6 +28,12 @@ TEST(actor_test, constructor) {
     ASSERT_EQ(a.getRoles().empty(), true);
 }
 
+TEST(person_test, equal_operator) {
+    Person p(1, "Tomasz Smoleń", 21, 5, 2004);
+    Actor a(2, "Emma Stone", 6, 11, 1988);
+    ASSERT_EQ(a == p, false);
+}
+
 TEST(actor_test, add_role) {
     Actor a(2, "Emma Stone", 6, 11, 1988);
     ASSERT_EQ(a.getRoles().empty(), true);
@@ -41,6 +48,47 @@ TEST(actor_test, add_role) {
         {}, 144, {}, {}, "");
     a.addRole("Bella Baxter", f2);
     ASSERT_EQ(a.getRoles().size(), 2);
+}
+
+TEST(actor_test, add_role_duplicate) {
+    Actor a(2, "Emma Stone", 6, 11, 1988);
+    Film f1(1, "La La Land", 2017, {film_genre::Drama}, {}, "Masterpiece", {},
+            128, {}, {}, "");
+    Film f2(
+        2, "Poor Things", 2024, {film_genre::Comedy}, {},
+        "Brought back to life by an unorthodox scientist, a young woman runs "
+        "off with a lawyer on a whirlwind adventure across the continents.",
+        {}, 144, {}, {}, "");
+    a.addRole("Mia Dolan", f1);
+    a.addRole("Bella Baxter", f2);
+    ASSERT_THROW(a.addRole("Mia Dolan", f1), std::exception);
+}
+
+TEST(actor_test, add_role_check_if_alphabetically) {
+    Actor a(2, "Emma Stone", 6, 11, 1988);
+    Film f1(1, "La La Land", 2017, {film_genre::Drama}, {}, "Masterpiece", {},
+            128, {}, {}, "");
+    Film f2(
+        2, "Poor Things", 2024, {film_genre::Comedy}, {},
+        "Brought back to life by an unorthodox scientist, a young woman runs "
+        "off with a lawyer on a whirlwind adventure across the continents.",
+        {}, 144, {}, {}, "");
+    Film f3(78, "Cruella", 2021, {film_genre::Comedy}, {},
+            "In 1970s London amidst the punk rock revolution, a young grifter "
+            "named Estella is determined to make a name for herself with her "
+            "designs. She befriends a pair of young thieves who appreciate her "
+            "appetite for mischief, and together they are able to build a life "
+            "for themselves on the London streets.",
+            {}, 144, {}, {}, "");
+    a.addRole("Mia Dolan", f1);
+    a.addRole("Bella Baxter", f2);
+    a.addRole("Estella / Cruella", f3);
+    std::stringstream ss;
+    a.displayRoles(ss);
+    ASSERT_EQ(ss.str(),
+              "Emma Stone's roles: \nAs Estella / Cruella in \"Cruella\"\nAs "
+              "Mia Dolan in \"La La Land\"\nAs Bella "
+              "Baxter in \"Poor Things\"\n");
 }
 
 TEST(actor_test, display_roles) {
@@ -191,7 +239,7 @@ TEST(writer_test, add_job) {
             "family and his people.",
             {}, 155, {}, {}, "");
     Film f2(
-        6,"Passengers", 2016, {film_genre::Romance}, {},
+        6, "Passengers", 2016, {film_genre::Romance}, {},
         "A spacecraft traveling to a distant colony planet and transporting "
         "thousands of people has a malfunction in its sleep chambers. As a "
         "result, two passengers are awakened 90 years early.",
@@ -212,7 +260,7 @@ TEST(writer_test, display_jobs) {
             "family and his people.",
             {}, 155, {}, {}, "");
     Film f2(
-        6,"Passengers", 2016, {film_genre::Romance}, {},
+        6, "Passengers", 2016, {film_genre::Romance}, {},
         "A spacecraft traveling to a distant colony planet and transporting "
         "thousands of people has a malfunction in its sleep chambers. As a "
         "result, two passengers are awakened 90 years early.",

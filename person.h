@@ -19,28 +19,29 @@ class Person {
     const std::string& getName() const;
     const unsigned int getId() const;
     Date getBirthDate() const;
-    // method of reading from csv and saving to csv format
+    bool operator==(const Person& other);
+    // TODO method of reading from csv and saving to csv format
 };
 
 class Actor : public Person {
    private:
     struct Role {
         std::string character;
-        const Film& film;
+        const Film* film;
 
         Role(const std::string& character, const Film& film)
-            : character(character), film(film) {}
+            : character(character), film(&film) {}
+
+        bool operator<(const Role& other) const;
     };
-    std::vector<Role> roles = {};  // roles should be sorted by film id/name
+    std::vector<Role> roles = {};
 
    public:
     using Person::Person;
     const std::vector<Role>& getRoles() const;
 
-    void addRole(const std::string& character,
-                 const Film& film);  // TODO add mechanism for duplicates
+    void addRole(const std::string& character, const Film& film);
     void displayRoles(std::ostream& os) const;
-    void searchRole(unsigned int filmId);
 };
 
 class Director : public Person {
