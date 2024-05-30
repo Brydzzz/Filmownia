@@ -42,6 +42,6 @@ void Guest::sign_up(std::string fname)
         return;
     }
     file << "\n"
-         << user_login << " " << user_password << '\n';
+         << user_login << " " << user_password;
     file.close();
 }
