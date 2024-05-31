@@ -19,7 +19,7 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(csvReader)
 
-set(PROJECT_SOURCES_FILM film.h review.h film.cpp review.cpp )
+set(PROJECT_SOURCES_FILM film.h review.h film.cpp review.cpp cppio.hpp )
 
 set(PROJECT_SOURCES_USER user.h admin.h logged.h guest.h role.h user.cpp logged.cpp guest.cpp role.cpp ${PROJECT_SOURCES_FILM})
 
