@@ -4,17 +4,7 @@
 #include "user.h"
 #include "csv.h"
 #include "film.h"
-class InputSimulator
-{
-    std::istringstream input;
-
-public:
-    InputSimulator(const std::string &data) : input(data)
-    {
-        std::cin.rdbuf(input.rdbuf());
-    }
-};
-
+// correct login: Lara, 1234
 std::vector<Film> loadFilms()
 {
     std::vector<Film> list;

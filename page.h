@@ -30,6 +30,7 @@ class FilmPage : public Page
     Film *film;
 
 public:
+    FilmPage(Film *f) : film(f){};
     void print() override
     {
         film->write(std::cout);
@@ -68,10 +69,10 @@ public:
     {
         std::cout << msg << std::endl;
     }
-    std::vector<Film> movieSearch(const std::string &title)
+    std::vector<Film *> movieSearch(const std::string &title)
     {
         auto it = flist.begin();
-        std::vector<Film> result = {};
+        std::vector<Film *> result = {};
         while (it != flist.end())
         {
             it = std::find_if(it, flist.end(), [&](const Film &film)
@@ -80,7 +81,7 @@ public:
             {
                 break;
             }
-            Film f = *it;
+            Film *f = &(*it);
             ++it;
             result.push_back(f);
             // std::cout << f.getTitle() << std::endl;
@@ -98,7 +99,7 @@ public:
             std::getline(std::cin, title);
             // std::cin >> title1;
             // cppIO::input("Searched movie: ", title1, title2, title3, title4);
-            std::vector<Film> found = movieSearch(title);
+            std::vector<Film *> found = movieSearch(title);
             if (found.size() != 0)
             {
                 std::cout << "Found movies: " << std::endl;
@@ -107,9 +108,23 @@ public:
                 {
                     if (i <= 10)
                     {
-                        std::cout << i << '.' << f.getTitle() << std::endl;
+                        std::cout << i << '.' << f->getTitle() << std::endl;
                         ++i;
                     }
+                }
+                int a;
+                cppIO::input("Choose number of a movie you wish to see or -1 for exit: ", a);
+                if (a == -1)
+                {
+                    std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
+                    return ptr;
+                }
+                else
+                {
+                    a--;
+                    // std::cout << found[a].getDesc() << std::endl;
+                    std::unique_ptr<FilmPage> ptr = std::make_unique<FilmPage>(found[a]);
+                    return ptr;
                 }
             }
             else
