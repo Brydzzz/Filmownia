@@ -8,13 +8,13 @@ int StartPage::nextAction()
     }
     if (action == "Exit")
     {
-        return 5;
+        return 0;
     }
     else if (action == "Browse")
     {
         return 4;
     }
-    return 0;
+    return 5;
 }
 
 std::unique_ptr<Page> StartPage::doAction(int act)
