@@ -9,96 +9,101 @@
 #include "role.h"
 #include "user.h"
 // std::cin for testing purposes
-class InputSimulator {
+class InputSimulator
+{
     std::istringstream input;
 
-   public:
-    InputSimulator(const std::string &data) : input(data) {
+public:
+    InputSimulator(const std::string &data) : input(data)
+    {
         std::cin.rdbuf(input.rdbuf());
     }
 };
 
-TEST(userTest, defaultTest) {
+TEST(userTest, defaultTest)
+{
     User user;
-    ASSERT_EQ(user.getLogin(), "");
-    Role defaultRole;
-    ASSERT_EQ(user.getRole(), &defaultRole);
+    ASSERT_EQ(user.getLogin(), "guest");
 };
 
-TEST(userTest, logAdminTest) {
+TEST(userTest, logAdminTest)
+{
     InputSimulator input("Admin\n0000\n");
 
     User user;
     user.log_in();
-    Admin admin;
 
     ASSERT_EQ(user.getLogin(), "Admin");
-    ASSERT_EQ(user.getRole(), dynamic_cast<Role *>(&admin));
+    ASSERT_EQ(user.getRole()->getName(), "admin");
 };
-TEST(userTest, logLoggedTest) {
+
+TEST(userTest, logLoggedTest)
+{
     InputSimulator input("Lara\n1234\n");
 
     User user;
     user.log_in();
-    Logged logged;
 
     ASSERT_EQ(user.getLogin(), "Lara");
-    ASSERT_EQ(user.getRole(), dynamic_cast<Role *>(&logged));
+    ASSERT_EQ(user.getRole()->getName(), "logged");
 };
 
-TEST(userTest, logIncorrectTest) {
+TEST(userTest, logIncorrectTest)
+{
     InputSimulator input("Lara\n5678\n");
 
     User user;
 
     user.log_in();
 
-    Role defaultRole;
-
-    ASSERT_EQ(user.getLogin(), "");
-    ASSERT_EQ(user.getRole(), &defaultRole);
+    ASSERT_EQ(user.getLogin(), "guest");
+    ASSERT_EQ(user.getRole()->getName(), "guest");
     // ASSERT_NE(output.find("Logged in as admin"), std::string::npos);
 };
 
-TEST(userTest, logOutTest) {
+TEST(userTest, logOutTest)
+{
     InputSimulator input("Lara\n1234\n");
 
     User user;
 
     user.log_in();
-    Logged logged;
 
     ASSERT_EQ(user.getLogin(), "Lara");
-    ASSERT_EQ(user.getRole(), dynamic_cast<Role *>(&logged));
+    ASSERT_EQ(user.getRole()->getName(), "logged");
 
-    Role defaultRole;
     user.log_out();
-    ASSERT_EQ(user.getLogin(), "");
-    ASSERT_EQ(user.getRole(), &defaultRole);
+    ASSERT_EQ(user.getLogin(), "guest");
+    ASSERT_EQ(user.getRole()->getName(), "guest");
 };
 
-TEST(guestTest, gdefaultTest) {
+// uwaga ten test wymaga sprawdzenia czy w pliku z hasłami nie ma takiego uytkownika w razie potrzeby usunąć tą linię z pliku
+TEST(guestTest, gdefaultTest)
+{
+    User *user;
     InputSimulator input("Tom\n23ab\nTom\n23ab\n");
-    Guest guest;
+    Guest guest(user);
     guest.sign_up();
     guest.getUser()->log_in();
-    Logged logged;
     ASSERT_EQ(guest.getUser()->getLogin(), "Tom");
-    ASSERT_EQ(guest.getUser()->getRole(), dynamic_cast<Role *>(&logged));
+    ASSERT_EQ(guest.getUser()->getRole()->getName(), "logged");
 };
 
-TEST(guestTest, takenLoginTest) {
+TEST(guestTest, takenLoginTest)
+{
+    User *user;
     InputSimulator input("Lara\n23ab\nLara\n23ab\n");
-    Guest guest;
+    Guest guest(user);
     guest.sign_up();
     guest.getUser()->log_in();
-    Role defaultRole;
-    ASSERT_EQ(guest.getUser()->getLogin(), "");
-    ASSERT_EQ(guest.getUser()->getRole(), &defaultRole);
+    ASSERT_EQ(guest.getUser()->getLogin(), "guest");
+    ASSERT_EQ(guest.getName(), "guest");
 };
 
-TEST(loggedTest, ldefaultTest) {
-    Logged logged;
+TEST(loggedTest, ldefaultTest)
+{
+    User *user;
+    Logged logged(user);
     ASSERT_EQ(logged.getReviews().size(), 0);
 };
 
