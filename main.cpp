@@ -17,6 +17,7 @@ int main()
     std::unique_ptr<Page> pg_ptr = std::make_unique<StartPage>();
     pg_ptr->print();
     int act = 0;
+    // program state - > potencjalnie jako enum
     act = pg_ptr->nextAction();
     while (act != 0)
     {
@@ -26,5 +27,6 @@ int main()
         act = pg_ptr->nextAction();
     };
     std::cout << "Thank you for using Filmownia Software :)" << std::endl;
+    // user.log_out();
     return 0;
 }

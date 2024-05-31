@@ -23,4 +23,5 @@ public:
     virtual void print() = 0;
     virtual int nextAction() = 0;
     virtual std::unique_ptr<Page> doAction(int act) = 0;
+    virtual ~Page(){};
 };
