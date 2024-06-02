@@ -31,7 +31,7 @@ int main()
     act = pg_ptr->nextAction();
     while (act != program_state::Exit)
     {
-        pg_ptr = std::move(pg_ptr->doAction(act, user));
+        pg_ptr = std::move(pg_ptr->doAction(act, us_ptr));
         pg_ptr->print();
         pg_ptr->showOptions();
         act = pg_ptr->nextAction();

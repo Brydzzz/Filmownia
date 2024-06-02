@@ -21,7 +21,7 @@ std::vector<Film *> BrowsePage::movieSearch(const std::string &title)
     return result;
 }
 
-std::unique_ptr<Page> BrowsePage::doAction(program_state act, User &user)
+std::unique_ptr<Page> BrowsePage::doAction(program_state act, std::unique_ptr<Role> &us_ptr)
 {
     if (act == program_state::Browse)
     {

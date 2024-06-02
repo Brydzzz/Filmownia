@@ -3,6 +3,10 @@
 #include "page.h"
 #include "browsePage.h"
 #include "global.h"
+#include "role.h"
+#include "logged.h"
+#include "guest.h"
+#include "admin.h"
 class FilmPage : public Page
 {
     std::vector<std::string> options = {"AddReview", "SeeActor", "Browse", "Exit"};
@@ -13,7 +17,7 @@ public:
     void print() override;
     program_state nextAction() override;
 
-    std::unique_ptr<Page> doAction(program_state, User &user) override;
+    std::unique_ptr<Page> doAction(program_state, std::unique_ptr<Role> &us_ptr) override;
     void showOptions()
     {
         std::cout << "Avaiable Options: \n";
