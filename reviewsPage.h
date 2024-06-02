@@ -1,24 +1,16 @@
 #pragma once
-#include <iostream>
 #include "page.h"
 #include "browsePage.h"
-#include "global.h"
-#include "role.h"
-#include "logged.h"
-#include "guest.h"
-#include "admin.h"
-#include "reviewsPage.h"
-class FilmPage : public Page
+#include "filmPage.h"
+class ReviewsPage : public Page
 {
-    std::vector<std::string> options = {"AddReview", "SeeActor", "Browse", "Exit", "Reviews"};
+    std::vector<std::string> options = {"Exit", "GoBack", "Browse"};
     Film *film;
-    void loadRevs();
 
 public:
-    FilmPage(Film *f) : film(f) { loadRevs(); };
+    ReviewsPage(Film *film) : film(film){};
     void print() override;
     program_state nextAction() override;
-
     std::unique_ptr<Page> doAction(program_state, std::unique_ptr<Role> &us_ptr) override;
     void showOptions()
     {

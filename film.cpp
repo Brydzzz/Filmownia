@@ -7,7 +7,7 @@ void Film::addReview(Review review)
     reviews.push_back(review);
 }
 
-const std::vector<Review> &Film::getReviews() const
+std::vector<Review> &Film::getReviews()
 {
     return reviews;
 }
@@ -105,7 +105,7 @@ std::ostream &Film::write(std::ostream &os)
     }
     i = 1;
     os << std::endl;
-    os << "Writers: " << std::endl;
+    os << "Cast: " << std::endl;
     for (auto person : getCast())
     {
         os << i << ". " << person.first << " - " << person.second << std::endl;
