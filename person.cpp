@@ -92,14 +92,24 @@ void Producer::displayJobs(std::ostream& os) const {
 
 const std::vector<Writer::WriterJob>& Writer::getJobs() const { return jobs; }
 
+bool Writer::WriterJob::operator<(const WriterJob& other) const {
+    return film->getTitle() < other.film->getTitle();
+}
+
 void Writer::addJob(WriterType wtype, const Film& film) {
-    jobs.emplace_back(wtype, film);
+    WriterJob newJob(wtype, film);
+    auto it = std::lower_bound(jobs.begin(), jobs.end(), newJob);
+
+    if (it != jobs.end() && it->film->getID() == film.getID()) {
+        throw std::invalid_argument("There is already a job for this film");
+    }
+    jobs.insert(it, newJob);
 }
 
 void Writer::displayJobs(std::ostream& os) const {
     os << "Films written by " << this->name << ":\n";
     for (const auto& job : jobs) {
-        os << "\"" << job.film.getTitle() << "\"" << " (" << job.film.getYear()
+        os << "\"" << job.film->getTitle() << "\"" << " (" << job.film->getYear()
            << ") - ";
         switch (job.wtype) {
             case WriterType::Screenplay:

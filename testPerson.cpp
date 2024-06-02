@@ -159,7 +159,7 @@ TEST(director_test, add_film_duplicate) {
     ASSERT_THROW(d.addFilm(f1), std::exception);
 }
 
-TEST(director_test, add_film_same_title) {
+TEST(director_test, add_film_films_with_the_same_title) {
     Director d(3, "Yorgos Lanthimos", 23, 9, 1973);
     Film f1(17, "Poor Things", 2001, {film_genre::Comedy}, {},
             "Brought back to life by an unorthodox scientist, a young woman "
@@ -249,7 +249,7 @@ TEST(producer_test, add_job_duplicate) {
     ASSERT_THROW(p.addJob(ProducerType::ExecutiveProducer, f1), std::exception);
 }
 
-TEST(producer_test, add_job_film_same_title) {
+TEST(producer_test, add_job_films_with_the_same_title) {
     Producer p(4, "Kevin Feige", 2, 6, 1973);
     ASSERT_EQ(p.getJobs().empty(), true);
     Film f1(3, "The Avengers", 2012, {film_genre::Action}, {},
@@ -331,6 +331,53 @@ TEST(writer_test, add_job) {
     ASSERT_EQ(w.getJobs().size(), 1);
     w.addJob(WriterType::Writer, f2);
     ASSERT_EQ(w.getJobs().size(), 2);
+}
+
+TEST(writer_test, add_job_duplicate) {
+    Writer w(5, "Jon Spaihts", 4, 2, 1970);
+    Film f1(5, "Dune", 2021, {film_genre::SciFi}, {},
+            "Paul Atreides, a brilliant and gifted young man born into a great "
+            "destiny beyond his understanding, must travel to the most "
+            "dangerous planet in the universe to ensure the future of his "
+            "family and his people.",
+            {}, 155, {}, {}, "");
+    Film f2(
+        6, "Passengers", 2016, {film_genre::Romance}, {},
+        "A spacecraft traveling to a distant colony planet and transporting "
+        "thousands of people has a malfunction in its sleep chambers. As a "
+        "result, two passengers are awakened 90 years early.",
+        {}, 116, {}, {}, "");
+    w.addJob(WriterType::Screenplay, f1);
+    w.addJob(WriterType::Writer, f2);
+    ASSERT_EQ(w.getJobs().size(), 2);
+    ASSERT_THROW(w.addJob(WriterType::Screenplay, f1), std::exception);
+}
+
+TEST(writer_test, add_job_films_with_the_same_title) {
+    Writer w(5, "Jon Spaihts", 4, 2, 1970);
+    ASSERT_EQ(w.getJobs().empty(), true);
+    Film f1(5, "Dune", 2021, {film_genre::SciFi}, {},
+            "Paul Atreides, a brilliant and gifted young man born into a great "
+            "destiny beyond his understanding, must travel to the most "
+            "dangerous planet in the universe to ensure the future of his "
+            "family and his people.",
+            {}, 155, {}, {}, "");
+    Film f2(
+        6, "Passengers", 2016, {film_genre::Romance}, {},
+        "A spacecraft traveling to a distant colony planet and transporting "
+        "thousands of people has a malfunction in its sleep chambers. As a "
+        "result, two passengers are awakened 90 years early.",
+        {}, 116, {}, {}, "");
+    Film f3(
+        22, "Passengers", 2016, {film_genre::Romance}, {},
+        "A spacecraft traveling to a distant colony planet and transporting "
+        "thousands of people has a malfunction in its sleep chambers. As a "
+        "result, two passengers are awakened 90 years early.",
+        {}, 116, {}, {}, "");
+    w.addJob(WriterType::Screenplay, f1);
+    w.addJob(WriterType::Writer, f2);
+    w.addJob(WriterType::Writer, f3);
+    ASSERT_EQ(w.getJobs().size(), 3);
 }
 
 TEST(writer_test, display_jobs) {

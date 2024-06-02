@@ -87,18 +87,20 @@ class Writer : public Person {
    private:
     struct WriterJob {
         WriterType wtype;
-        const Film& film;
+        const Film* film;
 
         WriterJob(WriterType wtype, const Film& film)
-            : wtype(wtype), film(film) {}
+            : wtype(wtype), film(&film) {}
+
+        bool operator<(const WriterJob& other) const;
     };
-    std::vector<WriterJob> jobs = {};  // jobs should be sorted by film id/name
+    std::vector<WriterJob> jobs = {};
 
    public:
     using Person::Person;
 
     const std::vector<WriterJob>& getJobs() const;
-    void addJob(WriterType wtype,
-                const Film& film);  // TODO add mechanism for duplicates
+    void addJob(WriterType wtype, const Film& film);
+    void deleteJob(const Film& film);
     void displayJobs(std::ostream& os) const;
 };
