@@ -15,6 +15,7 @@ class Person {
     Person(unsigned int id, const std::string& name, unsigned int day,
            unsigned int month, unsigned int year)
         : id(id), name(name), birthDate(day, month, year) {}
+    // TODO ctor with birthDate object
 
     const std::string& getName() const;
     const unsigned int getId() const;
@@ -52,9 +53,15 @@ class Director : public Person {
    private:
     std::vector<const Film*> films = {};
     std::vector<const Film*>::iterator findFilm(const Film& film);
+    std::vector<const Film*> parseFilms(std::string content); //TODO parseFilms
 
    public:
     using Person::Person;
+
+    // ctor for data from csv
+    Director(unsigned int id, const std::string& name, unsigned int day,
+             unsigned int month, unsigned int year, std::string films)
+        : Person(id, name, day, month, year), films(parseFilms(films)) {}
 
     const std::vector<const Film*>& getFilms() const;
     void addFilm(const Film& film);
