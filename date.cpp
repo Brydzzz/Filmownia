@@ -58,9 +58,21 @@ bool Date::isEqualOrGreater(const Date& other) const {
     return false;
 }
 
-std::ostream& operator<<(std::ostream& os, Date const& d) {
+std::ostream& operator<<(std::ostream& os, const Date& d) {
     os << d.getYear() << '-';
     os << std::setw(2) << std::setfill('0') << d.getMonth() << '-';
     os << std::setw(2) << std::setfill('0') << d.getDay();
     return os;
+}
+
+std::istream& operator>>(std::istream& is, Date& d) {
+    unsigned int day, month, year;
+    char dash1, dash2;
+    if (is.eof()) return is;
+    is >> year >> dash1 >> month >> dash2 >> day;
+    if (dash1 != '-' && dash2 != '-') {
+        throw std::invalid_argument("Invalid date format. Expected YYYY-MM-DD");
+    }
+    d = Date(day, month, year);
+    return is;
 }
