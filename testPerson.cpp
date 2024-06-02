@@ -495,6 +495,49 @@ TEST(writer_test, add_job_films_with_the_same_title) {
     ASSERT_EQ(w.getJobs().size(), 3);
 }
 
+TEST(writer_test, delete_job) {
+    Writer w(5, "Jon Spaihts", 4, 2, 1970);
+    ASSERT_EQ(w.getJobs().empty(), true);
+    Film f1(5, "Dune", 2021, {film_genre::SciFi}, {},
+            "Paul Atreides, a brilliant and gifted young man born into a great "
+            "destiny beyond his understanding, must travel to the most "
+            "dangerous planet in the universe to ensure the future of his "
+            "family and his people.",
+            {}, 155, {}, {}, "");
+    Film f2(
+        6, "Passengers", 2016, {film_genre::Romance}, {},
+        "A spacecraft traveling to a distant colony planet and transporting "
+        "thousands of people has a malfunction in its sleep chambers. As a "
+        "result, two passengers are awakened 90 years early.",
+        {}, 116, {}, {}, "");
+    w.addJob(WriterType::Screenplay, f1);
+    w.addJob(WriterType::Writer, f2);
+    ASSERT_EQ(w.getJobs().size(), 2);
+    w.deleteJob(f2);
+    ASSERT_EQ(w.getJobs().size(), 1);
+}
+
+TEST(writer_test, delete_job_job_not_in_jobs) {
+    Writer w(5, "Jon Spaihts", 4, 2, 1970);
+    ASSERT_EQ(w.getJobs().empty(), true);
+    Film f1(5, "Dune", 2021, {film_genre::SciFi}, {},
+            "Paul Atreides, a brilliant and gifted young man born into a great "
+            "destiny beyond his understanding, must travel to the most "
+            "dangerous planet in the universe to ensure the future of his "
+            "family and his people.",
+            {}, 155, {}, {}, "");
+    Film f2(
+        6, "Passengers", 2016, {film_genre::Romance}, {},
+        "A spacecraft traveling to a distant colony planet and transporting "
+        "thousands of people has a malfunction in its sleep chambers. As a "
+        "result, two passengers are awakened 90 years early.",
+        {}, 116, {}, {}, "");
+    w.addJob(WriterType::Screenplay, f1);
+    ASSERT_EQ(w.getJobs().size(), 1);
+    w.deleteJob(f2);
+    ASSERT_EQ(w.getJobs().size(), 1);
+}
+
 TEST(writer_test, display_jobs) {
     Writer w(5, "Jon Spaihts", 4, 2, 1970);
     ASSERT_EQ(w.getJobs().empty(), true);

@@ -136,6 +136,15 @@ void Producer::displayJobs(std::ostream& os) const {
     }
 }
 
+std::vector<Writer::WriterJob>::iterator Writer::findJob(const Film& film) {
+    return findJob(WriterJob(WriterType::Screenplay, film));
+}
+
+std::vector<Writer::WriterJob>::iterator Writer::findJob(const WriterJob& job) {
+    auto it = std::lower_bound(jobs.begin(), jobs.end(), job);
+    return it;
+}
+
 const std::vector<Writer::WriterJob>& Writer::getJobs() const { return jobs; }
 
 bool Writer::WriterJob::operator<(const WriterJob& other) const {
@@ -144,12 +153,19 @@ bool Writer::WriterJob::operator<(const WriterJob& other) const {
 
 void Writer::addJob(WriterType wtype, const Film& film) {
     WriterJob newJob(wtype, film);
-    auto it = std::lower_bound(jobs.begin(), jobs.end(), newJob);
+    auto it = findJob(newJob);
 
     if (it != jobs.end() && it->film->getID() == film.getID()) {
         throw std::invalid_argument("There is already a job for this film");
     }
     jobs.insert(it, newJob);
+}
+
+void Writer::deleteJob(const Film& film) {
+    auto it = findJob(film);
+    if (it != jobs.end() && it->film->getID() == film.getID()) {
+        jobs.erase(it);
+    }
 }
 
 void Writer::displayJobs(std::ostream& os) const {

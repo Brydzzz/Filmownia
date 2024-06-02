@@ -101,6 +101,8 @@ class Writer : public Person {
         bool operator<(const WriterJob& other) const;
     };
     std::vector<WriterJob> jobs = {};
+    std::vector<WriterJob>::iterator findJob(const Film& film);
+    std::vector<WriterJob>::iterator findJob(const WriterJob& job);
 
    public:
     using Person::Person;
