@@ -75,6 +75,8 @@ class Producer : public Person {
         bool operator<(const ProducerJob& other) const;
     };
     std::vector<ProducerJob> jobs = {};
+    std::vector<ProducerJob>::iterator findJob(const Film& film);
+    std::vector<ProducerJob>::iterator findJob(const ProducerJob& job);
 
    public:
     using Person::Person;

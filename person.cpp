@@ -18,8 +18,7 @@ bool Actor::Role::operator<(const Role& other) const {
 }
 
 std::vector<Actor::Role>::iterator Actor::findRole(const Film& film) {
-    auto it = std::lower_bound(roles.begin(), roles.end(), Role("", film));
-    return it;
+    return findRole(Role("", film));
 }
 
 std::vector<Actor::Role>::iterator Actor::findRole(const Role& role) {
@@ -85,6 +84,17 @@ void Director::displayFilms(std::ostream& os) const {
     }
 }
 
+std::vector<Producer::ProducerJob>::iterator Producer::findJob(
+    const Film& film) {
+    return findJob(ProducerJob(ProducerType::Producer, film));
+}
+
+std::vector<Producer::ProducerJob>::iterator Producer::findJob(
+    const ProducerJob& job) {
+    auto it = std::lower_bound(jobs.begin(), jobs.end(), job);
+    return it;
+}
+
 const std::vector<Producer::ProducerJob>& Producer::getJobs() const {
     return jobs;
 }
@@ -95,12 +105,19 @@ bool Producer::ProducerJob::operator<(const ProducerJob& other) const {
 
 void Producer::addJob(ProducerType ptype, const Film& film) {
     ProducerJob newJob(ptype, film);
-    auto it = std::lower_bound(jobs.begin(), jobs.end(), newJob);
+    auto it = findJob(newJob);
 
     if (it != jobs.end() && it->film->getID() == film.getID()) {
         throw std::invalid_argument("There is already a job for this film");
     }
     jobs.insert(it, newJob);
+}
+
+void Producer::deleteJob(const Film& film) {
+    auto it = findJob(film);
+    if (it != jobs.end() && it->film->getID() == film.getID()) {
+        jobs.erase(it);
+    }
 }
 
 void Producer::displayJobs(std::ostream& os) const {

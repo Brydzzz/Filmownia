@@ -351,6 +351,49 @@ TEST(producer_test, add_job_films_with_the_same_title) {
     ASSERT_EQ(p.getJobs().size(), 3);
 }
 
+TEST(producer_test, delete_job) {
+    Producer p(4, "Kevin Feige", 2, 6, 1973);
+    ASSERT_EQ(p.getJobs().empty(), true);
+    Film f1(3, "The Avengers", 2012, {film_genre::Action}, {},
+            "When an unexpected enemy emerges and threatens global safety and "
+            "security, Nick Fury, director of the international peacekeeping "
+            "agency known as S.H.I.E.L.D., finds himself in need of a team to "
+            "pull the world back from the brink of disaster. Spanning the "
+            "globe, a daring recruitment effort begins!",
+            {}, 143, {}, {}, "");
+    Film f2(
+        4, "Iron Man", 2008, {film_genre::Action}, {},
+        "After being held captive in an Afghan cave, billionaire engineer Tony "
+        "Stark creates a unique weaponized suit of armor to fight evil.",
+        {}, 126, {}, {}, "");
+    p.addJob(ProducerType::Producer, f1);
+    p.addJob(ProducerType::Producer, f2);
+    ASSERT_EQ(p.getJobs().size(), 2);
+    p.deleteJob(f2);
+    ASSERT_EQ(p.getJobs().size(), 1);
+}
+
+TEST(producer_test, delete_job_job_not_in_jobs) {
+    Producer p(4, "Kevin Feige", 2, 6, 1973);
+    ASSERT_EQ(p.getJobs().empty(), true);
+    Film f1(3, "The Avengers", 2012, {film_genre::Action}, {},
+            "When an unexpected enemy emerges and threatens global safety and "
+            "security, Nick Fury, director of the international peacekeeping "
+            "agency known as S.H.I.E.L.D., finds himself in need of a team to "
+            "pull the world back from the brink of disaster. Spanning the "
+            "globe, a daring recruitment effort begins!",
+            {}, 143, {}, {}, "");
+    Film f2(
+        4, "Iron Man", 2008, {film_genre::Action}, {},
+        "After being held captive in an Afghan cave, billionaire engineer Tony "
+        "Stark creates a unique weaponized suit of armor to fight evil.",
+        {}, 126, {}, {}, "");
+    p.addJob(ProducerType::Producer, f1);
+    ASSERT_EQ(p.getJobs().size(), 1);
+    p.deleteJob(f2);
+    ASSERT_EQ(p.getJobs().size(), 1);
+}
+
 TEST(producer_test, display_jobs) {
     Producer p(4, "Kevin Feige", 2, 6, 1973);
     ASSERT_EQ(p.getJobs().empty(), true);
