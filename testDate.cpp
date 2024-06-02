@@ -82,3 +82,24 @@ TEST(DateTest, out_operator) {
     ss << d;
     ASSERT_EQ(ss.str(), "1988-11-06");
 }
+
+TEST(DateTest, in_operator) {
+    std::stringstream ss("1988-11-06");
+    Date date;
+    ss >> date;
+    ASSERT_EQ(date.getDay(), 6);
+    ASSERT_EQ(date.getMonth(), 11);
+    ASSERT_EQ(date.getYear(), 1988);
+}
+
+TEST(DateTest, in_operator_empty_stream) {
+    std::stringstream ss("");
+    Date date;
+    ASSERT_THROW(ss >> date, std::exception);
+}
+
+TEST(DateTest, in_operator_wrong_format) {
+    std::stringstream ss("1988/11/06");
+    Date date;
+    ASSERT_THROW(ss >> date, std::exception);
+}
