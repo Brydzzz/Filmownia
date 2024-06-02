@@ -6,10 +6,11 @@
 #include "logged.h"
 #include "guest.h"
 #include "admin.h"
+#include "userPage.h"
 class StartPage : public Page
 {
     std::vector<std::string> options = {"Browse",
-                                        "Exit"};
+                                        "Exit", "MyPage"};
     std::string msg = "Welcome to Filmownia movie database!\nPresented to you by: Brygida S, Kinga Ł and Tomasz S\n";
 
 public:

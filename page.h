@@ -19,7 +19,8 @@ enum class program_state
     Exit,
     AddReview,
     Reviews,
-    GoBack
+    GoBack,
+    MyPage,
 };
 
 class Page
