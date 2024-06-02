@@ -17,7 +17,7 @@ const std::string &Review::getContent()
 
 std::ostream &Review::write(std::ostream &os)
 {
-    os << getScore() << std::endl;
+    os << getUser() << ": " << getScore() << std::endl;
     os << getContent() << std::endl;
     return os;
 }

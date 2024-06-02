@@ -14,6 +14,10 @@ program_state StartPage::nextAction()
     {
         return program_state::Browse;
     }
+    else if (action == "MyPage")
+    {
+        return program_state::MyPage;
+    }
     return program_state::Exit;
 }
 
@@ -23,6 +27,11 @@ std::unique_ptr<Page> StartPage::doAction(program_state act, std::unique_ptr<Rol
     {
         std::unique_ptr<BrowsePage> ptr;
         ptr = std::make_unique<BrowsePage>();
+        return ptr;
+    }
+    else if (act == program_state::MyPage)
+    {
+        std::unique_ptr<UserPage> ptr = std::make_unique<UserPage>(us_ptr->getUser()->getLogin());
         return ptr;
     }
 }

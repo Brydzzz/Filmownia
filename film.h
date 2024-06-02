@@ -53,7 +53,7 @@ public:
     Film(){};
     void addReview(Review review);
     const unsigned int &getID() const;
-    const std::vector<Review> &getReviews() const;
+    std::vector<Review> &getReviews();
     const std::string &getTitle() const;
     const unsigned int &getYear() const;
     const std::map<std::string, std::string> &getCast() const;

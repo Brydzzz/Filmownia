@@ -6,10 +6,11 @@
 #include "logged.h"
 #include "guest.h"
 #include "admin.h"
+#include "startPage.h"
 class BrowsePage : public Page
 {
     std::string msg = "Browse Movies: ";
-    std::vector<std::string> options = {"Exit", "Browse"};
+    std::vector<std::string> options = {"Exit", "Browse", "GoBack"};
 
 public:
     void print() override
@@ -25,7 +26,7 @@ public:
         std::cout << "Avaiable Options: \n";
         for (auto opt : options)
         {
-            std::cout << opt << std::endl;
+            std::cout << "- " << opt << std::endl;
         }
     }
 };
