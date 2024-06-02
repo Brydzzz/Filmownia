@@ -59,7 +59,6 @@ bool Date::isEqualOrGreater(const Date& other) const {
 }
 
 std::ostream& operator<<(std::ostream& os, Date const& d) {
-    // TODO change to yyyy-mm-dd format
     os << d.getYear() << '-';
     os << std::setw(2) << std::setfill('0') << d.getMonth() << '-';
     os << std::setw(2) << std::setfill('0') << d.getDay();
