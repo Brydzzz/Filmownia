@@ -23,7 +23,7 @@ set(PROJECT_SOURCES_FILM film.h review.h film.cpp review.cpp cppio.hpp )
 
 set(PROJECT_SOURCES_USER user.h admin.h logged.h guest.h role.h user.cpp logged.cpp guest.cpp role.cpp ${PROJECT_SOURCES_FILM})
 
-set(PROJECT_SOURCES_MAIN ${PROJECT_SOURCES_FILM} ${PROJECT_SOURCES_PERSON} ${PROJECT_SOURCES_USER} global.h global.cpp filmPage.h page.h filmPage.cpp browsePage.h browsePage.cpp startPage.h startPage.cpp reviewsPage.h reviewsPage.cpp userPage.h userPage.cpp)
+set(PROJECT_SOURCES_MAIN ${PROJECT_SOURCES_FILM} ${PROJECT_SOURCES_PERSON} ${PROJECT_SOURCES_USER} global.h global.cpp filmPage.h page.h filmPage.cpp browsePage.h browsePage.cpp startPage.h startPage.cpp reviewsPage.h reviewsPage.cpp userPage.h userPage.cpp addReviewPage.h addReviewPage.cpp)
 
 
 set(PROJECT_SOURCES_PERSON person.h person.cpp date.h date.cpp ${PROJECT_SOURCES_FILM})

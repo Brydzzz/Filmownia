@@ -21,6 +21,7 @@ enum class program_state
     Reviews,
     GoBack,
     MyPage,
+    Add,
 };
 
 class Page
