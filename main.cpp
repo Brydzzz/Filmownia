@@ -27,7 +27,6 @@ int main()
     std::unique_ptr<Page> pg_ptr = std::make_unique<StartPage>();
     pg_ptr->print();
     program_state act;
-    // program state - > potencjalnie jako enum
     act = pg_ptr->nextAction();
     while (act != program_state::Exit)
     {
