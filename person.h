@@ -50,12 +50,14 @@ class Actor : public Person {
 class Director : public Person {
    private:
     std::vector<const Film*> films = {};
+    std::vector<const Film*>::iterator findFilm(const Film& film);
 
    public:
     using Person::Person;
 
     const std::vector<const Film*>& getFilms() const;
     void addFilm(const Film& film);
+    void deleteFilm(const Film& film);
     void displayFilms(std::ostream& os) const;
 };
 

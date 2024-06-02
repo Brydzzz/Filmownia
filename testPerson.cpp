@@ -207,6 +207,47 @@ TEST(director_test, add_film_films_with_the_same_title) {
     ASSERT_EQ(d.getFilms().size(), 2);
 }
 
+TEST(director_test, delete_film) {
+    Director d(3, "Yorgos Lanthimos", 23, 9, 1973);
+    Film f1(3, "The Favourite", 2018, {film_genre::Drama}, {},
+            "England, early 18th century. The close relationship between Queen "
+            "Anne and Sarah Churchill is threatened by the arrival of Sarah's "
+            "cousin, Abigail Hill, resulting in a bitter rivalry between the "
+            "two cousins to be the Queen's favourite.",
+            {}, 120, {}, {}, "");
+    Film f2(4, "Poor Things", 2024, {film_genre::Comedy}, {},
+            "Brought back to life by an unorthodox scientist, a young woman "
+            "runs "
+            "off with a lawyer on a whirlwind adventure across the continents.",
+            {}, 144, {}, {}, "");
+    d.addFilm(f1);
+    d.addFilm(f2);
+    ASSERT_EQ(d.getFilms().size(), 2);
+    d.deleteFilm(f2);
+    ASSERT_EQ(d.getFilms().size(), 1);
+    ASSERT_EQ(d.getFilms()[0], &f1);
+}
+
+TEST(director_test, delete_film_film_not_in_films) {
+    Director d(3, "Yorgos Lanthimos", 23, 9, 1973);
+    Film f1(3, "The Favourite", 2018, {film_genre::Drama}, {},
+            "England, early 18th century. The close relationship between Queen "
+            "Anne and Sarah Churchill is threatened by the arrival of Sarah's "
+            "cousin, Abigail Hill, resulting in a bitter rivalry between the "
+            "two cousins to be the Queen's favourite.",
+            {}, 120, {}, {}, "");
+    Film f2(4, "Poor Things", 2024, {film_genre::Comedy}, {},
+            "Brought back to life by an unorthodox scientist, a young woman "
+            "runs "
+            "off with a lawyer on a whirlwind adventure across the continents.",
+            {}, 144, {}, {}, "");
+    d.addFilm(f1);
+    ASSERT_EQ(d.getFilms().size(), 1);
+    d.deleteFilm(f2);
+    ASSERT_EQ(d.getFilms().size(), 1);
+    ASSERT_EQ(d.getFilms()[0], &f1);
+}
+
 TEST(director_test, display_films) {
     Director d(3, "Yorgos Lanthimos", 23, 9, 1973);
     ASSERT_EQ(d.getFilms().empty(), true);

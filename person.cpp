@@ -54,15 +54,27 @@ void Actor::displayRoles(std::ostream& os) const {
 
 const std::vector<const Film*>& Director::getFilms() const { return films; }
 
-void Director::addFilm(const Film& film) {
+std::vector<const Film*>::iterator Director::findFilm(const Film& film) {
     auto it = std::lower_bound(films.begin(), films.end(), &film,
                                [](const Film* lhs, const Film* rhs) {
                                    return lhs->getTitle() < rhs->getTitle();
                                });
+    return it;
+}
+
+void Director::addFilm(const Film& film) {
+    auto it = findFilm(film);
     if (it != films.end() && (*it)->getID() == film.getID()) {
         throw std::invalid_argument("Film is already on the list");
     }
     films.insert(it, &film);
+}
+
+void Director::deleteFilm(const Film& film) {
+    auto it = findFilm(film);
+    if (it != films.end() && (*it)->getID() == film.getID()) {
+        films.erase(it);
+    }
 }
 
 void Director::displayFilms(std::ostream& os) const {
