@@ -57,7 +57,7 @@ std::ostream& operator<<(std::ostream& os, const Actor& actor) {
     os << actor.getBirthDate() << ';';
     std::stringstream ss;
     ss << '[';
-    for (const auto& role : actor.getRoles()) {
+    for (auto role : actor.getRoles()) {
         ss << '[';
         ss << role.film->getID() << ", " << role.character << ']' << ", ";
     }
@@ -101,6 +101,25 @@ void Director::displayFilms(std::ostream& os) const {
     for (const auto& film : films) {
         os << "\"" << film->getTitle() << "\"" << " (" << film->getYear()
            << ")\n";
+    }
+}
+
+std::ostream& operator<<(std::ostream& os, const Director& director) {
+    os << std::to_string(director.getId()) << ';';
+    os << director.getName() << ';';
+    os << director.getBirthDate() << ';';
+    std::stringstream ss;
+    ss << '[';
+    for (auto film : director.getFilms()) {
+        ss << film->getID() << ", ";
+    }
+    std::string result = ss.str();
+    if (result.size() < 2) {
+        return os << "[]";
+    } else {
+        result.resize(result.size() - 2);  // remove extra ", "
+        result += ']';
+        return os << result;
     }
 }
 
