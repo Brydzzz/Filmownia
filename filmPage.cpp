@@ -15,9 +15,13 @@ program_state FilmPage::nextAction()
     {
         return program_state::Browse;
     }
+    if (action == "AddReview")
+    {
+        return program_state::Browse;
+    }
 }
 
-std::unique_ptr<Page> FilmPage::doAction(program_state act, User &user)
+std::unique_ptr<Page> FilmPage::doAction(program_state act, std::unique_ptr<Role> &us_ptr)
 {
     if (act == program_state::Browse)
     {

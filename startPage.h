@@ -2,6 +2,10 @@
 #include "page.h"
 #include "browsePage.h"
 #include "global.h"
+#include "role.h"
+#include "logged.h"
+#include "guest.h"
+#include "admin.h"
 class StartPage : public Page
 {
     std::vector<std::string> options = {"Browse",
@@ -10,7 +14,7 @@ class StartPage : public Page
 
 public:
     program_state nextAction() override;
-    std::unique_ptr<Page> doAction(program_state act, User &user) override;
+    std::unique_ptr<Page> doAction(program_state act, std::unique_ptr<Role> &us_ptr) override;
     void print() override
     {
         std::cout << msg << std::endl;
