@@ -17,14 +17,31 @@ bool Actor::Role::operator<(const Role& other) const {
     return film->getTitle() < other.film->getTitle();
 }
 
+std::vector<Actor::Role>::iterator Actor::findRole(const Film& film) {
+    auto it = std::lower_bound(roles.begin(), roles.end(), Role("", film));
+    return it;
+}
+
+std::vector<Actor::Role>::iterator Actor::findRole(const Role& role) {
+    auto it = std::lower_bound(roles.begin(), roles.end(), role);
+    return it;
+}
+
 void Actor::addRole(const std::string& character, const Film& film) {
     Role newRole(character, film);
-    auto it = std::lower_bound(roles.begin(), roles.end(), newRole);
-
+    auto it = findRole(newRole);
     if (it != roles.end() && it->film->getID() == film.getID()) {
         throw std::invalid_argument("There is already a role for this film");
+    } else {
+        roles.insert(it, newRole);
     }
-    roles.insert(it, newRole);
+}
+
+void Actor::deleteRole(const Film& film) {
+    auto it = findRole(film);
+    if (it != roles.end() && it->film->getID() == film.getID()) {
+        roles.erase(it);
+    }
 }
 
 void Actor::displayRoles(std::ostream& os) const {
@@ -77,8 +94,8 @@ void Producer::addJob(ProducerType ptype, const Film& film) {
 void Producer::displayJobs(std::ostream& os) const {
     os << "Films produced by " << this->name << ":\n";
     for (const auto& job : jobs) {
-        os << "\"" << job.film->getTitle() << "\"" << " (" << job.film->getYear()
-           << ") as ";
+        os << "\"" << job.film->getTitle() << "\"" << " ("
+           << job.film->getYear() << ") as ";
         switch (job.ptype) {
             case ProducerType::ExecutiveProducer:
                 os << "Executive Producer\n";
@@ -109,8 +126,8 @@ void Writer::addJob(WriterType wtype, const Film& film) {
 void Writer::displayJobs(std::ostream& os) const {
     os << "Films written by " << this->name << ":\n";
     for (const auto& job : jobs) {
-        os << "\"" << job.film->getTitle() << "\"" << " (" << job.film->getYear()
-           << ") - ";
+        os << "\"" << job.film->getTitle() << "\"" << " ("
+           << job.film->getYear() << ") - ";
         switch (job.wtype) {
             case WriterType::Screenplay:
                 os << "Screenplay\n";

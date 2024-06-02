@@ -91,6 +91,37 @@ TEST(actor_test, add_role_check_if_alphabetically) {
               "Baxter in \"Poor Things\"\n");
 }
 
+TEST(actor_test, delete_role) {
+    Actor a(2, "Emma Stone", 6, 11, 1988);
+    Film f1(1, "La La Land", 2017, {film_genre::Drama}, {}, "Masterpiece", {},
+            128, {}, {}, "");
+    Film f2(
+        2, "Poor Things", 2024, {film_genre::Comedy}, {},
+        "Brought back to life by an unorthodox scientist, a young woman runs "
+        "off with a lawyer on a whirlwind adventure across the continents.",
+        {}, 144, {}, {}, "");
+    a.addRole("Mia Dolan", f1);
+    a.addRole("Bella Baxter", f2);
+    ASSERT_EQ(a.getRoles().size(), 2);
+    a.deleteRole(f1);
+    ASSERT_EQ(a.getRoles().size(), 1);
+}
+
+TEST(actor_test, delete_role_not_in_roles) {
+    Actor a(2, "Emma Stone", 6, 11, 1988);
+    Film f1(1, "La La Land", 2017, {film_genre::Drama}, {}, "Masterpiece", {},
+            128, {}, {}, "");
+    Film f2(
+        2, "Poor Things", 2024, {film_genre::Comedy}, {},
+        "Brought back to life by an unorthodox scientist, a young woman runs "
+        "off with a lawyer on a whirlwind adventure across the continents.",
+        {}, 144, {}, {}, "");
+    a.addRole("Mia Dolan", f1);
+    ASSERT_EQ(a.getRoles().size(), 1);
+    a.deleteRole(f2);
+    ASSERT_EQ(a.getRoles().size(), 1);
+}
+
 TEST(actor_test, display_roles) {
     Actor a(2, "Emma Stone", 6, 11, 1988);
     ASSERT_EQ(a.getRoles().empty(), true);

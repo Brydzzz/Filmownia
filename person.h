@@ -35,6 +35,8 @@ class Actor : public Person {
         bool operator<(const Role& other) const;
     };
     std::vector<Role> roles = {};
+    std::vector<Role>::iterator findRole(const Film& film);
+    std::vector<Role>::iterator findRole(const Role& role);
 
    public:
     using Person::Person;
