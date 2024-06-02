@@ -143,6 +143,38 @@ TEST(actor_test, display_roles) {
               "Baxter in \"Poor Things\"\n");
 }
 
+TEST(actor_test, operator_out) {
+    Actor a(2, "Emma Stone", 6, 11, 1988);
+    Film f1(123, "La La Land", 2017, {film_genre::Drama}, {}, "Masterpiece", {},
+            128, {}, {}, "");
+    Film f2(36, "The Favourite", 2018, {film_genre::Drama}, {},
+            "England, early 18th century. The close relationship between Queen "
+            "Anne and Sarah Churchill is threatened by the arrival of Sarah's "
+            "cousin, Abigail Hill, resulting in a bitter rivalry between the "
+            "two cousins to be the Queen's favourite.",
+            {}, 120, {}, {}, "");
+    Film f3(4789, "Poor Things", 2024, {film_genre::Comedy}, {},
+            "Brought back to life by an unorthodox scientist, a young woman "
+            "runs "
+            "off with a lawyer on a whirlwind adventure across the continents.",
+            {}, 144, {}, {}, "");
+    a.addRole("Mia Dolan", f1);
+    a.addRole("Abigail", f2);
+    a.addRole("Bella Baxter", f3);
+    std::stringstream ss;
+    ss << a;
+    ASSERT_EQ(ss.str(),
+              "2;Emma Stone;1988-11-06;[[123, Mia Dolan], [4789, Bella "
+              "Baxter], [36, Abigail]]");
+}
+
+TEST(actor_test, operator_out_no_roles) {
+    Actor a(2, "Emma Stone", 6, 11, 1988);
+    std::stringstream ss;
+    ss << a;
+    ASSERT_EQ(ss.str(), "2;Emma Stone;1988-11-06;[]");
+}
+
 TEST(director_test, constructor) {
     Director d(3, "Yorgos Lanthimos", 23, 9, 1973);
     ASSERT_EQ(d.getName(), "Yorgos Lanthimos");

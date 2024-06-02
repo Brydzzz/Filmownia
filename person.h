@@ -45,6 +45,7 @@ class Actor : public Person {
     void addRole(const std::string& character, const Film& film);
     void deleteRole(const Film& film);
     void displayRoles(std::ostream& os) const;
+    friend std::ostream& operator<<(std::ostream& os, const Actor& actor);
 };
 
 class Director : public Person {
@@ -59,6 +60,7 @@ class Director : public Person {
     void addFilm(const Film& film);
     void deleteFilm(const Film& film);
     void displayFilms(std::ostream& os) const;
+    friend std::ostream& operator<<(std::ostream& os, const Director& director);
 };
 
 enum class ProducerType { Producer, ExecutiveProducer };
@@ -85,6 +87,7 @@ class Producer : public Person {
     void addJob(ProducerType ptype, const Film& film);
     void deleteJob(const Film& film);
     void displayJobs(std::ostream& os) const;
+    friend std::ostream& operator<<(std::ostream& os, const Producer& producer);
 };
 
 enum class WriterType { Screenplay, Story, Writer };
@@ -111,4 +114,5 @@ class Writer : public Person {
     void addJob(WriterType wtype, const Film& film);
     void deleteJob(const Film& film);
     void displayJobs(std::ostream& os) const;
+    friend std::ostream& operator<<(std::ostream& os, const Writer& writer);
 };

@@ -51,6 +51,26 @@ void Actor::displayRoles(std::ostream& os) const {
     }
 }
 
+std::ostream& operator<<(std::ostream& os, const Actor& actor) {
+    os << std::to_string(actor.getId()) << ';';
+    os << actor.getName() << ';';
+    os << actor.getBirthDate() << ';';
+    std::stringstream ss;
+    ss << '[';
+    for (const auto& role : actor.getRoles()) {
+        ss << '[';
+        ss << role.film->getID() << ", " << role.character << ']' << ", ";
+    }
+    std::string result = ss.str();
+    if (result.size() < 2) {
+        return os << "[]";
+    } else {
+        result.resize(result.size() - 2);  // remove extra ", "
+        result += ']';
+        return os << result;
+    }
+}
+
 const std::vector<const Film*>& Director::getFilms() const { return films; }
 
 std::vector<const Film*>::iterator Director::findFilm(const Film& film) {
