@@ -1,6 +1,7 @@
 #include "film.h"
 #include <iostream>
 #include "csv.h"
+#include "cppio.hpp"
 void Film::addReview(Review review)
 {
     reviews.push_back(review);
@@ -83,10 +84,28 @@ bool operator==(const Film &lfilm, const Film &rfilm)
 std::ostream &Film::write(std::ostream &os)
 {
     os << std::quoted(getTitle()) << std::endl;
-    os << getYear() << "  " << getTime() << std::endl;
-    os << getRating() << std::endl;
+    os << "Release year: " << getYear() << "  " << "Runtime: " << getTime() << std::endl;
+    os << "Rating: " << getRating() << std::endl;
     os << getDesc() << std::endl;
+    os << "Director: " << getDir() << std::endl;
+    os << "Producers: " << std::endl;
     unsigned int i = 1;
+    for (auto person : getProducers())
+    {
+        os << i << ". " << person.first << " - " << person.second << ", ";
+        ++i;
+    }
+    os << std::endl;
+    os << "Writers: " << std::endl;
+    i = 1;
+    for (auto person : getWriters())
+    {
+        os << i << ". " << person.first << " - " << person.second << ", ";
+        ++i;
+    }
+    i = 1;
+    os << std::endl;
+    os << "Writers: " << std::endl;
     for (auto person : getCast())
     {
         os << i << ". " << person.first << " - " << person.second << std::endl;
