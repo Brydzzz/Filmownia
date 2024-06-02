@@ -230,6 +230,55 @@ TEST(producer_test, add_job) {
     ASSERT_EQ(p.getJobs().size(), 2);
 }
 
+TEST(producer_test, add_job_duplicate) {
+    Producer p(4, "Kevin Feige", 2, 6, 1973);
+    Film f1(3, "The Avengers", 2012, {film_genre::Action}, {},
+            "When an unexpected enemy emerges and threatens global safety and "
+            "security, Nick Fury, director of the international peacekeeping "
+            "agency known as S.H.I.E.L.D., finds himself in need of a team to "
+            "pull the world back from the brink of disaster. Spanning the "
+            "globe, a daring recruitment effort begins!",
+            {}, 143, {}, {}, "");
+    Film f2(
+        4, "Iron Man", 2008, {film_genre::Action}, {},
+        "After being held captive in an Afghan cave, billionaire engineer Tony "
+        "Stark creates a unique weaponized suit of armor to fight evil.",
+        {}, 126, {}, {}, "");
+    p.addJob(ProducerType::Producer, f1);
+    p.addJob(ProducerType::Producer, f2);
+    ASSERT_THROW(p.addJob(ProducerType::ExecutiveProducer, f1), std::exception);
+}
+
+TEST(producer_test, add_job_film_same_title) {
+    Producer p(4, "Kevin Feige", 2, 6, 1973);
+    ASSERT_EQ(p.getJobs().empty(), true);
+    Film f1(3, "The Avengers", 2012, {film_genre::Action}, {},
+            "When an unexpected enemy emerges and threatens global safety and "
+            "security, Nick Fury, director of the international peacekeeping "
+            "agency known as S.H.I.E.L.D., finds himself in need of a team to "
+            "pull the world back from the brink of disaster. Spanning the "
+            "globe, a daring recruitment effort begins!",
+            {}, 143, {}, {}, "");
+    Film f2(
+        4, "Iron Man", 2008, {film_genre::Action}, {},
+        "After being held captive in an Afghan cave, billionaire engineer Tony "
+        "Stark creates a unique weaponized suit of armor to fight evil.",
+        {}, 126, {}, {}, "");
+    Film f3(8, "The Avengers", 2034, {film_genre::Action}, {},
+            "When an unexpected enemy emerges and threatens global safety and "
+            "security, Nick Fury, director of the international peacekeeping "
+            "agency known as S.H.I.E.L.D., finds himself in need of a team to "
+            "pull the world back from the brink of disaster. Spanning the "
+            "globe, a daring recruitment effort begins!",
+            {}, 143, {}, {}, "");
+    p.addJob(ProducerType::Producer, f1);
+    ASSERT_EQ(p.getJobs().size(), 1);
+    p.addJob(ProducerType::Producer, f2);
+    ASSERT_EQ(p.getJobs().size(), 2);
+    p.addJob(ProducerType::Producer, f3);
+    ASSERT_EQ(p.getJobs().size(), 3);
+}
+
 TEST(producer_test, display_jobs) {
     Producer p(4, "Kevin Feige", 2, 6, 1973);
     ASSERT_EQ(p.getJobs().empty(), true);
@@ -250,9 +299,8 @@ TEST(producer_test, display_jobs) {
     std::stringstream ss;
     p.displayJobs(ss);
     ASSERT_EQ(ss.str(),
-              "Films produced by Kevin Feige:\n\"The Avengers\" (2012) as "
-              "Producer\n\"Iron "
-              "Man\" (2008) as Executive Producer\n");
+              "Films produced by Kevin Feige:\n\"Iron Man\" (2008) as "
+              "Executive Producer\n\"The Avengers\" (2012) as Producer\n");
 }
 
 TEST(writer_test, constructor) {

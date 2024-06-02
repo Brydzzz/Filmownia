@@ -60,14 +60,24 @@ const std::vector<Producer::ProducerJob>& Producer::getJobs() const {
     return jobs;
 }
 
+bool Producer::ProducerJob::operator<(const ProducerJob& other) const {
+    return film->getTitle() < other.film->getTitle();
+}
+
 void Producer::addJob(ProducerType ptype, const Film& film) {
-    jobs.emplace_back(ptype, film);
+    ProducerJob newJob(ptype, film);
+    auto it = std::lower_bound(jobs.begin(), jobs.end(), newJob);
+
+    if (it != jobs.end() && it->film->getID() == film.getID()) {
+        throw std::invalid_argument("There is already a job for this film");
+    }
+    jobs.insert(it, newJob);
 }
 
 void Producer::displayJobs(std::ostream& os) const {
     os << "Films produced by " << this->name << ":\n";
     for (const auto& job : jobs) {
-        os << "\"" << job.film.getTitle() << "\"" << " (" << job.film.getYear()
+        os << "\"" << job.film->getTitle() << "\"" << " (" << job.film->getYear()
            << ") as ";
         switch (job.ptype) {
             case ProducerType::ExecutiveProducer:

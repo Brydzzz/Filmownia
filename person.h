@@ -41,18 +41,19 @@ class Actor : public Person {
     const std::vector<Role>& getRoles() const;
 
     void addRole(const std::string& character, const Film& film);
+    void deleteRole(const Film& film);
     void displayRoles(std::ostream& os) const;
 };
 
 class Director : public Person {
    private:
-    std::vector<const Film*> films = {};  // should be sorted by name
+    std::vector<const Film*> films = {};
 
    public:
     using Person::Person;
 
     const std::vector<const Film*>& getFilms() const;
-    void addFilm(const Film& film);  // TODO add mechanism for duplicates
+    void addFilm(const Film& film);
     void displayFilms(std::ostream& os) const;
 };
 
@@ -62,20 +63,21 @@ class Producer : public Person {
    private:
     struct ProducerJob {
         ProducerType ptype;
-        const Film& film;
+        const Film* film;
 
         ProducerJob(ProducerType ptype, const Film& film)
-            : ptype(ptype), film(film) {}
+            : ptype(ptype), film(&film) {}
+
+        bool operator<(const ProducerJob& other) const;
     };
-    std::vector<ProducerJob> jobs =
-        {};  // jobs should be sorted by film id/name
+    std::vector<ProducerJob> jobs = {};
 
    public:
     using Person::Person;
 
     const std::vector<ProducerJob>& getJobs() const;
-    void addJob(ProducerType ptype,
-                const Film& film);  // TODO add mechanism for duplicates
+    void addJob(ProducerType ptype, const Film& film);
+    void deleteJob(const Film& film);
     void displayJobs(std::ostream& os) const;
 };
 
