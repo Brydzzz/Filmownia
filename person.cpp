@@ -175,8 +175,7 @@ void Producer::displayJobs(std::ostream& os) const {
     for (const ProducerJob& job : jobs) {
         os << "\"" << job.film->getTitle() << "\"" << " ("
            << job.film->getYear() << ") as ";
-        std::string ptypeStr = ptypeToString(job.ptype);
-        os << ptypeStr << '\n';
+        os << ptypeToString(job.ptype) << '\n';
     }
 }
 
@@ -233,22 +232,47 @@ void Writer::deleteJob(const Film& film) {
     }
 }
 
+std::string wtypeToString(WriterType wtype) {
+    switch (wtype) {
+        case WriterType::Screenplay:
+            return "Screenplay";
+            break;
+
+        case WriterType::Story:
+            return "Story";
+            break;
+        default:
+            return "Writer";
+            break;
+    }
+}
+
 void Writer::displayJobs(std::ostream& os) const {
     os << "Films written by " << this->name << ":\n";
     for (const auto& job : jobs) {
         os << "\"" << job.film->getTitle() << "\"" << " ("
            << job.film->getYear() << ") - ";
-        switch (job.wtype) {
-            case WriterType::Screenplay:
-                os << "Screenplay\n";
-                break;
+        os << wtypeToString(job.wtype) << '\n';
+    }
+}
 
-            case WriterType::Story:
-                os << "Story\n";
-                break;
-            default:
-                os << "Writer\n";
-                break;
-        }
+std::ostream& operator<<(std::ostream& os, const Writer& writer) {
+    os << std::to_string(writer.getId()) << ';';
+    os << writer.getName() << ';';
+    os << writer.getBirthDate() << ';';
+    std::stringstream ss;
+    ss << '[';
+    for (const Writer::WriterJob& job : writer.getJobs()) {
+        ss << '[';
+        ss << job.film->getID() << ", " << wtypeToString(job.wtype) << ']'
+           << ", ";
+    }
+    std::string result = ss.str();
+    if (result.size() < 2) {
+        return os << "[]";
+    } else {
+        result.resize(result.size() - 2);  // remove extra ", "
+        result += ']';
+        return os << result;
     }
 }

@@ -651,3 +651,32 @@ TEST(writer_test, display_jobs) {
               "Films written by Jon Spaihts:\n\"Dune\" (2021) - "
               "Screenplay\n\"Passengers\" (2016) - Writer\n");
 }
+
+TEST(writer_test, operator_out) {
+    Writer w(5, "Jon Spaihts", 4, 2, 1970);
+    Film f1(5, "Dune", 2021, {film_genre::SciFi}, {},
+            "Paul Atreides, a brilliant and gifted young man born into a great "
+            "destiny beyond his understanding, must travel to the most "
+            "dangerous planet in the universe to ensure the future of his "
+            "family and his people.",
+            {}, 155, {}, {}, "");
+    Film f2(
+        6, "Passengers", 2016, {film_genre::Romance}, {},
+        "A spacecraft traveling to a distant colony planet and transporting "
+        "thousands of people has a malfunction in its sleep chambers. As a "
+        "result, two passengers are awakened 90 years early.",
+        {}, 116, {}, {}, "");
+    w.addJob(WriterType::Screenplay, f1);
+    w.addJob(WriterType::Writer, f2);
+    std::stringstream ss;
+    ss << w;
+    ASSERT_EQ(ss.str(),
+              "5;Jon Spaihts;1970-02-04;[[5, Screenplay], [6, Writer]]");
+}
+
+TEST(writer_test, operator_out_no_jobs) {
+    Writer w(5, "Jon Spaihts", 4, 2, 1970);
+    std::stringstream ss;
+    ss << w;
+    ASSERT_EQ(ss.str(), "5;Jon Spaihts;1970-02-04;[]");
+}

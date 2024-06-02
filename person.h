@@ -92,6 +92,7 @@ class Producer : public Person {
 };
 
 enum class WriterType { Screenplay, Story, Writer };
+std::string wtypeToString(WriterType wtype);
 
 class Writer : public Person {
    private:
