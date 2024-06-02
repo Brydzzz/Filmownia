@@ -35,30 +35,35 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act)
         std::vector<Film *> found = movieSearch(title);
         if (found.size() != 0)
         {
-            std::cout << "Found movies: " << std::endl;
-            int i = 1;
-            for (auto f : found)
-            {
-                if (i <= 10)
-                {
-                    std::cout << i << '.' << f->getTitle() << std::endl;
-                    ++i;
-                }
-            }
             int a;
-            cppIO::input("Choose number of a movie you wish to see or -1 for exit: ", a);
-            if (a == -1)
+            if (found.size() != 1)
             {
-                std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
-                return ptr;
+                std::cout << "Found movies: " << std::endl;
+                int i = 1;
+
+                for (auto f : found)
+                {
+                    if (i <= 10)
+                    {
+                        std::cout << i << '.' << f->getTitle() << std::endl;
+                        ++i;
+                    }
+                }
+                cppIO::input("Choose number of a movie you wish to see or -1 for exit: ", a);
+                if (a == -1)
+                {
+                    std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
+                    return ptr;
+                }
             }
             else
             {
-                a--;
-                // std::cout << found[a].getDesc() << std::endl;
-                std::unique_ptr<FilmPage> ptr = std::make_unique<FilmPage>(found[a]);
-                return ptr;
+                a = 1;
             }
+            a--;
+            // std::cout << found[a].getDesc() << std::endl;
+            std::unique_ptr<FilmPage> ptr = std::make_unique<FilmPage>(found[a]);
+            return ptr;
         }
         else
         {
