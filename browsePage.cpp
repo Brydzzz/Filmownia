@@ -21,9 +21,9 @@ std::vector<Film *> BrowsePage::movieSearch(const std::string &title)
     return result;
 }
 
-std::unique_ptr<Page> BrowsePage::doAction(int act)
+std::unique_ptr<Page> BrowsePage::doAction(program_state act)
 {
-    if (act == 3)
+    if (act == program_state::Browse)
     {
         std::string title;
         std::cout << "Searched movie: " << std::endl;
@@ -67,8 +67,26 @@ std::unique_ptr<Page> BrowsePage::doAction(int act)
         std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
         return ptr;
     }
-    else if (act == 0)
+    else if (act == program_state::Exit)
     {
         std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
     }
+}
+
+program_state BrowsePage::nextAction()
+{
+    std::string action;
+    while (std::find(options.begin(), options.end(), action) == options.end())
+    {
+        cppIO::input("Enter desired action: ", action);
+    }
+    if (action == "Exit")
+    {
+        return program_state::Exit;
+    }
+    else if (action == "Browse")
+    {
+        return program_state::Browse;
+    }
+    return program_state::Exit;
 }

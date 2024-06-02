@@ -9,8 +9,8 @@ class StartPage : public Page
     std::string msg = "Welcome to Filmownia movie database!\nPresented to you by: Brygida S, Kinga Ł and Tomasz S\n";
 
 public:
-    int nextAction() override;
-    std::unique_ptr<Page> doAction(int act) override;
+    program_state nextAction() override;
+    std::unique_ptr<Page> doAction(program_state act) override;
     void print() override
     {
         std::cout << msg << std::endl;

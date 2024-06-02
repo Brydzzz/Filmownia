@@ -8,6 +8,13 @@
 #include <algorithm>
 // #include "main.cpp"
 #include "global.h"
+
+enum class program_state
+{
+    Browse,
+    Exit,
+};
+
 class Page
 {
     std::vector<std::string> options;
@@ -21,7 +28,7 @@ public:
         }
     };
     virtual void print() = 0;
-    virtual int nextAction() = 0;
-    virtual std::unique_ptr<Page> doAction(int act) = 0;
+    virtual program_state nextAction() = 0;
+    virtual std::unique_ptr<Page> doAction(program_state act) = 0;
     virtual ~Page(){};
 };

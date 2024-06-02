@@ -1,5 +1,5 @@
 #include "filmPage.h"
-int FilmPage::nextAction()
+program_state FilmPage::nextAction()
 {
     std::string action;
     while (std::find(options.begin(), options.end(), action) == options.end())
@@ -8,18 +8,18 @@ int FilmPage::nextAction()
     }
     if (action == "Exit")
     {
-        return 0;
+        return program_state::Exit;
     }
 
     if (action == "Browse")
     {
-        return 1;
+        return program_state::Browse;
     }
 }
 
-std::unique_ptr<Page> FilmPage::doAction(int act)
+std::unique_ptr<Page> FilmPage::doAction(program_state act)
 {
-    if (act == 1)
+    if (act == program_state::Browse)
     {
         std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
         return ptr;

@@ -16,10 +16,10 @@ int main()
     user.log_in();
     std::unique_ptr<Page> pg_ptr = std::make_unique<StartPage>();
     pg_ptr->print();
-    int act = 0;
+    program_state act;
     // program state - > potencjalnie jako enum
     act = pg_ptr->nextAction();
-    while (act != 0)
+    while (act != program_state::Exit)
     {
         pg_ptr = std::move(pg_ptr->doAction(act));
         pg_ptr->print();

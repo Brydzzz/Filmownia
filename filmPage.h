@@ -11,9 +11,9 @@ class FilmPage : public Page
 public:
     FilmPage(Film *f) : film(f){};
     void print() override;
-    int nextAction() override;
+    program_state nextAction() override;
 
-    std::unique_ptr<Page> doAction(int act) override;
+    std::unique_ptr<Page> doAction(program_state) override;
     void showOptions()
     {
         std::cout << "Avaiable Options: \n";

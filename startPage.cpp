@@ -1,5 +1,5 @@
 #include "startPage.h"
-int StartPage::nextAction()
+program_state StartPage::nextAction()
 {
     std::string action;
     while (std::find(options.begin(), options.end(), action) == options.end())
@@ -8,18 +8,18 @@ int StartPage::nextAction()
     }
     if (action == "Exit")
     {
-        return 0;
+        return program_state::Exit;
     }
     else if (action == "Browse")
     {
-        return 4;
+        return program_state::Browse;
     }
-    return 5;
+    return program_state::Exit;
 }
 
-std::unique_ptr<Page> StartPage::doAction(int act)
+std::unique_ptr<Page> StartPage::doAction(program_state act)
 {
-    if (act == 4)
+    if (act == program_state::Browse)
     {
         std::unique_ptr<BrowsePage> ptr;
         ptr = std::make_unique<BrowsePage>();
