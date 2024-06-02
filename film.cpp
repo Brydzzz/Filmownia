@@ -7,7 +7,7 @@ void Film::addReview(Review review)
     reviews.push_back(review);
 }
 
-const std::vector<Review> &Film::getReviews() const
+std::vector<Review> &Film::getReviews()
 {
     return reviews;
 }
