@@ -80,5 +80,5 @@ TEST(DateTest, out_operator) {
     Date d(6, 11, 1988);
     std::stringstream ss;
     ss << d;
-    ASSERT_EQ(ss.str(), "06/11/1988");
+    ASSERT_EQ(ss.str(), "1988-11-06");
 }
