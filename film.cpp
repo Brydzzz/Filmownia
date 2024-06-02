@@ -104,6 +104,8 @@ std::ostream &Film::write(std::ostream &os)
         ++i;
     }
     i = 1;
+    os << std::endl;
+    os << "Writers: " << std::endl;
     for (auto person : getCast())
     {
         os << i << ". " << person.first << " - " << person.second << std::endl;
