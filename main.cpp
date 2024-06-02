@@ -9,6 +9,7 @@
 #include "browsePage.h"
 #include "role.h"
 #include "logged.h"
+#include "guest.h"
 
 // correct login: Lara, 1234
 extern std::vector<Review> loadReviews(User &user);
@@ -18,9 +19,10 @@ int main()
     User user;
     user.log_in();
     loadReviews(user);
+    std::unique_ptr<Role> us_ptr = std::make_unique<Guest>(&user);
     if (user.getRole()->getName() == "logged")
     {
-        Logged logged(&user, loadReviews(user));
+        us_ptr = std::make_unique<Logged>(&user, loadReviews(user));
     }
     std::unique_ptr<Page> pg_ptr = std::make_unique<StartPage>();
     pg_ptr->print();
