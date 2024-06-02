@@ -1,9 +1,10 @@
 #pragma once
 #include "page.h"
-
+#include "browsePage.h"
+#include "filmPage.h"
 class ReviewsPage : public Page
 {
-    std::vector<std::string> options = {"Exit"};
+    std::vector<std::string> options = {"Exit", "GoBack", "Browse"};
     Film *film;
 
 public:
@@ -16,7 +17,7 @@ public:
         std::cout << "Avaiable Options: \n";
         for (auto opt : options)
         {
-            std::cout << opt << std::endl;
+            std::cout << "- " << opt << std::endl;
         }
     }
 };

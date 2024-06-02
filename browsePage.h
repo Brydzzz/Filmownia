@@ -25,7 +25,7 @@ public:
         std::cout << "Avaiable Options: \n";
         for (auto opt : options)
         {
-            std::cout << opt << std::endl;
+            std::cout << "- " << opt << std::endl;
         }
     }
 };
