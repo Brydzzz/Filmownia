@@ -6,10 +6,11 @@
 #include "logged.h"
 #include "guest.h"
 #include "admin.h"
+#include "startPage.h"
 class BrowsePage : public Page
 {
     std::string msg = "Browse Movies: ";
-    std::vector<std::string> options = {"Exit", "Browse"};
+    std::vector<std::string> options = {"Exit", "Browse", "GoBack"};
 
 public:
     void print() override

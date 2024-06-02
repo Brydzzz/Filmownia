@@ -75,6 +75,12 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act, std::unique_ptr<Ro
     else if (act == program_state::Exit)
     {
         std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
+        return ptr;
+    }
+    else if (act == program_state::GoBack)
+    {
+        std::unique_ptr<Page> ptr = std::make_unique<StartPage>();
+        return ptr;
     }
 }
 
@@ -92,6 +98,10 @@ program_state BrowsePage::nextAction()
     else if (action == "Browse")
     {
         return program_state::Browse;
+    }
+    else if (action == "GoBack")
+    {
+        return program_state::GoBack;
     }
     return program_state::Exit;
 }
