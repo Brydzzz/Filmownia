@@ -478,6 +478,36 @@ TEST(producer_test, display_jobs) {
               "Executive Producer\n\"The Avengers\" (2012) as Producer\n");
 }
 
+TEST(producer_test, operator_out) {
+    Producer p(4, "Kevin Feige", 2, 6, 1973);
+    Film f1(3, "The Avengers", 2012, {film_genre::Action}, {},
+            "When an unexpected enemy emerges and threatens global safety and "
+            "security, Nick Fury, director of the international peacekeeping "
+            "agency known as S.H.I.E.L.D., finds himself in need of a team to "
+            "pull the world back from the brink of disaster. Spanning the "
+            "globe, a daring recruitment effort begins!",
+            {}, 143, {}, {}, "");
+    Film f2(
+        4, "Iron Man", 2008, {film_genre::Action}, {},
+        "After being held captive in an Afghan cave, billionaire engineer Tony "
+        "Stark creates a unique weaponized suit of armor to fight evil.",
+        {}, 126, {}, {}, "");
+    p.addJob(ProducerType::Producer, f1);
+    p.addJob(ProducerType::ExecutiveProducer, f2);
+    std::stringstream ss;
+    ss << p;
+    ASSERT_EQ(
+        ss.str(),
+        "4;Kevin Feige;1973-06-02;[[4, Executive Producer], [3, Producer]]");
+}
+
+TEST(producer_test, operator_out_no_jobs) {
+    Producer p(4, "Kevin Feige", 2, 6, 1973);
+    std::stringstream ss;
+    ss << p;
+    ASSERT_EQ(ss.str(), "4;Kevin Feige;1973-06-02;[]");
+}
+
 TEST(writer_test, constructor) {
     Writer w(5, "Jon Spaihts", 4, 2, 1970);
     ASSERT_EQ(w.getName(), "Jon Spaihts");

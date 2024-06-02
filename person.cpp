@@ -45,7 +45,7 @@ void Actor::deleteRole(const Film& film) {
 
 void Actor::displayRoles(std::ostream& os) const {
     os << this->name << "'s roles: \n";
-    for (const auto& role : roles) {
+    for (const Actor::Role& role : roles) {
         os << "As " << role.character << " in \"" << role.film->getTitle()
            << "\"\n";
     }
@@ -57,7 +57,7 @@ std::ostream& operator<<(std::ostream& os, const Actor& actor) {
     os << actor.getBirthDate() << ';';
     std::stringstream ss;
     ss << '[';
-    for (auto role : actor.getRoles()) {
+    for (const Actor::Role& role : actor.getRoles()) {
         ss << '[';
         ss << role.film->getID() << ", " << role.character << ']' << ", ";
     }
@@ -98,7 +98,7 @@ void Director::deleteFilm(const Film& film) {
 
 void Director::displayFilms(std::ostream& os) const {
     os << "Films directed by " << this->name << ":\n";
-    for (const auto& film : films) {
+    for (const Film* film : films) {
         os << "\"" << film->getTitle() << "\"" << " (" << film->getYear()
            << ")\n";
     }
@@ -110,7 +110,7 @@ std::ostream& operator<<(std::ostream& os, const Director& director) {
     os << director.getBirthDate() << ';';
     std::stringstream ss;
     ss << '[';
-    for (auto film : director.getFilms()) {
+    for (const Film* film : director.getFilms()) {
         ss << film->getID() << ", ";
     }
     std::string result = ss.str();
@@ -159,19 +159,45 @@ void Producer::deleteJob(const Film& film) {
     }
 }
 
+std::string ptypeToString(ProducerType ptype) {
+    switch (ptype) {
+        case ProducerType::ExecutiveProducer:
+            return "Executive Producer";
+            break;
+        default:
+            return "Producer";
+            break;
+    }
+}
+
 void Producer::displayJobs(std::ostream& os) const {
     os << "Films produced by " << this->name << ":\n";
-    for (const auto& job : jobs) {
+    for (const ProducerJob& job : jobs) {
         os << "\"" << job.film->getTitle() << "\"" << " ("
            << job.film->getYear() << ") as ";
-        switch (job.ptype) {
-            case ProducerType::ExecutiveProducer:
-                os << "Executive Producer\n";
-                break;
-            default:
-                os << "Producer\n";
-                break;
-        }
+        std::string ptypeStr = ptypeToString(job.ptype);
+        os << ptypeStr << '\n';
+    }
+}
+
+std::ostream& operator<<(std::ostream& os, const Producer& producer) {
+    os << std::to_string(producer.getId()) << ';';
+    os << producer.getName() << ';';
+    os << producer.getBirthDate() << ';';
+    std::stringstream ss;
+    ss << '[';
+    for (const Producer::ProducerJob& job : producer.getJobs()) {
+        ss << '[';
+        ss << job.film->getID() << ", " << ptypeToString(job.ptype) << ']'
+           << ", ";
+    }
+    std::string result = ss.str();
+    if (result.size() < 2) {
+        return os << "[]";
+    } else {
+        result.resize(result.size() - 2);  // remove extra ", "
+        result += ']';
+        return os << result;
     }
 }
 

@@ -64,6 +64,7 @@ class Director : public Person {
 };
 
 enum class ProducerType { Producer, ExecutiveProducer };
+std::string ptypeToString(ProducerType ptype);
 
 class Producer : public Person {
    private:
