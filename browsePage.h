@@ -2,6 +2,7 @@
 #include "page.h"
 #include "filmPage.h"
 #include "global.h"
+
 class BrowsePage : public Page
 {
     std::string msg = "Browse Movies: ";
@@ -13,7 +14,7 @@ public:
         std::cout << msg << std::endl;
     }
     std::vector<Film *> movieSearch(const std::string &title);
-    std::unique_ptr<Page> doAction(program_state act) override;
+    std::unique_ptr<Page> doAction(program_state act, User &user) override;
 
     program_state nextAction() override;
     void showOptions()

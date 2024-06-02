@@ -13,7 +13,7 @@ public:
     void print() override;
     program_state nextAction() override;
 
-    std::unique_ptr<Page> doAction(program_state) override;
+    std::unique_ptr<Page> doAction(program_state, User &user) override;
     void showOptions()
     {
         std::cout << "Avaiable Options: \n";

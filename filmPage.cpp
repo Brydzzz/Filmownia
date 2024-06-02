@@ -17,7 +17,7 @@ program_state FilmPage::nextAction()
     }
 }
 
-std::unique_ptr<Page> FilmPage::doAction(program_state act)
+std::unique_ptr<Page> FilmPage::doAction(program_state act, User &user)
 {
     if (act == program_state::Browse)
     {

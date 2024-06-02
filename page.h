@@ -8,7 +8,7 @@
 #include <algorithm>
 // #include "main.cpp"
 #include "global.h"
-
+#include "user.h"
 enum class program_state
 {
     Browse,
@@ -29,6 +29,6 @@ public:
     };
     virtual void print() = 0;
     virtual program_state nextAction() = 0;
-    virtual std::unique_ptr<Page> doAction(program_state act) = 0;
+    virtual std::unique_ptr<Page> doAction(program_state act, User &user) = 0;
     virtual ~Page(){};
 };

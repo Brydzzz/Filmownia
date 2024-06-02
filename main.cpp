@@ -7,13 +7,21 @@
 #include "film.h"
 #include "startPage.h"
 #include "browsePage.h"
+#include "role.h"
+#include "logged.h"
 
 // correct login: Lara, 1234
-
+extern std::vector<Review> loadReviews(User &user);
+extern std::vector<Film> flist;
 int main()
 {
     User user;
     user.log_in();
+    loadReviews(user);
+    if (user.getRole()->getName() == "logged")
+    {
+        Logged logged(&user, loadReviews(user));
+    }
     std::unique_ptr<Page> pg_ptr = std::make_unique<StartPage>();
     pg_ptr->print();
     program_state act;
@@ -21,7 +29,7 @@ int main()
     act = pg_ptr->nextAction();
     while (act != program_state::Exit)
     {
-        pg_ptr = std::move(pg_ptr->doAction(act));
+        pg_ptr = std::move(pg_ptr->doAction(act, user));
         pg_ptr->print();
         pg_ptr->showOptions();
         act = pg_ptr->nextAction();

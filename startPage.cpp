@@ -17,7 +17,7 @@ program_state StartPage::nextAction()
     return program_state::Exit;
 }
 
-std::unique_ptr<Page> StartPage::doAction(program_state act)
+std::unique_ptr<Page> StartPage::doAction(program_state act, User &user)
 {
     if (act == program_state::Browse)
     {

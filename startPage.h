@@ -10,7 +10,7 @@ class StartPage : public Page
 
 public:
     program_state nextAction() override;
-    std::unique_ptr<Page> doAction(program_state act) override;
+    std::unique_ptr<Page> doAction(program_state act, User &user) override;
     void print() override
     {
         std::cout << msg << std::endl;
