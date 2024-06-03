@@ -38,7 +38,7 @@ std::vector<Actor> BrowsePage::actorSearch(const std::string &name) {
             Date BirthdayDate;
             std::istringstream bday(Birthday);
             bday >> BirthdayDate;
-            Actor a(ID, Name, BirthdayDate);
+            Actor a(ID, Name, BirthdayDate, Films);
             actors.push_back(a);
         }
     }
