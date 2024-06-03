@@ -206,6 +206,31 @@ TEST(actor_test, display_roles) {
               "Baxter in \"Poor Things\"\n");
 }
 
+TEST(actor_test, display_info) {
+    Actor a(2, "Emma Stone", 6, 11, 1988);
+    Film f1(1, "La La Land", 2017, {film_genre::Drama}, {}, "Masterpiece", {},
+            128, {}, {}, "");
+    a.addRole("Mia Dolan", f1);
+    Film f2(
+        2, "Poor Things", 2024, {film_genre::Comedy}, {},
+        "Brought back to life by an unorthodox scientist, a young woman runs "
+        "off with a lawyer on a whirlwind adventure across the continents.",
+        {}, 144, {}, {}, "");
+    a.addRole("Bella Baxter", f2);
+    std::stringstream ss;
+    a.displayActorInfo(ss);
+    ASSERT_EQ(ss.str(),
+              "Emma Stone\nBirthdate: 1988-11-06\nSelected roles: \nAs Mia "
+              "Dolan in \"La La Land\"\nAs Bella Baxter in \"Poor Things\"\n");
+}
+
+TEST(actor_test, display_info_no_roles) {
+    Actor a(2, "Emma Stone", 6, 11, 1988);
+    std::stringstream ss;
+    a.displayActorInfo(ss);
+    ASSERT_EQ(ss.str(), "Emma Stone\nBirthdate: 1988-11-06\n");
+}
+
 TEST(actor_test, operator_out) {
     Actor a(2, "Emma Stone", 6, 11, 1988);
     Film f1(123, "La La Land", 2017, {film_genre::Drama}, {}, "Masterpiece", {},

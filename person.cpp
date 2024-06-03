@@ -95,8 +95,20 @@ void Actor::deleteRole(const Film& film) {
     }
 }
 
+void Actor::displayActorInfo(std::ostream& os) const {
+    os << name << '\n';
+    os << "Birthdate: " << birthDate << '\n';
+    if (!roles.empty()) {
+        os << "Selected roles: \n";
+        for (int i = 0; i < 5 && i < roles.size(); ++i) {
+            os << "As " << roles[i].character << " in \""
+               << roles[i].film->getTitle() << "\"\n";
+        }
+    }
+}
+
 void Actor::displayRoles(std::ostream& os) const {
-    os << this->name << "'s roles: \n";
+    os << name << "'s roles: \n";
     for (const Actor::Role& role : roles) {
         os << "As " << role.character << " in \"" << role.film->getTitle()
            << "\"\n";
