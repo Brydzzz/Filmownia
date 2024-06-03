@@ -22,6 +22,11 @@ enum class program_state
     GoBack,
     MyPage,
     Add,
+    BrowseMovies,
+    BrowseActors,
+    AddRole,
+    DeleteRole,
+    SeeAllRoles
 };
 
 class Page

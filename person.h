@@ -55,6 +55,7 @@ class Actor : public Person {
     const std::vector<Role>& getRoles() const;
     void addRole(const std::string& character, const Film& film);
     void deleteRole(const Film& film);
+    void displayActorInfo(std::ostream& os) const;
     void displayRoles(std::ostream& os) const;
     friend std::ostream& operator<<(std::ostream& os, const Actor& actor);
 };
