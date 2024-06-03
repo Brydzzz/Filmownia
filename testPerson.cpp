@@ -3,10 +3,21 @@
 #include <sstream>
 #include <stdexcept>
 
+#include "date.h"
 #include "film.h"
 #include "person.h"
 TEST(person_test, constructor) {
     Person p(1, "Tomasz Smoleń", 21, 5, 2004);
+    ASSERT_EQ(p.getName(), "Tomasz Smoleń");
+    ASSERT_EQ(p.getId(), 1);
+    ASSERT_EQ(p.getBirthDate().getDay(), 21);
+    ASSERT_EQ(p.getBirthDate().getMonth(), 5);
+    ASSERT_EQ(p.getBirthDate().getYear(), 2004);
+}
+
+TEST(person_test, constructor_date_object) {
+    Date d(21, 5, 2004);
+    Person p(1, "Tomasz Smoleń", d);
     ASSERT_EQ(p.getName(), "Tomasz Smoleń");
     ASSERT_EQ(p.getId(), 1);
     ASSERT_EQ(p.getBirthDate().getDay(), 21);
@@ -28,10 +39,62 @@ TEST(actor_test, constructor) {
     ASSERT_EQ(a.getRoles().empty(), true);
 }
 
+TEST(actor_test, constructor_date_object) {
+    Date d(6, 11, 1988);
+    Actor a(2, "Emma Stone", d);
+    ASSERT_EQ(a.getName(), "Emma Stone");
+    ASSERT_EQ(a.getId(), 2);
+    ASSERT_EQ(a.getBirthDate().getDay(), 6);
+    ASSERT_EQ(a.getBirthDate().getMonth(), 11);
+    ASSERT_EQ(a.getBirthDate().getYear(), 1988);
+    ASSERT_EQ(a.getRoles().empty(), true);
+}
+
 TEST(person_test, equal_operator) {
     Person p(1, "Tomasz Smoleń", 21, 5, 2004);
     Actor a(2, "Emma Stone", 6, 11, 1988);
     ASSERT_EQ(a == p, false);
+}
+
+TEST(actor_test, constructor_csv) {
+    Date d(6, 11, 1988);
+    Actor a(2, "Emma Stone", d,
+            "[[37735, Olive Penderghast], [1930, Gwen Stacy], [50646, Hannah "
+            "Weaver]]");
+    ASSERT_EQ(a.getName(), "Emma Stone");
+    ASSERT_EQ(a.getId(), 2);
+    ASSERT_EQ(a.getBirthDate().getDay(), 6);
+    ASSERT_EQ(a.getBirthDate().getMonth(), 11);
+    ASSERT_EQ(a.getBirthDate().getYear(), 1988);
+    ASSERT_EQ(a.getRoles().size(), 3);
+    std::stringstream ss;
+    a.displayRoles(ss);
+    ASSERT_EQ(ss.str(),
+              "Emma Stone's roles: \nAs Hannah Weaver in \"Crazy, Stupid, "
+              "Love.\"\nAs "
+              "Olive Penderghast in \"Easy A\"\nAs Gwen Stacy in \"The Amazing "
+              "Spider-Man\"\n");
+}
+
+TEST(actor_test, constructor_csv_2) {
+    Date d(6, 11, 1988);
+    Actor a(2, "Emma Stone", d,
+            "[['37735', 'Olive Penderghast'], ['1930', 'Gwen Stacy'], "
+            "['50646', 'Hannah "
+            "Weaver']]");
+    ASSERT_EQ(a.getName(), "Emma Stone");
+    ASSERT_EQ(a.getId(), 2);
+    ASSERT_EQ(a.getBirthDate().getDay(), 6);
+    ASSERT_EQ(a.getBirthDate().getMonth(), 11);
+    ASSERT_EQ(a.getBirthDate().getYear(), 1988);
+    ASSERT_EQ(a.getRoles().size(), 3);
+    std::stringstream ss;
+    a.displayRoles(ss);
+    ASSERT_EQ(ss.str(),
+              "Emma Stone's roles: \nAs Hannah Weaver in \"Crazy, Stupid, "
+              "Love.\"\nAs "
+              "Olive Penderghast in \"Easy A\"\nAs Gwen Stacy in \"The Amazing "
+              "Spider-Man\"\n");
 }
 
 TEST(actor_test, add_role) {

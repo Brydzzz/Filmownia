@@ -3,6 +3,10 @@
 #include <algorithm>
 
 #include "film.h"
+#include "global.h"
+
+extern std::vector<Film> flist;
+
 const std::string& Person::getName() const { return name; }
 
 const unsigned int Person::getId() const { return id; }
@@ -24,6 +28,51 @@ std::vector<Actor::Role>::iterator Actor::findRole(const Film& film) {
 std::vector<Actor::Role>::iterator Actor::findRole(const Role& role) {
     auto it = std::lower_bound(roles.begin(), roles.end(), role);
     return it;
+}
+
+std::vector<Actor::Role> Actor::parseRoles(const std::string& content) {
+    std::vector<Actor::Role> roles;
+    std::istringstream iss(content);
+    std::string role;
+
+    while (std::getline(iss, role, ']')) {
+        role.erase(0, role.find_first_not_of(","));
+        role.erase(0, role.find_first_not_of(" "));
+        role.erase(0, role.find_first_not_of("'"));
+        role.erase(0, role.find_first_not_of("["));
+        if (role.empty()) break;
+        std::istringstream rolePair(role);
+        std::string filmIdStr, character;
+        std::getline(rolePair, filmIdStr, ',');
+        std::getline(rolePair, character, ']');
+
+        // Trim leading/trailing whitespace from filmIdStr and character
+        filmIdStr.erase(filmIdStr.find_last_not_of(" ") + 1);
+        filmIdStr.erase(0, filmIdStr.find_first_not_of(" "));
+        character.erase(character.find_last_not_of(" ") + 1);
+        character.erase(0, character.find_first_not_of(" "));
+
+        // Trim leading/trailing single quote from filmIdStr and character
+        filmIdStr.erase(filmIdStr.find_last_not_of("'") + 1);
+        filmIdStr.erase(0, filmIdStr.find_first_not_of("'"));
+        character.erase(character.find_last_not_of("'") + 1);
+        character.erase(0, character.find_first_not_of("'"));
+
+        unsigned int filmId = std::stoul(filmIdStr);
+        const Film* film = nullptr;
+        for (const auto& f : flist) {  // using extern flist from global.h
+            if (f.getID() == filmId) {
+                film = &f;
+                break;
+            }
+        }
+        if (film) {
+            roles.emplace_back(character, film);
+        }
+    }
+
+    std::sort(roles.begin(), roles.end());
+    return roles;
 }
 
 void Actor::addRole(const std::string& character, const Film& film) {

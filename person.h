@@ -15,7 +15,8 @@ class Person {
     Person(unsigned int id, const std::string& name, unsigned int day,
            unsigned int month, unsigned int year)
         : id(id), name(name), birthDate(day, month, year) {}
-    // TODO ctor with birthDate object
+    Person(unsigned int id, const std::string& name, Date date)
+        : id(id), name(name), birthDate(date) {}
 
     const std::string& getName() const;
     const unsigned int getId() const;
@@ -33,16 +34,25 @@ class Actor : public Person {
         Role(const std::string& character, const Film& film)
             : character(character), film(&film) {}
 
+        Role(const std::string& character, const Film* film)
+            : character(character), film(film) {}
+
         bool operator<(const Role& other) const;
     };
     std::vector<Role> roles = {};
     std::vector<Role>::iterator findRole(const Film& film);
     std::vector<Role>::iterator findRole(const Role& role);
+    std::vector<Role> parseRoles(const std::string& content);
 
    public:
     using Person::Person;
-    const std::vector<Role>& getRoles() const;
 
+    // ctor for data from csv
+    Actor(unsigned int id, const std::string& name, Date date,
+          std::string roles)
+        : Person(id, name, date), roles(parseRoles(roles)) {}
+
+    const std::vector<Role>& getRoles() const;
     void addRole(const std::string& character, const Film& film);
     void deleteRole(const Film& film);
     void displayRoles(std::ostream& os) const;
@@ -53,7 +63,8 @@ class Director : public Person {
    private:
     std::vector<const Film*> films = {};
     std::vector<const Film*>::iterator findFilm(const Film& film);
-    std::vector<const Film*> parseFilms(std::string content); //TODO parseFilms
+    std::vector<const Film*> parseFilms(std::string content);  // TODO
+                                                               // parseFilms
 
    public:
     using Person::Person;
