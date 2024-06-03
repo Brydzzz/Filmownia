@@ -21,6 +21,7 @@ program_state ActorPage::nextAction() {
     if (action == "SeeAllRoles") {
         return program_state::SeeAllRoles;
     }
+    return program_state::Exit;
 }
 
 std::unique_ptr<Page> ActorPage::doAction(program_state act,
@@ -49,6 +50,8 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
         return ptr;
     }
+    std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
+    return ptr;
 }
 
 void ActorPage::print() {
