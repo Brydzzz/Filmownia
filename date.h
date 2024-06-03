@@ -17,4 +17,5 @@ class Date {
     unsigned int getYear() const;
     bool isEqualOrGreater(const Date& other) const;
     friend std::ostream& operator<<(std::ostream& os, Date const& d);
+    // TODO implement operator>>
 };

@@ -3,9 +3,13 @@
 #include <sstream>
 #include <iostream>
 #include "csv.h"
+#include "cppio.hpp"
 
 int main()
 {
+    std::string action;
+    cppIO::input("Enter desired action: ", action);
+    std::cout << action;
     std::vector<Film> list;
     io::CSVReader<10, io::trim_chars<' '>, io::no_quote_escape<';'>> in("../movies.csv");
     in.read_header(io::ignore_missing_column, "ID", "Title", "Genres", "Year", "Runtime", "Description", "Cast", "Director", "Writers", "Producers");

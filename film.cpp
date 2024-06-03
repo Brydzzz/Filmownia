@@ -1,12 +1,13 @@
 #include "film.h"
 #include <iostream>
 #include "csv.h"
+#include "cppio.hpp"
 void Film::addReview(Review review)
 {
     reviews.push_back(review);
 }
 
-const std::vector<Review> &Film::getReviews() const
+std::vector<Review> &Film::getReviews()
 {
     return reviews;
 }
@@ -83,10 +84,28 @@ bool operator==(const Film &lfilm, const Film &rfilm)
 std::ostream &Film::write(std::ostream &os)
 {
     os << std::quoted(getTitle()) << std::endl;
-    os << getYear() << "  " << getTime() << std::endl;
-    os << getRating() << std::endl;
+    os << "Release year: " << getYear() << "  " << "Runtime: " << getTime() << std::endl;
+    os << "Rating: " << getRating() << std::endl;
     os << getDesc() << std::endl;
+    os << "Director: " << getDir() << std::endl;
+    os << "Producers: " << std::endl;
     unsigned int i = 1;
+    for (auto person : getProducers())
+    {
+        os << i << ". " << person.first << " - " << person.second << ", ";
+        ++i;
+    }
+    os << std::endl;
+    os << "Writers: " << std::endl;
+    i = 1;
+    for (auto person : getWriters())
+    {
+        os << i << ". " << person.first << " - " << person.second << ", ";
+        ++i;
+    }
+    i = 1;
+    os << std::endl;
+    os << "Cast: " << std::endl;
     for (auto person : getCast())
     {
         os << i << ". " << person.first << " - " << person.second << std::endl;
@@ -160,7 +179,7 @@ std::map<std::string, std::string> Film::parsePeople(std::string &people)
         if (name.size() > 2)
         {
             // name.erase(0, 1);
-            name.erase(name.size() - 1);
+            // name.erase(name.size() - 1);
             std::string role;
             std::getline(ss, role, ',');
             role.erase(0, role.find_first_not_of(" "));
@@ -177,7 +196,7 @@ std::map<std::string, std::string> parsePeople(std::string &people)
     char l1, l2;
     std::stringstream s(people);
     s >> l1;
-    s >> l2;
+    // s >> l2;
     std::string actrole;
     std::map<std::string, std::string> ncast;
     while (std::getline(s, actrole, ']'))
@@ -190,13 +209,13 @@ std::map<std::string, std::string> parsePeople(std::string &people)
         std::getline(ss, name, ',');
         if (name.size() > 2)
         {
-            name.erase(0, 1);
-            name.erase(name.size() - 1);
+            // name.erase(0, 1);
+            // name.erase(name.size() - 1);
             std::string role;
             std::getline(ss, role, ',');
             role.erase(0, role.find_first_not_of(" "));
-            role.erase(0, 1);
-            role.erase(role.size() - 1);
+            // role.erase(0, 1);
+            // role.erase(role.size() - 1);
             ncast[name] = role;
         }
     }
@@ -255,7 +274,6 @@ std::string strGenres(std::vector<film_genre> grs)
 std::string listToStr(std::map<std::string, std::string> mp)
 {
     std::stringstream ss;
-    ss << '\"';
     ss << '[';
     for (const auto &actrole : mp)
     {
@@ -263,9 +281,12 @@ std::string listToStr(std::map<std::string, std::string> mp)
         ss << actrole.first << ", " << actrole.second << ']' << ", ";
     }
     std::string result = ss.str();
+    if (result.size() < 2)
+    {
+        return "[]";
+    }
     result.resize(result.size() - 2);
     result += ']';
-    result += '\"';
     return result;
 }
 

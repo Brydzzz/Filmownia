@@ -98,21 +98,48 @@ TEST(reviewTest, getContentTest)
     ASSERT_EQ(r.getContent(), "Very good movie");
 }
 
-TEST(reviewTest, outOperatorTest)
+TEST(reviewTest, writeTest)
 {
     Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama}, {{"Me", "The main character"}, {"Him", "The other character"}}, "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
     Review r(&f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
     std::ostringstream os;
-    os << r;
+    r.write(os);
     ASSERT_EQ(os.str(), "7\nVery good movie\n");
 }
 
 TEST(filmTest, inOperatorTest)
 {
     Film f;
-    std::string s = R"(19995;Avatar;"['Action', 'Adventure', 'Fantasy', 'Science Fiction']";2009;162;"In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.";"[['Sam Worthington', 'Jake Sully'], ['Zoe Saldana', 'Neytiri'], ['Sigourney Weaver', 'Dr. Grace Augustine'], ['Stephen Lang', 'Col. Quaritch'], ['Michelle Rodriguez', 'Trudy Chacon'], ['Giovanni Ribisi', 'Selfridge'], ['Joel David Moore', 'Norm Spellman'], ['CCH Pounder', 'Moat'], ['Wes Studi', 'Eytukan'], ['Laz Alonso', ""Tsu'Tey""]]";James Cameron;"[['James Cameron', 'Writer'], ['James Cameron', 'Screenplay']]";"[['James Cameron', 'Producer'], ['Jon Landau', 'Producer'], ['Laeta Kalogridis', 'Executive Producer']]")";
+    std::string s = R"(19995;Avatar;['Action', 'Adventure', 'Fantasy', 'Science Fiction'];2009;162;In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.;[[CCH Pounder, Moat], [Giovanni Ribisi, Selfridge], [Joel David Moore, Norm Spellman], [Laz Alonso, \"Tsu'Tey\"], [Michelle Rodriguez, Trudy Chacon], [Sam Worthington, Jake Sully], [Sigourney Weaver, Dr. Grace Augustine], [Stephen Lang, Col. Quaritch], [Wes Studi, Eytukan], [Zoe Saldana, Neytiri]];James Cameron;[[James Cameron, Screenplay]];[[James Cameron, Producer], [Jon Landau, Producer], [Laeta Kalogridis, Executive Producer]])";
     std::istringstream is(s);
     is >> f;
+    // ASSERT_EQ(f.getID(), 19995);
+    // ASSERT_EQ(f.getTitle(), "Avatar");
+    // ASSERT_EQ
+}
+
+TEST(filmTest, csvConstructTest)
+{
+    Film f(1, "Avatar", 2009, "['Action', 'Adventure']", "[[CCH Pounder, Moat], [Giovanni Ribisi, Selfridge]]", "Scifi Movie", {}, 162, "[[James Cameron, Screenplay]]",
+           "[[James Cameron, Producer], [Jon Landau, Producer]]", "James Cameron");
+    ASSERT_EQ(f.getID(), 1);
+    ASSERT_EQ(f.getTitle(), "Avatar");
+    ASSERT_EQ(f.getGenre(), std::vector<film_genre>({film_genre::Action, film_genre::Adventure}));
+    std::map<std::string, std::string> expected1 = {
+        {"CCH Pounder", "Moat"},
+        {"Giovanni Ribisi", "Selfridge"}};
+    ASSERT_EQ(f.getCast(), expected1);
+    ASSERT_EQ(f.getDesc(), "Scifi Movie");
+    ASSERT_EQ(f.getYear(), 2009);
+    ASSERT_EQ(f.getTime(), 162);
+    ASSERT_EQ(f.getDir(), "James Cameron");
+    std::map<std::string, std::string> expected2 = {
+        {"James Cameron", "Screenplay"}};
+    ASSERT_EQ(f.getWriters(), expected2);
+    std::map<std::string, std::string> expected3 = {
+        {"James Cameron", "Producer"},
+        {"Jon Landau", "Producer"}};
+    ASSERT_EQ(f.getProducers(), expected3);
 }
 
 TEST(filmTest, outOperatorTest)
@@ -121,17 +148,30 @@ TEST(filmTest, outOperatorTest)
     std::ostringstream os;
     os << f;
     std::string res = os.str();
+    ASSERT_EQ(os.str(), "1;All Quiet on The Western Front;['Drama', 'Action'];2022;120;Famous anti war movie based on a novel;[[Him, The other character], [Me, The main character]];Ich;[[Ja, Prodcuer]];[[Ty, Writer]]");
 }
 
 TEST(filmTest, ultimateStreamTest)
 {
     Film f;
-    std::string s = R"(19995;Avatar;['Action', 'Adventure', 'Fantasy', 'Science Fiction'];2009;162;In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.;"[['Sam Worthington', 'Jake Sully'], ['Zoe Saldana', 'Neytiri'], ['Sigourney Weaver', 'Dr. Grace Augustine'], ['Stephen Lang', 'Col. Quaritch'], ['Michelle Rodriguez', 'Trudy Chacon'], ['Giovanni Ribisi', 'Selfridge'], ['Joel David Moore', 'Norm Spellman'], ['CCH Pounder', 'Moat'], ['Wes Studi', 'Eytukan'], ['Laz Alonso', ""Tsu'Tey""]]";James Cameron;[['James Cameron', 'Writer'], ['James Cameron', 'Screenplay']];[['James Cameron', 'Producer'], ['Jon Landau', 'Producer'], ['Laeta Kalogridis', 'Executive Producer']])";
+    std::string s = R"(19995;Avatar;['Action', 'Adventure', 'Fantasy', 'Science Fiction'];2009;162;In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.;[[CCH Pounder, Moat], [Giovanni Ribisi, Selfridge], [Joel David Moore, Norm Spellman], [Laz Alonso, \"Tsu'Tey\"], [Michelle Rodriguez, Trudy Chacon], [Sam Worthington, Jake Sully], [Sigourney Weaver, Dr. Grace Augustine], [Stephen Lang, Col. Quaritch], [Wes Studi, Eytukan], [Zoe Saldana, Neytiri]];James Cameron;[[James Cameron, Screenplay]];[[James Cameron, Producer], [Jon Landau, Producer], [Laeta Kalogridis, Executive Producer]])";
     std::istringstream is(s);
     is >> f;
     std::ostringstream os;
     os << f;
     ASSERT_EQ(os.str(), s);
+}
+
+TEST(reviewTest, outOperatorTest)
+{
+    Film f;
+    std::string s = R"(19995;Avatar;['Action', 'Adventure', 'Fantasy', 'Science Fiction'];2009;162;In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.;[[CCH Pounder, Moat], [Giovanni Ribisi, Selfridge], [Joel David Moore, Norm Spellman], [Laz Alonso, \"Tsu'Tey\"], [Michelle Rodriguez, Trudy Chacon], [Sam Worthington, Jake Sully], [Sigourney Weaver, Dr. Grace Augustine], [Stephen Lang, Col. Quaritch], [Wes Studi, Eytukan], [Zoe Saldana, Neytiri]];James Cameron;[[James Cameron, Screenplay]];[[James Cameron, Producer], [Jon Landau, Producer], [Laeta Kalogridis, Executive Producer]])";
+    std::istringstream is(s);
+    is >> f;
+    Review r(&f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
+    std::ostringstream os;
+    os << r;
+    ASSERT_EQ(os.str(), "1;Tomek;19995;7;Very good movie");
 }
 
 // TEST(filmTest, hugeLoadingTest)

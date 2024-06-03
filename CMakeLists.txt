@@ -19,9 +19,12 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(csvReader)
 
-set(PROJECT_SOURCES_FILM film.h review.h film.cpp review.cpp )
+set(PROJECT_SOURCES_FILM film.h review.h film.cpp review.cpp cppio.hpp )
 
 set(PROJECT_SOURCES_USER user.h admin.h logged.h guest.h role.h user.cpp logged.cpp guest.cpp role.cpp ${PROJECT_SOURCES_FILM})
+
+set(PROJECT_SOURCES_MAIN ${PROJECT_SOURCES_FILM} ${PROJECT_SOURCES_PERSON} ${PROJECT_SOURCES_USER} global.h global.cpp filmPage.h page.h filmPage.cpp browsePage.h browsePage.cpp startPage.h startPage.cpp reviewsPage.h reviewsPage.cpp userPage.h userPage.cpp addReviewPage.h addReviewPage.cpp)
+
 
 set(PROJECT_SOURCES_PERSON person.h person.cpp date.h date.cpp ${PROJECT_SOURCES_FILM})
 
@@ -41,3 +44,10 @@ target_link_libraries(testPerson PUBLIC gtest_main)
 
 add_executable(testDate testDate.cpp date.h date.cpp)
 target_link_libraries(testDate PUBLIC gtest_main)
+
+
+add_executable(main main.cpp ${PROJECT_SOURCES_MAIN})
+target_link_libraries(main PUBLIC ${csvReader_SOURCE_DIR})
+
+add_executable(testPage testPage.cpp ${PROJECT_SOURCES_MAIN})
+target_link_libraries(testPage PUBLIC gtest_main)
