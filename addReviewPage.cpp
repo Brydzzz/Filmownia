@@ -11,6 +11,10 @@ program_state AddReviewPage::nextAction()
     while (std::find(options.begin(), options.end(), action) == options.end())
     {
         cppIO::input("Enter desired action: ", action);
+        // for (int i = 0; i < action.size(); ++i)
+        // {
+        //     action[i] = (char)tolower(action[i]);
+        // }
     }
     if (action == "Exit")
     {
@@ -24,6 +28,7 @@ program_state AddReviewPage::nextAction()
     {
         return program_state::GoBack;
     }
+    return program_state::Exit;
 }
 
 unsigned int AddReviewPage::generateID()
@@ -67,4 +72,6 @@ std::unique_ptr<Page> AddReviewPage::doAction(program_state act, std::unique_ptr
         std::unique_ptr<FilmPage> ptr = std::make_unique<FilmPage>(film);
         return ptr;
     }
+    std::unique_ptr<FilmPage> ptr = std::make_unique<FilmPage>(film);
+    return ptr;
 }
