@@ -9,22 +9,29 @@
 #include "page.h"
 #include "person.h"
 #include "role.h"
-class ActorPage : public Page {
+class ActorPage : public Page
+{
     std::vector<std::string> options = {
-        "AddRole", "DeleteRole", "SeeAllRoles", "GoBack", "Exit",
+        "AddRole",
+        "DeleteRole",
+        "SeeAllRoles",
+        "GoBack",
+        "Exit",
     };
     Actor actor;
 
-   public:
+public:
     ActorPage(Actor a) : actor(a) {}
-    void print() override;  // print actor info
+    void print() override; // print actor info
     program_state nextAction() override;
 
     std::unique_ptr<Page> doAction(program_state,
                                    std::unique_ptr<Role> &us_ptr) override;
-    void showOptions() {
+    void showOptions() override
+    {
         std::cout << "Available Options: \n";
-        for (auto opt : options) {
+        for (auto opt : options)
+        {
             std::cout << "- " << opt << std::endl;
         }
     }
