@@ -36,6 +36,7 @@ std::vector<Actor::Role> Actor::parseRoles(const std::string& content) {
     std::string role;
 
     while (std::getline(iss, role, ']')) {
+        role.erase(0, role.find_first_not_of("\""));
         role.erase(0, role.find_first_not_of(","));
         role.erase(0, role.find_first_not_of(" "));
         role.erase(0, role.find_first_not_of("'"));
@@ -58,6 +59,8 @@ std::vector<Actor::Role> Actor::parseRoles(const std::string& content) {
         character.erase(character.find_last_not_of("'") + 1);
         character.erase(0, character.find_first_not_of("'"));
 
+        if (filmIdStr.empty()) continue;
+        if (character.empty()) continue;
         unsigned int filmId = std::stoul(filmIdStr);
         const Film* film = nullptr;
         for (const auto& f : flist) {  // using extern flist from global.h
