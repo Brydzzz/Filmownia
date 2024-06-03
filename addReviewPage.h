@@ -1,3 +1,4 @@
+#pragma once
 #include "page.h"
 #include "filmPage.h"
 #include "film.h"
