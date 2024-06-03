@@ -41,6 +41,10 @@ program_state UserPage::nextAction()
     while (std::find(options.begin(), options.end(), action) == options.end())
     {
         cppIO::input("Enter desired action: ", action);
+        // for (int i = 0; i < action.size(); ++i)
+        // {
+        //     action[i] = (char)tolower(action[i]);
+        // }
     }
     if (action == "Exit")
     {
@@ -50,6 +54,7 @@ program_state UserPage::nextAction()
     {
         return program_state::GoBack;
     }
+    return program_state::Exit;
 }
 
 std::unique_ptr<Page> UserPage::doAction(program_state act, std::unique_ptr<Role> &us_ptr)
@@ -59,4 +64,6 @@ std::unique_ptr<Page> UserPage::doAction(program_state act, std::unique_ptr<Role
         std::unique_ptr<StartPage> ptr = std::make_unique<StartPage>();
         return ptr;
     }
+    std::unique_ptr<UserPage> ptr = std::make_unique<UserPage>(us_ptr->getUser()->getLogin());
+    return ptr;
 }

@@ -29,6 +29,10 @@ program_state FilmPage::nextAction()
     while (std::find(options.begin(), options.end(), action) == options.end())
     {
         cppIO::input("Enter desired action: ", action);
+        // for (int i = 0; i < action.size(); ++i)
+        // {
+        //     action[i] = (char)tolower(action[i]);
+        // }
     }
     if (action == "Exit")
     {
@@ -47,6 +51,7 @@ program_state FilmPage::nextAction()
     {
         return program_state::Reviews;
     }
+    return program_state::Exit;
 }
 
 std::unique_ptr<Page> FilmPage::doAction(program_state act, std::unique_ptr<Role> &us_ptr)
@@ -66,7 +71,8 @@ std::unique_ptr<Page> FilmPage::doAction(program_state act, std::unique_ptr<Role
         std::unique_ptr<AddReviewPage> ptr = std::make_unique<AddReviewPage>(film);
         return ptr;
     }
-    else if (act == program_state::Exit)
+    else
+    //    (act == program_state::Exit)
     {
         std::unique_ptr<FilmPage> ptr = std::make_unique<FilmPage>(film);
         return ptr;
