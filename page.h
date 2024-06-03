@@ -1,20 +1,22 @@
 #pragma once
-#include <memory>
 #include <limits>
+#include <memory>
+
 #include "film.h"
 // #include "filmPage.h"
-#include <iostream>
-#include "cppio.hpp"
 #include <algorithm>
+#include <iostream>
+
+#include "cppio.hpp"
 // #include "main.cpp"
-#include "global.h"
-#include "user.h"
-#include "role.h"
-#include "logged.h"
-#include "guest.h"
+
 #include "admin.h"
-enum class program_state
-{
+#include "global.h"
+#include "guest.h"
+#include "logged.h"
+#include "role.h"
+#include "user.h"
+enum class program_state {
     Browse,
     Exit,
     AddReview,
@@ -29,20 +31,20 @@ enum class program_state
     SeeAllRoles
 };
 
-class Page
-{
+class Page {
     std::vector<std::string> options;
 
-public:
-    virtual void showOptions()
-    {
-        for (auto opt : options)
-        {
+   public:
+    virtual void showOptions() {
+        for (auto opt : options) {
             std::cout << opt << std::endl;
         }
     };
     virtual void print() = 0;
     virtual program_state nextAction() = 0;
-    virtual std::unique_ptr<Page> doAction(program_state act, std::unique_ptr<Role> &us_ptr) = 0;
+    virtual std::unique_ptr<Page> doAction(program_state act,
+                                           std::unique_ptr<Role> &us_ptr) = 0;
     virtual ~Page(){};
 };
+
+void clearTerminal();

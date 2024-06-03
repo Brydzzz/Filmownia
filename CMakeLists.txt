@@ -25,7 +25,7 @@ set(PROJECT_SOURCES_USER user.h admin.h logged.h guest.h role.h user.cpp logged.
 
 set(PROJECT_SOURCES_PERSON person.h person.cpp date.h date.cpp global.h global.cpp ${PROJECT_SOURCES_USER} ${PROJECT_SOURCES_FILM})
 
-set(PROJECT_SOURCES_MAIN ${PROJECT_SOURCES_FILM} ${PROJECT_SOURCES_PERSON} ${PROJECT_SOURCES_USER} global.h global.cpp filmPage.h page.h filmPage.cpp browsePage.h browsePage.cpp startPage.h startPage.cpp reviewsPage.h reviewsPage.cpp userPage.h userPage.cpp addReviewPage.h addReviewPage.cpp actorPage.h actorPage.cpp)
+set(PROJECT_SOURCES_MAIN ${PROJECT_SOURCES_FILM} ${PROJECT_SOURCES_PERSON} ${PROJECT_SOURCES_USER} global.h global.cpp filmPage.h page.h page.cpp filmPage.cpp browsePage.h browsePage.cpp startPage.h startPage.cpp reviewsPage.h reviewsPage.cpp userPage.h userPage.cpp addReviewPage.h addReviewPage.cpp actorPage.h actorPage.cpp)
 
 include_directories("${csvreader_SOURCE_DIR}")
 
