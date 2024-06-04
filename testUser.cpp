@@ -8,6 +8,7 @@
 #include "logged.h"
 #include "role.h"
 #include "user.h"
+#include "review.h"
 // std::cin for testing purposes
 class InputSimulator
 {
@@ -77,37 +78,52 @@ TEST(userTest, logOutTest)
     ASSERT_EQ(user.getRole()->getName(), "guest");
 };
 
-// uwaga ten test wymaga sprawdzenia czy w pliku z hasłami nie ma takiego uytkownika w razie potrzeby usunąć tą linię z pliku
+// uwaga ten test wymaga pliku testowego testlogin.txt
 TEST(guestTest, gdefaultTest)
 {
-    User *user;
+    // reseting test file
+    std::ofstream file;
+    file.open("../testlogin.txt", std::ios::out); // Open in write mode
+    if (!file.is_open())
+    {
+        std::cerr << "Could not open the file!" << std::endl;
+        return;
+    }
+    else
+    {
+        file << "Lara" << " " << "1234"; // we can do that only because it's a test file
+        file.close();
+    }
+    User user;
     InputSimulator input("Tom\n23ab\nTom\n23ab\n");
-    Guest guest(user);
-    guest.sign_up();
-    guest.getUser()->log_in();
+    Guest guest(&user);
+    guest.getUser();
+    guest.sign_up("../testlogin.txt");
+    guest.getUser()->log_in("../testlogin.txt");
     ASSERT_EQ(guest.getUser()->getLogin(), "Tom");
     ASSERT_EQ(guest.getUser()->getRole()->getName(), "logged");
 };
 
 TEST(guestTest, takenLoginTest)
 {
-    User *user;
+    User user;
     InputSimulator input("Lara\n23ab\nLara\n23ab\n");
-    Guest guest(user);
-    guest.sign_up();
-    guest.getUser()->log_in();
+    Guest guest(&user);
+    guest.sign_up("../testlogin.txt");
+    guest.getUser()->log_in("../testlogin.txt");
     ASSERT_EQ(guest.getUser()->getLogin(), "guest");
     ASSERT_EQ(guest.getName(), "guest");
 };
 
 TEST(loggedTest, ldefaultTest)
 {
-    User *user;
-    Logged logged(user);
+    User user;
+    Logged logged(&user);
     ASSERT_EQ(logged.getReviews().size(), 0);
 };
 
-// TEST(loggedTest, constructor2Test) {
+// TEST(loggedTest, constructor2Test)
+// {
 //     Review review;
 //     Logged logged(review);
 //     ASSERT_EQ(logged.getReviews().size(), 1);
