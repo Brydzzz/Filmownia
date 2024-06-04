@@ -32,6 +32,42 @@ program_state ActorPage::nextAction()
     return program_state::Exit;
 }
 
+Film *findAndChooseMovie(std::string title)
+{
+    DatabaseManager db_mgmt;
+    std::vector<Film *> found = db_mgmt.movieSearch(title);
+    Film *f;
+    if (found.size() == 0)
+    {
+        std::cout << "Movie not found" << std::endl;
+        return nullptr;
+    }
+    else if (found.size() == 1)
+    {
+        f = found[0];
+    }
+    else
+    {
+        int i = 1;
+        for (auto f : found)
+        {
+            if (i <= 10)
+            {
+                std::cout << i << '.' << f->getTitle() << std::endl;
+                ++i;
+            }
+        }
+        int a = 0;
+        while (a < 1 || a > 10)
+        {
+            cppIO::input(
+                "Choose number of a movie you wish to choose: ", a);
+            f = found[a - 1];
+        }
+    }
+    return f;
+}
+
 std::unique_ptr<Page> ActorPage::doAction(program_state act,
                                           std::unique_ptr<Role> &us_ptr)
 {
@@ -51,36 +87,11 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         std::string film;
         std::cout << "In movie: " << std::endl;
         std::getline(std::cin, film);
-        std::vector<Film *> found = db_mgmt.movieSearch(film);
-        Film *f;
-        if (found.size() == 0)
+        Film *f = findAndChooseMovie(film);
+        if (f == nullptr)
         {
-            std::cout << "Movie not found" << std::endl;
             std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
             return ptr;
-        }
-        else if (found.size() == 1)
-        {
-            f = found[0];
-        }
-        else
-        {
-            int i = 1;
-            for (auto f : found)
-            {
-                if (i <= 10)
-                {
-                    std::cout << i << '.' << f->getTitle() << std::endl;
-                    ++i;
-                }
-            }
-            int a = 0;
-            while (a < 1 || a > 10)
-            {
-                cppIO::input(
-                    "Choose number of a movie you wish to choose: ", a);
-                f = found[a - 1];
-            }
         }
         std::ostringstream os;
         os << actor;
@@ -103,6 +114,34 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
     }
     else if (act == program_state::DeleteRole)
     {
+        DatabaseManager db_mgmt;
+        std::string film;
+        std::cout << "Delete role from movie: " << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::getline(std::cin, film);
+        Film *f = findAndChooseMovie(film);
+        if (f == nullptr)
+        {
+            std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
+            return ptr;
+        }
+        std::ostringstream os;
+        os << actor;
+        std::string oldRecord = os.str();
+        actor.deleteRole(*f);
+        os.str("");
+        os << actor;
+        std::string newRecord = os.str();
+        db_mgmt.replaceLine(newRecord, oldRecord, whichDb::actorsDb);
+        os.str("");
+        os << f;
+        std::string oldMovie = os.str();
+        f->deleteRole(actor.getName());
+        os.str("");
+        os << f;
+        std::string newMovie = os.str();
+        db_mgmt.replaceLine(newMovie, oldMovie, whichDb::moviesDb);
         std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
         return ptr;
     }
