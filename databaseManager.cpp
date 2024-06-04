@@ -45,4 +45,26 @@ std::vector<Actor> DatabaseManager::actorSearch(const std::string &name) {
     return actors;
 }
 
+std::vector<Director> DatabaseManager::directorSearch(const std::string &name) {
+    std::vector<Director> directors;
+    io::CSVReader<4, io::trim_chars<' '>, io::no_quote_escape<';'>> in(
+        directorsDb);
+    in.read_header(io::ignore_missing_column, "ID", "Name", "Birthday",
+                   "Films");
+    unsigned int ID;
+    std::string Name;
+    std::string Birthday;
+    std::string Films;
+    while (in.read_row(ID, Name, Birthday, Films)) {
+        if (Name.find(name) != std::string::npos) {
+            Date BirthdayDate;
+            std::istringstream bday(Birthday);
+            bday >> BirthdayDate;
+            Director d(ID, Name, BirthdayDate, Films);
+            directors.push_back(d);
+        }
+    }
+    return directors;
+}
+
 void updateActors(const Actor* changedActor) {}
