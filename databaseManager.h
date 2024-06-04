@@ -12,4 +12,5 @@ public:
         : moviesDb(moviesDb), actorsDb(actorsDb), reviewsDb(reviewsDb){};
     std::vector<Film *> movieSearch(const std::string &title);
     std::vector<Actor> actorSearch(const std::string &name);
+    void replaceLine(std::string newLine);
 };
