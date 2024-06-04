@@ -1,56 +1,49 @@
 #include "actorPage.h"
 
+#include "databaseManager.h"
 #include "page.h"
-program_state ActorPage::nextAction()
-{
+program_state ActorPage::nextAction() {
     std::string action;
-    while (std::find(options.begin(), options.end(), action) == options.end())
-    {
+    while (std::find(options.begin(), options.end(), action) == options.end()) {
         cppIO::input("Enter desired action: ", action);
     }
-    if (action == "Exit")
-    {
+    if (action == "Exit") {
         return program_state::Exit;
     }
-    if (action == "GoBack")
-    {
+    if (action == "GoBack") {
         return program_state::GoBack;
     }
-    if (action == "AddRole")
-    {
+    if (action == "AddRole") {
         return program_state::AddRole;
     }
-    if (action == "DeleteRole")
-    {
+    if (action == "DeleteRole") {
         return program_state::DeleteRole;
     }
-    if (action == "SeeAllRoles")
-    {
+    if (action == "SeeAllRoles") {
         return program_state::SeeAllRoles;
     }
     return program_state::Exit;
 }
 
 std::unique_ptr<Page> ActorPage::doAction(program_state act,
-                                          std::unique_ptr<Role> &us_ptr)
-{
-    if (act == program_state::GoBack)
-    {
+                                          std::unique_ptr<Role> &us_ptr) {
+    if (act == program_state::GoBack) {
         std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
         return ptr;
-    }
-    else if (act == program_state::AddRole)
-    {
+    } else if (act == program_state::AddRole) {
+        DatabaseManager db_mgmt;
+        std::string character;
+        std::cout << "Played character: " << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::getline(std::cin, character);
+        
         std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
         return ptr;
-    }
-    else if (act == program_state::DeleteRole)
-    {
+    } else if (act == program_state::DeleteRole) {
         std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
         return ptr;
-    }
-    else if (act == program_state::SeeAllRoles)
-    {
+    } else if (act == program_state::SeeAllRoles) {
         clearTerminal();
         actor.displayRoles(std::cout);
 
@@ -61,9 +54,7 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
 
         std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
         return ptr;
-    }
-    else if (act == program_state::Exit)
-    {
+    } else if (act == program_state::Exit) {
         std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
         return ptr;
     }
@@ -71,8 +62,7 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
     return ptr;
 }
 
-void ActorPage::print()
-{
+void ActorPage::print() {
     clearTerminal();
     printBorder();
     std::cout << "ACTOR PAGE" << std::endl;
