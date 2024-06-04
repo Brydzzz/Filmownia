@@ -208,6 +208,17 @@ void Director::deleteFilm(const Film& film) {
     }
 }
 
+void Director::displayDirectorInfo(std::ostream& os) const {
+    os << name << '\n';
+    os << "Birthdate: " << birthDate << '\n';
+    if (!films.empty()) {
+        os << "Selected films: \n";
+        for (int i = 0; i < 5 && i < films.size(); ++i) {
+            os << "\"" << films[i]->getTitle() << "\"" << " ("
+               << films[i]->getYear() << ")\n";
+        }
+    }
+}
 void Director::displayFilms(std::ostream& os) const {
     os << "Films directed by " << this->name << ":\n";
     for (const Film* film : films) {
