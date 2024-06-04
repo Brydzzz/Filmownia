@@ -2,6 +2,14 @@
 
 void ReviewsPage::print()
 {
+    clearTerminal();
+    printBorder();
+    std::cout << "REVIEWS PAGE" << std::endl;
+    printBorder();
+    if (film->getReviews().size() == 0)
+    {
+        std::cout << "No reviews found" << std::endl;
+    }
     for (auto &r : film->getReviews())
     {
         r.write(std::cout);

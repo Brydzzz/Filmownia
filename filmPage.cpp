@@ -81,5 +81,9 @@ std::unique_ptr<Page> FilmPage::doAction(program_state act, std::unique_ptr<Role
 
 void FilmPage::print()
 {
+    clearTerminal();
+    printBorder();
+    std::cout << "FILM PAGE" << std::endl;
+    printBorder();
     film->write(std::cout);
 }

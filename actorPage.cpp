@@ -74,5 +74,8 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
 void ActorPage::print()
 {
     clearTerminal();
+    printBorder();
+    std::cout << "ACTOR PAGE" << std::endl;
+    printBorder();
     actor.displayActorInfo(std::cout);
 }
