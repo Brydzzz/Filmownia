@@ -182,6 +182,14 @@ TEST(filmTest, addRoleTest)
     ASSERT_EQ(f.getCast(), expected);
 }
 
+TEST(filmTest, delRoleTest)
+{
+    Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama, film_genre::Action}, {{"Me", "The main character"}, {"Him", "The other character"}}, "Famous anti war movie based on a novel", {}, 120, {{"Ja", "Prodcuer"}}, {{"Ty", "Writer"}}, "Ich");
+    f.deleteRole("Me");
+    std::map<std::string, std::string> expected = {{"Him", "The other character"}};
+    ASSERT_EQ(f.getCast(), expected);
+}
+
 // TEST(filmTest, hugeLoadingTest)
 // {
 //     std::vector<Film> list;

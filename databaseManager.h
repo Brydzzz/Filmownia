@@ -1,6 +1,14 @@
 #include "csv.h"
 #include "global.h"
 #include "person.h"
+enum class whichDb
+{
+    moviesDb,
+    actorsDb,
+    reviewsDb
+};
+    
+    
 class DatabaseManager {
     std::string moviesDb;
     std::string actorsDb;
@@ -19,5 +27,5 @@ class DatabaseManager {
     std::vector<Film *> movieSearch(const std::string &title);
     std::vector<Actor> actorSearch(const std::string &name);
     std::vector<Director> directorSearch(const std::string &name);
-    void replaceLine(std::string newLine);
+    void replaceLine(std::string newLine, std::string oldLine, whichDb db);
 };
