@@ -50,10 +50,9 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         std::getline(std::cin, character);
         std::string film;
         std::cout << "In movie: " << std::endl;
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::getline(std::cin, film);
         std::vector<Film *> found = db_mgmt.movieSearch(film);
+        Film *f;
         if (found.size() == 0)
         {
             std::cout << "Movie not found" << std::endl;
@@ -62,18 +61,43 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         }
         else if (found.size() == 1)
         {
-            std::ostringstream os;
-            os << actor;
-            std::string oldRecord = os.str();
-            actor.addRole(character, *found[0]);
-            os.str("");
-            os << actor;
-            std::string newRecord = os.str();
-            db_mgmt.replaceLine(newRecord, oldRecord, whichDb::actorsDb);
-            found[0]->addRole(actor.getName(), character);
-            std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
-            return ptr;
+            f = found[0];
         }
+        else
+        {
+            int i = 1;
+            for (auto f : found)
+            {
+                if (i <= 10)
+                {
+                    std::cout << i << '.' << f->getTitle() << std::endl;
+                    ++i;
+                }
+            }
+            int a = 0;
+            while (a < 1 || a > 10)
+            {
+                cppIO::input(
+                    "Choose number of a movie you wish to choose: ", a);
+                f = found[a - 1];
+            }
+        }
+        std::ostringstream os;
+        os << actor;
+        std::string oldRecord = os.str();
+        actor.addRole(character, *f);
+        os.str("");
+        os << actor;
+        std::string newRecord = os.str();
+        db_mgmt.replaceLine(newRecord, oldRecord, whichDb::actorsDb);
+        os.str("");
+        os << f;
+        std::string oldMovie = os.str();
+        f->addRole(actor.getName(), character);
+        os.str("");
+        os << f;
+        std::string newMovie = os.str();
+        db_mgmt.replaceLine(newMovie, oldMovie, whichDb::moviesDb);
         std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
         return ptr;
     }
