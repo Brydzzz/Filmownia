@@ -30,7 +30,7 @@ program_state ReviewsPage::nextAction()
     }
     else if (action == "Browse")
     {
-        return program_state::Exit;
+        return program_state::Browse;
     }
     else if (action == "GoBack")
     {

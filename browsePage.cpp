@@ -39,7 +39,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                 cppIO::input(
                     "Choose number of a movie you wish to see or -1 for exit: ",
                     a);
-                if (a == -1 || a < -1 || a >= found.size())
+                if (a <= -1 || a >= 10)
                 {
                     std::unique_ptr<BrowsePage> ptr =
                         std::make_unique<BrowsePage>();
@@ -91,7 +91,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                 cppIO::input(
                     "Choose number of a actor you wish to see or -1 for exit: ",
                     a);
-                if (a == -1)
+                if (a <= -1 || a >= 10)
                 {
                     std::unique_ptr<BrowsePage> ptr =
                         std::make_unique<BrowsePage>();
