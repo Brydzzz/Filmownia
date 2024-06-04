@@ -15,7 +15,13 @@ class BrowsePage : public Page
                                         "BrowseActors", "GoBack"};
 
 public:
-    void print() override { std::cout << msg << std::endl; }
+    void print() override
+    {
+        clearTerminal();
+        printBorder();
+        std::cout << msg << std::endl;
+        printBorder();
+    }
     std::vector<Film *> movieSearch(const std::string &title);
     std::vector<Actor> actorSearch(const std::string &name);
     std::unique_ptr<Page> doAction(program_state act,
