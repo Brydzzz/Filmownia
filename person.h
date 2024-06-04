@@ -71,9 +71,8 @@ class Director : public Person {
     using Person::Person;
 
     // ctor for data from csv
-    Director(unsigned int id, const std::string& name, unsigned int day,
-             unsigned int month, unsigned int year, std::string films)
-        : Person(id, name, day, month, year), films(parseFilms(films)) {}
+    Director(unsigned int id, const std::string& name, Date date, std::string films)
+        : Person(id, name, date), films(parseFilms(films)) {}
 
     const std::vector<const Film*>& getFilms() const;
     void addFilm(const Film& film);
