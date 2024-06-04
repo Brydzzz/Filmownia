@@ -445,6 +445,37 @@ TEST(director_test, display_films) {
               "Things\" (2024)\n\"The Favourite\" (2018)\n");
 }
 
+TEST(director_test, display_info) {
+    Director d(3, "Yorgos Lanthimos", 23, 9, 1973);
+    Film f1(3, "The Favourite", 2018, {film_genre::Drama}, {},
+            "England, early 18th century. The close relationship between Queen "
+            "Anne and Sarah Churchill is threatened by the arrival of Sarah's "
+            "cousin, Abigail Hill, resulting in a bitter rivalry between the "
+            "two cousins to be the Queen's favourite.",
+            {}, 120, {}, {}, "");
+
+    Film f2(4, "Poor Things", 2024, {film_genre::Comedy}, {},
+            "Brought back to life by an unorthodox scientist, a young woman "
+            "runs "
+            "off with a lawyer on a whirlwind adventure across the continents.",
+            {}, 144, {}, {}, "");
+    d.addFilm(f1);
+    d.addFilm(f2);
+    std::stringstream ss;
+    d.displayDirectorInfo(ss);
+    ASSERT_EQ(ss.str(),
+              "Yorgos Lanthimos\nBirthdate: 1973-09-23\n"
+              "Selected films: \n\"Poor "
+              "Things\" (2024)\n\"The Favourite\" (2018)\n");
+}
+
+TEST(director_test, display_info_no_films) {
+    Director d(3, "Yorgos Lanthimos", 23, 9, 1973);
+    std::stringstream ss;
+    d.displayDirectorInfo(ss);
+    ASSERT_EQ(ss.str(), "Yorgos Lanthimos\nBirthdate: 1973-09-23\n");
+}
+
 TEST(director_test, operator_out) {
     Director d(3, "Yorgos Lanthimos", 23, 9, 1973);
     Film f1(3, "The Favourite", 2018, {film_genre::Drama}, {},
