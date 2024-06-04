@@ -26,6 +26,7 @@ enum class program_state {
     Add,
     BrowseMovies,
     BrowseActors,
+    BrowseDirectors,
     AddRole,
     DeleteRole,
     SeeAllRoles,
