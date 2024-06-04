@@ -26,9 +26,34 @@ int main() {
     //     Film f(ID, Title, Year, Genres, Cast, Description, {}, Runtime,
     //     Writers, Producers, Director); list.push_back(f);
     // }
-    std::vector<Actor> actors;
+    // std::vector<Actor> actors;
+    // io::CSVReader<4, io::trim_chars<' '>, io::no_quote_escape<';'>> in(
+    //     "../actors2.csv");
+    // in.read_header(io::ignore_missing_column, "ID", "Name", "Birthday",
+    //                "Films");
+    // unsigned int ID;
+    // std::string Name;
+    // std::string Birthday;
+    // std::string Films;
+    // while (in.read_row(ID, Name, Birthday, Films)) {
+    //     Date BirthdayDate;
+    //     // if (Birthday.size() > 1) {
+    //     //     std::istringstream bday(Birthday);
+    //     //     bday >> BirthdayDate;
+    //     // }
+    //     std::istringstream bday(Birthday);
+    //     bday >> BirthdayDate;
+    //     Actor a(ID, Name, BirthdayDate, Films);
+    //     actors.push_back(a);
+    // }
+    // std::ofstream out("../actors3.csv");
+    // out << "ID;Name;Birthday;Films\n";
+    // for (auto actor : actors) {
+    //     out << actor << '\n';
+    // }
+    std::vector<Director> directors;
     io::CSVReader<4, io::trim_chars<' '>, io::no_quote_escape<';'>> in(
-        "../actors2.csv");
+        "../directors.csv");
     in.read_header(io::ignore_missing_column, "ID", "Name", "Birthday",
                    "Films");
     unsigned int ID;
@@ -43,15 +68,14 @@ int main() {
         // }
         std::istringstream bday(Birthday);
         bday >> BirthdayDate;
-        Actor a(ID, Name, BirthdayDate, Films);
-        actors.push_back(a);
+        Director d(ID, Name, BirthdayDate, Films);
+        directors.push_back(d);
     }
-    std::ofstream out("../actors3.csv");
+    std::ofstream out("../directors2.csv");
     out << "ID;Name;Birthday;Films\n";
-    for (auto actor : actors) {
-        out << actor << '\n';
+    for (auto director : directors) {
+        out << director << '\n';
     }
-
     // std::ifstream input("../movies.csv");
     // if (!input.is_open())
     // {
