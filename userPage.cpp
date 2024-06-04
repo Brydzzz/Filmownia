@@ -24,6 +24,10 @@ std::vector<Review> UserPage::findReviews(std::string name)
 }
 void UserPage::print()
 {
+    clearTerminal();
+    printBorder();
+    std::cout << "USER PAGE" << std::endl;
+    printBorder();
     std::cout << "User name: " << usr << std::endl;
     std::cout << "Reviews: " << std::endl;
 
