@@ -97,6 +97,17 @@ TEST(actor_test, constructor_csv_2) {
               "Spider-Man\"\n");
 }
 
+TEST(actor_test, constructor_csv_empty_roles) {
+    Date d(6, 11, 1988);
+    Actor a(2, "Emma Stone", d, "[]");
+    ASSERT_EQ(a.getName(), "Emma Stone");
+    ASSERT_EQ(a.getId(), 2);
+    ASSERT_EQ(a.getBirthDate().getDay(), 6);
+    ASSERT_EQ(a.getBirthDate().getMonth(), 11);
+    ASSERT_EQ(a.getBirthDate().getYear(), 1988);
+    ASSERT_EQ(a.getRoles().empty(), true);
+}
+
 TEST(actor_test, add_role) {
     Actor a(2, "Emma Stone", 6, 11, 1988);
     ASSERT_EQ(a.getRoles().empty(), true);
@@ -270,6 +281,48 @@ TEST(director_test, constructor) {
     ASSERT_EQ(d.getBirthDate().getMonth(), 9);
     ASSERT_EQ(d.getBirthDate().getYear(), 1973);
     ASSERT_EQ(d.getFilms().empty(), true);
+}
+
+TEST(director_test, constructor_csv) {
+    Date date(30, 7, 1970);
+    Director d(3, "Christopher Nolan", date,
+               "[49026, 155, 157336, 27205, 272, 320, 1124, 77]");
+    ASSERT_EQ(d.getName(), "Christopher Nolan");
+    ASSERT_EQ(d.getBirthDate().getDay(), 30);
+    ASSERT_EQ(d.getBirthDate().getMonth(), 7);
+    ASSERT_EQ(d.getBirthDate().getYear(), 1970);
+    ASSERT_EQ(d.getFilms().size(), 8);
+}
+
+TEST(director_test, constructor_csv_2) {
+    Date date(30, 7, 1970);
+    Director d(
+        3, "Christopher Nolan", date,
+        "['49026', '155', '157336', '27205', '272', '320', '1124', '77']");
+    ASSERT_EQ(d.getName(), "Christopher Nolan");
+    ASSERT_EQ(d.getBirthDate().getDay(), 30);
+    ASSERT_EQ(d.getBirthDate().getMonth(), 7);
+    ASSERT_EQ(d.getBirthDate().getYear(), 1970);
+    ASSERT_EQ(d.getFilms().size(), 8);
+}
+
+TEST(director_test, constructor_csv_invalid_film_str) {
+    Date date(30, 7, 1970);
+    ASSERT_THROW(
+        Director d(
+            3, "Christopher Nolan", date,
+            "'49026', '155', '157336', '27205', '272', '320', '1124', '77']"),
+        std::exception);
+}
+
+TEST(director_test, constructor_csv_empty_films) {
+    Date date(30, 7, 1970);
+    Director d(3, "Christopher Nolan", date, "[]");
+    ASSERT_EQ(d.getName(), "Christopher Nolan");
+    ASSERT_EQ(d.getBirthDate().getDay(), 30);
+    ASSERT_EQ(d.getBirthDate().getMonth(), 7);
+    ASSERT_EQ(d.getBirthDate().getYear(), 1970);
+    ASSERT_EQ(d.getFilms().size(), 0);
 }
 
 TEST(director_test, add_film) {
