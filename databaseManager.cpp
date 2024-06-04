@@ -1,6 +1,11 @@
 #include "databaseManager.h"
 
-std::vector<Film *> DatabaseManager::movieSearch(const std::string &title) {
+void DatabaseManager::replaceLine(std::string newLine)
+{
+}
+
+std::vector<Film *> DatabaseManager::movieSearch(const std::string &title)
+{
     auto it = flist.begin();
     std::vector<Film *> result = {};
     while (it != flist.end()) {

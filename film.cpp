@@ -114,6 +114,11 @@ std::ostream &Film::write(std::ostream &os)
     return os;
 }
 
+void Film::addRole(std::string actor, std::string role)
+{
+    cast[actor] = role;
+}
+
 film_genre toGenre(const std::string &genreStr)
 {
     if (genreStr == "Action")

@@ -52,6 +52,7 @@ public:
     }
     Film(){};
     void addReview(Review review);
+    void addRole(std::string actor, std::string role);
     const unsigned int &getID() const;
     std::vector<Review> &getReviews();
     const std::string &getTitle() const;
