@@ -12,8 +12,12 @@ class DatabaseManager {
                     std::string actorsDb = "../actors.csv",
                     std::string reviewsDb = "../reviews.csv",
                     std::string directorsDb = "../directors.csv")
-        : moviesDb(moviesDb), actorsDb(actorsDb), reviewsDb(reviewsDb){};
+        : moviesDb(moviesDb),
+          actorsDb(actorsDb),
+          reviewsDb(reviewsDb),
+          directorsDb(directorsDb){};
     std::vector<Film *> movieSearch(const std::string &title);
     std::vector<Actor> actorSearch(const std::string &name);
+    std::vector<Director> directorSearch(const std::string &name);
     void replaceLine(std::string newLine);
 };
