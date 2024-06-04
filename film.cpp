@@ -83,6 +83,10 @@ bool operator==(const Film &lfilm, const Film &rfilm)
 
 void Film::deleteRole(std::string actor)
 {
+    if (cast.count(actor) == 0)
+    {
+        throw std::invalid_argument("Actor doesn't have a role ");
+    }
     cast.erase(actor);
 }
 

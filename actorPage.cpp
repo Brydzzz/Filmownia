@@ -96,7 +96,17 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         std::ostringstream os;
         os << actor;
         std::string oldRecord = os.str();
-        actor.addRole(character, *f);
+        try
+        {
+            actor.addRole(character, *f);
+        }
+        catch (const std::invalid_argument &e)
+        {
+            int u;
+            cppIO::input("Actor already has a role in this movie, press 1 to continue... ", u);
+            std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
+            return ptr;
+        }
         os.str("");
         os << actor;
         std::string newRecord = os.str();
@@ -137,7 +147,17 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         os.str("");
         os << f;
         std::string oldMovie = os.str();
-        f->deleteRole(actor.getName());
+        try
+        {
+            f->deleteRole(actor.getName());
+        }
+        catch (const std::invalid_argument &e)
+        {
+            int u;
+            cppIO::input("This actor never had a role in this movie in the first place, press 1 to continue... ", u);
+            std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
+            return ptr;
+        }
         os.str("");
         os << f;
         std::string newMovie = os.str();
