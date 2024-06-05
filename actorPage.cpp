@@ -64,7 +64,7 @@ Film *findAndChooseMovie(std::string title)
             }
         }
         int a = 0;
-        while (a < 1 || a > 10)
+        while (a < 1 || a > 10 || a > found.size())
         {
             cppIO::input("Choose number of a movie you wish to choose: ", a);
             f = found[a - 1];

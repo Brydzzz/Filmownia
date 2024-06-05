@@ -34,6 +34,7 @@ enum class program_state
     AddDirectorFilm,
     DeleteDirectorFilm,
     SeeAllDirectorFilms,
+    SeeActor,
     LogIn,
     SignUp,
     LogOut
