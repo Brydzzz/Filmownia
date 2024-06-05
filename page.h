@@ -33,7 +33,10 @@ enum class program_state
     SeeAllRoles,
     AddDirectorFilm,
     DeleteDirectorFilm,
-    SeeAllDirectorFilms
+    SeeAllDirectorFilms,
+    LogIn,
+    SignUp,
+    LogOut
 };
 
 class Page
