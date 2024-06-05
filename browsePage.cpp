@@ -50,9 +50,10 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
             return ptr;
         } else {
             std::cout << "Movie not found\n";
+            waitForInput();
+            std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
+            return ptr;
         }
-        std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
-        return ptr;
     } else if (act == program_state::BrowseActors) {
         std::string name;
         std::cout << "Enter actor's name: " << std::endl;
@@ -90,6 +91,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
             return ptr;
         } else {
             std::cout << "Actor not found\n";
+            waitForInput();
             std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
             return ptr;
         }
@@ -130,6 +132,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
             return ptr;
         } else {
             std::cout << "Director not found\n";
+            waitForInput();
             std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
             return ptr;
         }
