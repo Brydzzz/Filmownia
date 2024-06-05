@@ -19,7 +19,6 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
         DatabaseManager db_mgmt;
         std::vector<Film *> found = db_mgmt.movieSearch(title);
         if (found.size() != 0) {
-            int a;
             std::cout << "Found movies: " << std::endl;
             int i = 0;
 
@@ -29,9 +28,16 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                     ++i;
                 }
             }
-            cppIO::input(
-                "Choose number of a movie you wish to see or -1 for exit: ", a);
-            if (a <= -1 || a > found.size()) {
+            int a = 0;
+            while (a < -1 || a > 10 || a > found.size() || a == 0) {
+                cppIO::input(
+                    "Choose number of a movie you wish to see or -1 for exit: ",
+                    a);
+                if (a == -1) {
+                    break;
+                }
+            }
+            if (a == -1) {
                 std::unique_ptr<BrowsePage> ptr =
                     std::make_unique<BrowsePage>();
                 return ptr;
