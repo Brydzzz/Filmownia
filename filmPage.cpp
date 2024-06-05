@@ -26,9 +26,15 @@ void FilmPage::loadRevs()
 program_state FilmPage::nextAction()
 {
     std::string action;
-    while (std::find(options.begin(), options.end(), action) == options.end())
+    bool condition = std::find(options.begin(), options.end(), action) == options.end();
+    while (condition)
     {
         cppIO::input("Enter desired action: ", action);
+        condition = std::find(options.begin(), options.end(), action) == options.end();
+        if (condition)
+        {
+            cppIO::log("No such option available for this user. Chose one from the list.");
+        }
     }
     if (action == "Exit")
     {
