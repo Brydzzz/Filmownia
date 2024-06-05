@@ -54,3 +54,5 @@ class Page {
 void clearTerminal();
 
 void printBorder();
+
+void waitForInput();
