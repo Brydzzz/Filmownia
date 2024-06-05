@@ -306,16 +306,23 @@ std::string listToStr(std::map<std::string, std::string> mp)
 
 std::ostream &operator<<(std::ostream &os, Film &fm)
 {
-    os << std::to_string(fm.getID()) << ';';
-    os << fm.getTitle() << ';';
-    os << strGenres(fm.getGenre()) << ';';
-    os << fm.getYear() << ';';
-    os << fm.getTime() << ';';
-    os << fm.getDesc() << ';';
-    os << listToStr(fm.getCast()) << ';';
-    os << fm.getDir() << ';';
-    os << listToStr(fm.getWriters()) << ';';
-    os << listToStr(fm.getProducers());
+    Film *f = &fm;
+    os << f;
+    return os;
+}
+
+std::ostream &operator<<(std::ostream &os, Film *fm)
+{
+    os << std::to_string(fm->getID()) << ';';
+    os << fm->getTitle() << ';';
+    os << strGenres(fm->getGenre()) << ';';
+    os << fm->getYear() << ';';
+    os << fm->getTime() << ';';
+    os << fm->getDesc() << ';';
+    os << listToStr(fm->getCast()) << ';';
+    os << fm->getDir() << ';';
+    os << listToStr(fm->getWriters()) << ';';
+    os << listToStr(fm->getProducers());
     return os;
 }
 
