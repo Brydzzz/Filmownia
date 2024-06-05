@@ -8,13 +8,15 @@
 #include "person.h"
 #include "role.h"
 #include "startPage.h"
-class BrowsePage : public Page {
+class BrowsePage : public Page
+{
     std::string msg = "CHOOSE OPTION: ";
     std::vector<std::string> options = {"Exit", "BrowseMovies", "BrowseActors",
                                         "BrowseDirectors", "GoBack"};
 
-   public:
-    void print() override {
+public:
+    void print() override
+    {
         clearTerminal();
         printBorder();
         std::cout << msg << std::endl;
@@ -26,9 +28,11 @@ class BrowsePage : public Page {
                                    std::unique_ptr<Role> &us_ptr) override;
 
     program_state nextAction() override;
-    void showOptions() override {
+    void showOptions(const Role *us_ptr) override
+    {
         std::cout << "Available Options: \n";
-        for (auto opt : options) {
+        for (auto opt : options)
+        {
             std::cout << "- " << opt << std::endl;
         }
     }

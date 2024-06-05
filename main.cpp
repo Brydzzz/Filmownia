@@ -26,14 +26,14 @@ int main()
     }
     std::unique_ptr<Page> pg_ptr = std::make_unique<StartPage>();
     pg_ptr->print();
-    pg_ptr->showOptions();
+    pg_ptr->showOptions(user.getRole());
     program_state act;
     act = pg_ptr->nextAction();
     while (act != program_state::Exit)
     {
         pg_ptr = std::move(pg_ptr->doAction(act, us_ptr));
         pg_ptr->print();
-        pg_ptr->showOptions();
+        pg_ptr->showOptions(user.getRole());
         act = pg_ptr->nextAction();
     };
     std::cout << "Thank you for using Filmownia Software :)" << std::endl;

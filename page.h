@@ -16,7 +16,8 @@
 #include "logged.h"
 #include "role.h"
 #include "user.h"
-enum class program_state {
+enum class program_state
+{
     Browse,
     Exit,
     AddReview,
@@ -35,12 +36,15 @@ enum class program_state {
     SeeAllDirectorFilms
 };
 
-class Page {
+class Page
+{
     std::vector<std::string> options;
 
-   public:
-    virtual void showOptions() {
-        for (auto opt : options) {
+public:
+    virtual void showOptions(const Role *us_ptr)
+    {
+        for (auto opt : options)
+        {
             std::cout << opt << std::endl;
         }
     };
