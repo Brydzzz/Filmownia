@@ -17,8 +17,10 @@ extern std::vector<Film> flist;
 int main()
 {
     User user;
-    user.log_in();
-    loadReviews(user);
+    Guest *guest = new Guest(&user);
+    user.setRole(dynamic_cast<Role *>(guest));
+    // user.log_in();
+    // loadReviews(user);
     std::unique_ptr<Role> us_ptr = std::make_unique<Guest>(&user);
     if (user.getRole()->getName() == "logged")
     {
