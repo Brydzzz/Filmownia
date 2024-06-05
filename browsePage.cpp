@@ -39,11 +39,12 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                 cppIO::input(
                     "Choose number of a movie you wish to see or -1 for exit: ",
                     a);
-                if (a <= -1 || a >= 10)
+                if (a < -1 || a >= 10)
                 {
-                    std::unique_ptr<BrowsePage> ptr =
-                        std::make_unique<BrowsePage>();
-                    return ptr;
+                    // std::unique_ptr<BrowsePage> ptr =
+                    //     std::make_unique<BrowsePage>();
+                    // return ptr;
+                    cppIO::log("Choose nr of one of the shown movies.");
                 }
             }
             if (a == -1)
@@ -96,11 +97,12 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                 cppIO::input(
                     "Choose number of a actor you wish to see or -1 for exit: ",
                     a);
-                if (a <= -1 || a >= 10)
+                if (a < -1 || a >= 10)
                 {
-                    std::unique_ptr<BrowsePage> ptr =
-                        std::make_unique<BrowsePage>();
-                    return ptr;
+                    // std::unique_ptr<BrowsePage> ptr =
+                    //     std::make_unique<BrowsePage>();
+                    // return ptr;
+                    cppIO::log("Choose nr of one of the shown actors.");
                 }
             }
             if (a == -1)
@@ -153,9 +155,9 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                 cppIO::input(
                     "Choose number of a actor you wish to see or -1 for exit: ",
                     a);
-                if (a == -1)
+                if (a < -1 || a >= 10)
                 {
-                    break;
+                    cppIO::log("Choose nr of one of the shown directors.");
                 }
             }
             if (a == -1)
@@ -197,9 +199,15 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
 program_state BrowsePage::nextAction()
 {
     std::string action;
-    while (std::find(options.begin(), options.end(), action) == options.end())
+    bool condition = std::find(options.begin(), options.end(), action) == options.end();
+    while (condition)
     {
         cppIO::input("Enter desired action: ", action);
+        condition = std::find(options.begin(), options.end(), action) == options.end();
+        if (condition)
+        {
+            cppIO::log("No such option available for this user. Chose one from the list.");
+        }
     }
     if (action == "Exit")
     {
