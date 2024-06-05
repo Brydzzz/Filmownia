@@ -135,6 +135,54 @@ std::ostream& operator<<(std::ostream& os, const Actor& actor) {
     }
 }
 
+std::vector<const Film*> Director::parseFilms(std::string content) {
+    std::vector<const Film*> films;
+    std::istringstream iss(content);
+    std::string filmIdStr;
+    char firstBracket;
+    iss >> firstBracket;
+    if (firstBracket != '[') {
+        throw std::invalid_argument("Wrong films format");
+    }
+    while (std::getline(iss, filmIdStr, ',')) {
+        filmIdStr.erase(0, filmIdStr.find_first_not_of("\""));
+        filmIdStr.erase(0, filmIdStr.find_first_not_of(","));
+        // filmIdStr.erase(0, filmIdStr.find_first_not_of(" "));
+        filmIdStr.erase(0, filmIdStr.find_first_not_of("'"));
+        // filmIdStr.erase(0, filmIdStr.find_first_not_of("["));
+
+        if (filmIdStr.empty()) break;
+
+        // Trim leading/trailing whitespace from filmIdStr
+        filmIdStr.erase(filmIdStr.find_last_not_of(" ") + 1);
+        filmIdStr.erase(0, filmIdStr.find_first_not_of(" "));
+
+        // Trim leading/trailing single quote from filmIdStr
+        filmIdStr.erase(filmIdStr.find_last_not_of("'") + 1);
+        filmIdStr.erase(0, filmIdStr.find_first_not_of("'"));
+
+        // Trim ']' from last element
+        filmIdStr.erase(filmIdStr.find_last_not_of("]") + 1);
+
+        if (filmIdStr.empty()) continue;
+
+        unsigned int filmId = std::stoul(filmIdStr);
+        const Film* film = nullptr;
+        for (const auto& f : flist) {  // using extern flist from global.h
+            if (f.getID() == filmId) {
+                film = &f;
+                break;
+            }
+        }
+        if (film) {
+            films.push_back(film);
+        }
+    }
+
+    std::sort(films.begin(), films.end());
+    return films;
+}
+
 const std::vector<const Film*>& Director::getFilms() const { return films; }
 
 std::vector<const Film*>::iterator Director::findFilm(const Film& film) {
@@ -160,6 +208,17 @@ void Director::deleteFilm(const Film& film) {
     }
 }
 
+void Director::displayDirectorInfo(std::ostream& os) const {
+    os << name << '\n';
+    os << "Birthdate: " << birthDate << '\n';
+    if (!films.empty()) {
+        os << "Selected films: \n";
+        for (int i = 0; i < 5 && i < films.size(); ++i) {
+            os << "\"" << films[i]->getTitle() << "\"" << " ("
+               << films[i]->getYear() << ")\n";
+        }
+    }
+}
 void Director::displayFilms(std::ostream& os) const {
     os << "Films directed by " << this->name << ":\n";
     for (const Film* film : films) {

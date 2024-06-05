@@ -52,7 +52,7 @@ TEST(filmTest, writeTest)
     f.addReview(Review(&f, 2, std::string("Tomek"), 9, std::string("Very good movie")));
     std::ostringstream os;
     f.write(os);
-    ASSERT_EQ(os.str(), "\"All Quiet on The Western Front\"\n2022  120\n8\nFamous anti war movie based on a novel\n1. Him - The other character\n2. Me - The main character\n");
+    ASSERT_EQ(os.str(), "\"All Quiet on The Western Front\"\nRelease year: 2022  Runtime: 120\nRating: 8\nFamous anti war movie based on a novel\nDirector: Ich\nProducers: \n\nWriters: \n\nCast: \n1. Him - The other character\n2. Me - The main character\n");
 }
 
 TEST(reviewTest, constructTest)
@@ -104,7 +104,7 @@ TEST(reviewTest, writeTest)
     Review r(&f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
     std::ostringstream os;
     r.write(os);
-    ASSERT_EQ(os.str(), "7\nVery good movie\n");
+    ASSERT_EQ(os.str(), "Tomek: 7\nVery good movie\n");
 }
 
 TEST(filmTest, inOperatorTest)
@@ -172,6 +172,22 @@ TEST(reviewTest, outOperatorTest)
     std::ostringstream os;
     os << r;
     ASSERT_EQ(os.str(), "1;Tomek;19995;7;Very good movie");
+}
+
+TEST(filmTest, addRoleTest)
+{
+    Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama, film_genre::Action}, {{"Me", "The main character"}, {"Him", "The other character"}}, "Famous anti war movie based on a novel", {}, 120, {{"Ja", "Prodcuer"}}, {{"Ty", "Writer"}}, "Ich");
+    f.addRole("Er", "Soldat");
+    std::map<std::string, std::string> expected = {{"Me", "The main character"}, {"Him", "The other character"}, {"Er", "Soldat"}};
+    ASSERT_EQ(f.getCast(), expected);
+}
+
+TEST(filmTest, delRoleTest)
+{
+    Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama, film_genre::Action}, {{"Me", "The main character"}, {"Him", "The other character"}}, "Famous anti war movie based on a novel", {}, 120, {{"Ja", "Prodcuer"}}, {{"Ty", "Writer"}}, "Ich");
+    f.deleteRole("Me");
+    std::map<std::string, std::string> expected = {{"Him", "The other character"}};
+    ASSERT_EQ(f.getCast(), expected);
 }
 
 // TEST(filmTest, hugeLoadingTest)

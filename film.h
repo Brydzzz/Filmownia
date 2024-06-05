@@ -52,6 +52,8 @@ public:
     }
     Film(){};
     void addReview(Review review);
+    void addRole(std::string actor, std::string role);
+    void deleteRole(std::string actor);
     const unsigned int &getID() const;
     std::vector<Review> &getReviews();
     const std::string &getTitle() const;
@@ -64,6 +66,7 @@ public:
     unsigned int getRating() const;
     friend bool operator==(const Film &lfilm, const Film &rfilm);
     friend std::ostream &operator<<(std::ostream &os, Film &fm);
+    friend std::ostream &operator<<(std::ostream &os, Film *fm);
     friend std::istream &operator>>(std::istream &is, Film &fm);
     std::ostream &write(std::ostream &os);
     const std::map<std::string, std::string> &getWriters() const;
