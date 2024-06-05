@@ -11,6 +11,7 @@ protected:
 
 public:
     Role(User *us) : user(us){};
+    virtual ~Role() = default;
     User *getUser();
     const std::string getName() const;
     void setName(const std::string &new_name);

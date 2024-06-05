@@ -81,6 +81,15 @@ bool operator==(const Film &lfilm, const Film &rfilm)
     return lfilm.getID() == rfilm.getID();
 }
 
+void Film::deleteRole(std::string actor)
+{
+    if (cast.count(actor) == 0)
+    {
+        throw std::invalid_argument("Actor doesn't have a role ");
+    }
+    cast.erase(actor);
+}
+
 std::ostream &Film::write(std::ostream &os)
 {
     os << std::quoted(getTitle()) << std::endl;
