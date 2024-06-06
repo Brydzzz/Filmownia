@@ -3,42 +3,58 @@
 #include "databaseManager.h"
 #include "page.h"
 #include "global.h"
+extern Film *findAndChooseMovie(std::string title);
 program_state ActorPage::nextAction()
 {
     std::string action;
     bool condition =
         std::find(options.begin(), options.end(), action) == options.end();
-    while (condition) {
+    while (condition)
+    {
         cppIO::input("Enter desired action: ", action);
         condition =
             std::find(options.begin(), options.end(), action) == options.end();
-        if (condition) {
+        if (condition)
+        {
             cppIO::log(
                 "No such option available for this user. Chose one from the "
                 "list.");
         }
     }
-    if (action == "Exit") {
+    if (action == "Exit")
+    {
         return program_state::Exit;
-    } else if (action == "GoBack") {
+    }
+    else if (action == "GoBack")
+    {
         return program_state::GoBack;
-    } else if (action == "AddRole") {
+    }
+    else if (action == "AddRole")
+    {
         return program_state::AddRole;
-    } else if (action == "DeleteRole") {
+    }
+    else if (action == "DeleteRole")
+    {
         return program_state::DeleteRole;
-    } else if (action == "SeeAllRoles") {
+    }
+    else if (action == "SeeAllRoles")
+    {
         return program_state::SeeAllRoles;
     }
-    return program_state::Exit;  // tylko dla kompilatora taka sytuacja nie
-                                 // wystąpi w normalnym działaniu programu
+    return program_state::Exit; // tylko dla kompilatora taka sytuacja nie
+                                // wystąpi w normalnym działaniu programu
 }
 
 std::unique_ptr<Page> ActorPage::doAction(program_state act,
-                                          std::unique_ptr<Role> &us_ptr) {
-    if (act == program_state::GoBack) {
+                                          std::unique_ptr<Role> &us_ptr)
+{
+    if (act == program_state::GoBack)
+    {
         std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
         return ptr;
-    } else if (act == program_state::AddRole) {
+    }
+    else if (act == program_state::AddRole)
+    {
         DatabaseManager db_mgmt;
         std::string character;
         std::cout << "Played character: " << std::endl;
@@ -49,7 +65,8 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         std::cout << "In movie: " << std::endl;
         std::getline(std::cin, film);
         Film *f = findAndChooseMovie(film);
-        if (f == nullptr) {
+        if (f == nullptr)
+        {
             waitForInput();
             std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
             return ptr;
@@ -57,9 +74,12 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         std::ostringstream os;
         os << actor;
         std::string oldRecord = os.str();
-        try {
+        try
+        {
             actor.addRole(character, *f);
-        } catch (const std::invalid_argument &e) {
+        }
+        catch (const std::invalid_argument &e)
+        {
             std::cout << "Actor already has a role in this movie\n";
             waitForInput();
             std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
@@ -79,7 +99,9 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         db_mgmt.replaceLine(newMovie, oldMovie, whichDb::moviesDb);
         std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
         return ptr;
-    } else if (act == program_state::DeleteRole) {
+    }
+    else if (act == program_state::DeleteRole)
+    {
         DatabaseManager db_mgmt;
         std::string film;
         std::cout << "Delete role from movie: " << std::endl;
@@ -87,7 +109,8 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::getline(std::cin, film);
         Film *f = findAndChooseMovie(film);
-        if (f == nullptr) {
+        if (f == nullptr)
+        {
             waitForInput();
             std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
             return ptr;
@@ -103,9 +126,12 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         os.str("");
         os << f;
         std::string oldMovie = os.str();
-        try {
+        try
+        {
             f->deleteRole(actor.getName());
-        } catch (const std::invalid_argument &e) {
+        }
+        catch (const std::invalid_argument &e)
+        {
             std::cout << "This actor never had a role in this movie in the "
                          "first place\n";
             waitForInput();
@@ -118,7 +144,9 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         db_mgmt.replaceLine(newMovie, oldMovie, whichDb::moviesDb);
         std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
         return ptr;
-    } else if (act == program_state::SeeAllRoles) {
+    }
+    else if (act == program_state::SeeAllRoles)
+    {
         clearTerminal();
         actor.displayRoles(std::cout);
 
@@ -126,7 +154,9 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
 
         std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
         return ptr;
-    } else if (act == program_state::Exit) {
+    }
+    else if (act == program_state::Exit)
+    {
         std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
         return ptr;
     }
@@ -134,7 +164,8 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
     return ptr;
 }
 
-void ActorPage::print() {
+void ActorPage::print()
+{
     clearTerminal();
     printBorder();
     std::cout << "ACTOR PAGE" << std::endl;

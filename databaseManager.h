@@ -1,7 +1,7 @@
 #include "csv.h"
 #include "global.h"
 #include "person.h"
-<<<<<<< databaseManager.h
+
 enum class whichDb
 {
     moviesDb,
@@ -10,11 +10,9 @@ enum class whichDb
     directorsDb,
     producersDb
 };
-=======
-enum class whichDb { moviesDb, actorsDb, reviewsDb, producersDb };
->>>>>>> databaseManager.h
 
-class DatabaseManager {
+class DatabaseManager
+{
     std::string moviesDb;
     std::string actorsDb;
     std::string reviewsDb;
@@ -22,7 +20,7 @@ class DatabaseManager {
     std::string producersDb;
     std::string enumDbToStr(whichDb db);
 
-   public:
+public:
     DatabaseManager(std::string moviesDb = "../movies.csv",
                     std::string actorsDb = "../actors.csv",
                     std::string reviewsDb = "../reviews.csv",
