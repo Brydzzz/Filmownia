@@ -626,6 +626,38 @@ TEST(producer_test, delete_job_job_not_in_jobs) {
     ASSERT_EQ(p.getJobs().size(), 1);
 }
 
+TEST(producer_test, display_info) {
+    Producer p(4, "Kevin Feige", 2, 6, 1973);
+    ASSERT_EQ(p.getJobs().empty(), true);
+    Film f1(3, "The Avengers", 2012, {film_genre::Action}, {},
+            "When an unexpected enemy emerges and threatens global safety and "
+            "security, Nick Fury, director of the international peacekeeping "
+            "agency known as S.H.I.E.L.D., finds himself in need of a team to "
+            "pull the world back from the brink of disaster. Spanning the "
+            "globe, a daring recruitment effort begins!",
+            {}, 143, {}, {}, "");
+    Film f2(
+        4, "Iron Man", 2008, {film_genre::Action}, {},
+        "After being held captive in an Afghan cave, billionaire engineer Tony "
+        "Stark creates a unique weaponized suit of armor to fight evil.",
+        {}, 126, {}, {}, "");
+    p.addJob(ProducerType::Producer, f1);
+    p.addJob(ProducerType::ExecutiveProducer, f2);
+    std::stringstream ss;
+    p.displayProducerInfo(ss);
+    ASSERT_EQ(ss.str(),
+              "Kevin Feige\nBirthdate: 1973-06-02\nSelected films: \n\"Iron "
+              "Man\" (2008)\n\"The Avengers\" (2012)\n");
+}
+
+TEST(producer_test, display_info_no_jobs) {
+    Producer p(4, "Kevin Feige", 2, 6, 1973);
+    ASSERT_EQ(p.getJobs().empty(), true);
+    std::stringstream ss;
+    p.displayProducerInfo(ss);
+    ASSERT_EQ(ss.str(), "Kevin Feige\nBirthdate: 1973-06-02\n");
+}
+
 TEST(producer_test, display_jobs) {
     Producer p(4, "Kevin Feige", 2, 6, 1973);
     ASSERT_EQ(p.getJobs().empty(), true);
@@ -729,6 +761,22 @@ TEST(writer_test, add_job_duplicate) {
     ASSERT_EQ(w.getJobs().size(), 2);
     ASSERT_THROW(w.addJob(WriterType::Screenplay, f1), std::exception);
 }
+TEST(producer_test, constructor_csv) {
+    Date d(1, 10, 2005);
+    Producer p(3, "Brygida Silawko", d,
+               "[[19995, Producer], [285, Executive Producer]");
+    ASSERT_EQ(p.getName(), "Brygida Silawko");
+    ASSERT_EQ(p.getId(), 3);
+    ASSERT_EQ(p.getBirthDate().getDay(), 1);
+    ASSERT_EQ(p.getBirthDate().getMonth(), 10);
+    ASSERT_EQ(p.getBirthDate().getYear(), 2005);
+    std::stringstream ss;
+    p.displayJobs(ss);
+    ASSERT_EQ(ss.str(),
+              "Films produced by Brygida Silawko:\n\"Avatar\" (2009) as "
+              "Producer\n\"Pirates of the Caribbean: At World's End\" (2007) "
+              "as Executive Producer\n");
+}
 
 TEST(writer_test, add_job_films_with_the_same_title) {
     Writer w(5, "Jon Spaihts", 4, 2, 1970);
@@ -798,6 +846,22 @@ TEST(writer_test, delete_job_job_not_in_jobs) {
     ASSERT_EQ(w.getJobs().size(), 1);
     w.deleteJob(f2);
     ASSERT_EQ(w.getJobs().size(), 1);
+}
+
+TEST(writer_test, constructor_csv) {
+    Date d(1, 10, 2005);
+    Writer w(3, "Brygida Silawko", d, "[[50646, Writer], [2454, Screenplay]");
+    ASSERT_EQ(w.getName(), "Brygida Silawko");
+    ASSERT_EQ(w.getId(), 3);
+    ASSERT_EQ(w.getBirthDate().getDay(), 1);
+    ASSERT_EQ(w.getBirthDate().getMonth(), 10);
+    ASSERT_EQ(w.getBirthDate().getYear(), 2005);
+    std::stringstream ss;
+    w.displayJobs(ss);
+    ASSERT_EQ(ss.str(),
+              "Films written by Brygida Silawko:\n\"Crazy, Stupid, Love.\" "
+              "(2011) - Writer\n\"The Chronicles of Narnia: Prince Caspian\" "
+              "(2008) - Screenplay\n");
 }
 
 TEST(writer_test, display_jobs) {

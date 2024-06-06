@@ -7,30 +7,30 @@
 
 extern std::vector<Film> flist;
 
-const std::string& Person::getName() const { return name; }
+const std::string &Person::getName() const { return name; }
 
 const unsigned int Person::getId() const { return id; }
 
 Date Person::getBirthDate() const { return birthDate; }
 
-bool Person::operator==(const Person& other) { return id == other.id; }
+bool Person::operator==(const Person &other) { return id == other.id; }
 
-const std::vector<Actor::Role>& Actor::getRoles() const { return roles; }
+const std::vector<Actor::Role> &Actor::getRoles() const { return roles; }
 
-bool Actor::Role::operator<(const Role& other) const {
+bool Actor::Role::operator<(const Role &other) const {
     return film->getTitle() < other.film->getTitle();
 }
 
-std::vector<Actor::Role>::iterator Actor::findRole(const Film& film) {
+std::vector<Actor::Role>::iterator Actor::findRole(const Film &film) {
     return findRole(Role("", film));
 }
 
-std::vector<Actor::Role>::iterator Actor::findRole(const Role& role) {
+std::vector<Actor::Role>::iterator Actor::findRole(const Role &role) {
     auto it = std::lower_bound(roles.begin(), roles.end(), role);
     return it;
 }
 
-std::vector<Actor::Role> Actor::parseRoles(const std::string& content) {
+std::vector<Actor::Role> Actor::parseRoles(const std::string &content) {
     std::vector<Actor::Role> roles;
     std::istringstream iss(content);
     std::string role;
@@ -62,8 +62,8 @@ std::vector<Actor::Role> Actor::parseRoles(const std::string& content) {
         if (filmIdStr.empty()) continue;
         if (character.empty()) continue;
         unsigned int filmId = std::stoul(filmIdStr);
-        const Film* film = nullptr;
-        for (const auto& f : flist) {  // using extern flist from global.h
+        const Film *film = nullptr;
+        for (const auto &f : flist) {  // using extern flist from global.h
             if (f.getID() == filmId) {
                 film = &f;
                 break;
@@ -78,7 +78,7 @@ std::vector<Actor::Role> Actor::parseRoles(const std::string& content) {
     return roles;
 }
 
-void Actor::addRole(const std::string& character, const Film& film) {
+void Actor::addRole(const std::string &character, const Film &film) {
     Role newRole(character, film);
     auto it = findRole(newRole);
     if (it != roles.end() && it->film->getID() == film.getID()) {
@@ -88,14 +88,14 @@ void Actor::addRole(const std::string& character, const Film& film) {
     }
 }
 
-void Actor::deleteRole(const Film& film) {
+void Actor::deleteRole(const Film &film) {
     auto it = findRole(film);
     if (it != roles.end() && it->film->getID() == film.getID()) {
         roles.erase(it);
     }
 }
 
-void Actor::displayActorInfo(std::ostream& os) const {
+void Actor::displayActorInfo(std::ostream &os) const {
     os << name << '\n';
     os << "Birthdate: " << birthDate << '\n';
     if (!roles.empty()) {
@@ -107,21 +107,21 @@ void Actor::displayActorInfo(std::ostream& os) const {
     }
 }
 
-void Actor::displayRoles(std::ostream& os) const {
+void Actor::displayRoles(std::ostream &os) const {
     os << name << "'s roles: \n";
-    for (const Actor::Role& role : roles) {
+    for (const Actor::Role &role : roles) {
         os << "As " << role.character << " in \"" << role.film->getTitle()
            << "\"\n";
     }
 }
 
-std::ostream& operator<<(std::ostream& os, const Actor& actor) {
+std::ostream &operator<<(std::ostream &os, const Actor &actor) {
     os << std::to_string(actor.getId()) << ';';
     os << actor.getName() << ';';
     os << actor.getBirthDate() << ';';
     std::stringstream ss;
     ss << '[';
-    for (const Actor::Role& role : actor.getRoles()) {
+    for (const Actor::Role &role : actor.getRoles()) {
         ss << '[';
         ss << role.film->getID() << ", " << role.character << ']' << ", ";
     }
@@ -135,8 +135,8 @@ std::ostream& operator<<(std::ostream& os, const Actor& actor) {
     }
 }
 
-std::vector<const Film*> Director::parseFilms(std::string content) {
-    std::vector<const Film*> films;
+std::vector<const Film *> Director::parseFilms(std::string content) {
+    std::vector<const Film *> films;
     std::istringstream iss(content);
     std::string filmIdStr;
     char firstBracket;
@@ -167,8 +167,8 @@ std::vector<const Film*> Director::parseFilms(std::string content) {
         if (filmIdStr.empty()) continue;
 
         unsigned int filmId = std::stoul(filmIdStr);
-        const Film* film = nullptr;
-        for (const auto& f : flist) {  // using extern flist from global.h
+        const Film *film = nullptr;
+        for (const auto &f : flist) {  // using extern flist from global.h
             if (f.getID() == filmId) {
                 film = &f;
                 break;
@@ -183,17 +183,17 @@ std::vector<const Film*> Director::parseFilms(std::string content) {
     return films;
 }
 
-const std::vector<const Film*>& Director::getFilms() const { return films; }
+const std::vector<const Film *> &Director::getFilms() const { return films; }
 
-std::vector<const Film*>::iterator Director::findFilm(const Film& film) {
+std::vector<const Film *>::iterator Director::findFilm(const Film &film) {
     auto it = std::lower_bound(films.begin(), films.end(), &film,
-                               [](const Film* lhs, const Film* rhs) {
+                               [](const Film *lhs, const Film *rhs) {
                                    return lhs->getTitle() < rhs->getTitle();
                                });
     return it;
 }
 
-void Director::addFilm(const Film& film) {
+void Director::addFilm(const Film &film) {
     auto it = findFilm(film);
     if (it != films.end() && (*it)->getID() == film.getID()) {
         throw std::invalid_argument("Film is already on the list");
@@ -201,14 +201,14 @@ void Director::addFilm(const Film& film) {
     films.insert(it, &film);
 }
 
-void Director::deleteFilm(const Film& film) {
+void Director::deleteFilm(const Film &film) {
     auto it = findFilm(film);
     if (it != films.end() && (*it)->getID() == film.getID()) {
         films.erase(it);
     }
 }
 
-void Director::displayDirectorInfo(std::ostream& os) const {
+void Director::displayDirectorInfo(std::ostream &os) const {
     os << name << '\n';
     os << "Birthdate: " << birthDate << '\n';
     if (!films.empty()) {
@@ -219,21 +219,21 @@ void Director::displayDirectorInfo(std::ostream& os) const {
         }
     }
 }
-void Director::displayFilms(std::ostream& os) const {
+void Director::displayFilms(std::ostream &os) const {
     os << "Films directed by " << this->name << ":\n";
-    for (const Film* film : films) {
+    for (const Film *film : films) {
         os << "\"" << film->getTitle() << "\"" << " (" << film->getYear()
            << ")\n";
     }
 }
 
-std::ostream& operator<<(std::ostream& os, const Director& director) {
+std::ostream &operator<<(std::ostream &os, const Director &director) {
     os << std::to_string(director.getId()) << ';';
     os << director.getName() << ';';
     os << director.getBirthDate() << ';';
     std::stringstream ss;
     ss << '[';
-    for (const Film* film : director.getFilms()) {
+    for (const Film *film : director.getFilms()) {
         ss << film->getID() << ", ";
     }
     std::string result = ss.str();
@@ -247,25 +247,25 @@ std::ostream& operator<<(std::ostream& os, const Director& director) {
 }
 
 std::vector<Producer::ProducerJob>::iterator Producer::findJob(
-    const Film& film) {
+    const Film &film) {
     return findJob(ProducerJob(ProducerType::Producer, film));
 }
 
 std::vector<Producer::ProducerJob>::iterator Producer::findJob(
-    const ProducerJob& job) {
+    const ProducerJob &job) {
     auto it = std::lower_bound(jobs.begin(), jobs.end(), job);
     return it;
 }
 
-const std::vector<Producer::ProducerJob>& Producer::getJobs() const {
+const std::vector<Producer::ProducerJob> &Producer::getJobs() const {
     return jobs;
 }
 
-bool Producer::ProducerJob::operator<(const ProducerJob& other) const {
+bool Producer::ProducerJob::operator<(const ProducerJob &other) const {
     return film->getTitle() < other.film->getTitle();
 }
 
-void Producer::addJob(ProducerType ptype, const Film& film) {
+void Producer::addJob(ProducerType ptype, const Film &film) {
     ProducerJob newJob(ptype, film);
     auto it = findJob(newJob);
 
@@ -275,7 +275,7 @@ void Producer::addJob(ProducerType ptype, const Film& film) {
     jobs.insert(it, newJob);
 }
 
-void Producer::deleteJob(const Film& film) {
+void Producer::deleteJob(const Film &film) {
     auto it = findJob(film);
     if (it != jobs.end() && it->film->getID() == film.getID()) {
         jobs.erase(it);
@@ -293,22 +293,22 @@ std::string ptypeToString(ProducerType ptype) {
     }
 }
 
-void Producer::displayJobs(std::ostream& os) const {
+void Producer::displayJobs(std::ostream &os) const {
     os << "Films produced by " << this->name << ":\n";
-    for (const ProducerJob& job : jobs) {
+    for (const ProducerJob &job : jobs) {
         os << "\"" << job.film->getTitle() << "\"" << " ("
            << job.film->getYear() << ") as ";
         os << ptypeToString(job.ptype) << '\n';
     }
 }
 
-std::ostream& operator<<(std::ostream& os, const Producer& producer) {
+std::ostream &operator<<(std::ostream &os, const Producer &producer) {
     os << std::to_string(producer.getId()) << ';';
     os << producer.getName() << ';';
     os << producer.getBirthDate() << ';';
     std::stringstream ss;
     ss << '[';
-    for (const Producer::ProducerJob& job : producer.getJobs()) {
+    for (const Producer::ProducerJob &job : producer.getJobs()) {
         ss << '[';
         ss << job.film->getID() << ", " << ptypeToString(job.ptype) << ']'
            << ", ";
@@ -323,22 +323,22 @@ std::ostream& operator<<(std::ostream& os, const Producer& producer) {
     }
 }
 
-std::vector<Writer::WriterJob>::iterator Writer::findJob(const Film& film) {
+std::vector<Writer::WriterJob>::iterator Writer::findJob(const Film &film) {
     return findJob(WriterJob(WriterType::Screenplay, film));
 }
 
-std::vector<Writer::WriterJob>::iterator Writer::findJob(const WriterJob& job) {
+std::vector<Writer::WriterJob>::iterator Writer::findJob(const WriterJob &job) {
     auto it = std::lower_bound(jobs.begin(), jobs.end(), job);
     return it;
 }
 
-const std::vector<Writer::WriterJob>& Writer::getJobs() const { return jobs; }
+const std::vector<Writer::WriterJob> &Writer::getJobs() const { return jobs; }
 
-bool Writer::WriterJob::operator<(const WriterJob& other) const {
+bool Writer::WriterJob::operator<(const WriterJob &other) const {
     return film->getTitle() < other.film->getTitle();
 }
 
-void Writer::addJob(WriterType wtype, const Film& film) {
+void Writer::addJob(WriterType wtype, const Film &film) {
     WriterJob newJob(wtype, film);
     auto it = findJob(newJob);
 
@@ -348,11 +348,133 @@ void Writer::addJob(WriterType wtype, const Film& film) {
     jobs.insert(it, newJob);
 }
 
-void Writer::deleteJob(const Film& film) {
+void Writer::deleteJob(const Film &film) {
     auto it = findJob(film);
     if (it != jobs.end() && it->film->getID() == film.getID()) {
         jobs.erase(it);
     }
+}
+
+std::vector<Writer::WriterJob> Writer::parseFilms(std::string content) {
+    std::vector<Writer::WriterJob> jobs;
+    std::istringstream iss(content);
+    std::string job;
+
+    while (std::getline(iss, job, ']')) {
+        job.erase(0, job.find_first_not_of("\""));
+        job.erase(0, job.find_first_not_of(","));
+        job.erase(0, job.find_first_not_of(" "));
+        job.erase(0, job.find_first_not_of("'"));
+        job.erase(0, job.find_first_not_of("["));
+        if (job.empty()) break;
+        std::istringstream rolePair(job);
+        std::string filmIdStr, writerType;
+        std::getline(rolePair, filmIdStr, ',');
+        std::getline(rolePair, writerType, ']');
+
+        // Trim leading/trailing whitespace from filmIdStr and character
+        filmIdStr.erase(filmIdStr.find_last_not_of(" ") + 1);
+        filmIdStr.erase(0, filmIdStr.find_first_not_of(" "));
+        writerType.erase(writerType.find_last_not_of(" ") + 1);
+        writerType.erase(0, writerType.find_first_not_of(" "));
+
+        // Trim leading/trailing single quote from filmIdStr and character
+        filmIdStr.erase(filmIdStr.find_last_not_of("'") + 1);
+        filmIdStr.erase(0, filmIdStr.find_first_not_of("'"));
+        writerType.erase(writerType.find_last_not_of("'") + 1);
+        writerType.erase(0, writerType.find_first_not_of("'"));
+        WriterType wt;
+        if (writerType == "Screenplay") {
+            wt = WriterType::Screenplay;
+        } else if (writerType == "Story") {
+            wt = WriterType::Screenplay;
+        } else if (writerType == "Writer") {
+            wt = WriterType::Writer;
+        } else {
+            continue;
+        }
+        if (filmIdStr.empty()) continue;
+        if (writerType.empty()) continue;
+        unsigned int filmId = std::stoul(filmIdStr);
+        const Film *film = nullptr;
+        for (const auto &f : flist) {  // using extern flist from global.h
+            if (f.getID() == filmId) {
+                film = &f;
+                break;
+            }
+        }
+        if (film) {
+            jobs.emplace_back(wt, *film);
+        }
+    }
+    std::sort(jobs.begin(), jobs.end());
+    return jobs;
+}
+
+void Producer::displayProducerInfo(std::ostream &os) const {
+    os << name << '\n';
+    os << "Birthdate: " << birthDate << '\n';
+    if (!jobs.empty()) {
+        os << "Selected films: \n";
+        for (int i = 0; i < 5 && i < jobs.size(); ++i) {
+            os << "\"" << jobs[i].film->getTitle() << "\"" << " ("
+               << jobs[i].film->getYear() << ")\n";
+        }
+    }
+}
+
+std::vector<Producer::ProducerJob> Producer::parseFilms(std::string content) {
+    std::vector<Producer::ProducerJob> jobs;
+    std::istringstream iss(content);
+    std::string job;
+
+    while (std::getline(iss, job, ']')) {
+        job.erase(0, job.find_first_not_of("\""));
+        job.erase(0, job.find_first_not_of(","));
+        job.erase(0, job.find_first_not_of(" "));
+        job.erase(0, job.find_first_not_of("'"));
+        job.erase(0, job.find_first_not_of("["));
+        if (job.empty()) break;
+        std::istringstream rolePair(job);
+        std::string filmIdStr, producerType;
+        std::getline(rolePair, filmIdStr, ',');
+        std::getline(rolePair, producerType, ']');
+
+        // Trim leading/trailing whitespace from filmIdStr and character
+        filmIdStr.erase(filmIdStr.find_last_not_of(" ") + 1);
+        filmIdStr.erase(0, filmIdStr.find_first_not_of(" "));
+        producerType.erase(producerType.find_last_not_of(" ") + 1);
+        producerType.erase(0, producerType.find_first_not_of(" "));
+
+        // Trim leading/trailing single quote from filmIdStr and character
+        filmIdStr.erase(filmIdStr.find_last_not_of("'") + 1);
+        filmIdStr.erase(0, filmIdStr.find_first_not_of("'"));
+        producerType.erase(producerType.find_last_not_of("'") + 1);
+        producerType.erase(0, producerType.find_first_not_of("'"));
+        ProducerType pt;
+        if (producerType == "Producer") {
+            pt = ProducerType::Producer;
+        } else if (producerType == "Executive Producer") {
+            pt = ProducerType::ExecutiveProducer;
+        } else {
+            continue;
+        }
+        if (filmIdStr.empty()) continue;
+        if (producerType.empty()) continue;
+        unsigned int filmId = std::stoul(filmIdStr);
+        const Film *film = nullptr;
+        for (const auto &f : flist) {  // using extern flist from global.h
+            if (f.getID() == filmId) {
+                film = &f;
+                break;
+            }
+        }
+        if (film) {
+            jobs.emplace_back(pt, *film);
+        }
+    }
+    std::sort(jobs.begin(), jobs.end());
+    return jobs;
 }
 
 std::string wtypeToString(WriterType wtype) {
@@ -370,22 +492,22 @@ std::string wtypeToString(WriterType wtype) {
     }
 }
 
-void Writer::displayJobs(std::ostream& os) const {
+void Writer::displayJobs(std::ostream &os) const {
     os << "Films written by " << this->name << ":\n";
-    for (const auto& job : jobs) {
+    for (const auto &job : jobs) {
         os << "\"" << job.film->getTitle() << "\"" << " ("
            << job.film->getYear() << ") - ";
         os << wtypeToString(job.wtype) << '\n';
     }
 }
 
-std::ostream& operator<<(std::ostream& os, const Writer& writer) {
+std::ostream &operator<<(std::ostream &os, const Writer &writer) {
     os << std::to_string(writer.getId()) << ';';
     os << writer.getName() << ';';
     os << writer.getBirthDate() << ';';
     std::stringstream ss;
     ss << '[';
-    for (const Writer::WriterJob& job : writer.getJobs()) {
+    for (const Writer::WriterJob &job : writer.getJobs()) {
         ss << '[';
         ss << job.film->getID() << ", " << wtypeToString(job.wtype) << ']'
            << ", ";
