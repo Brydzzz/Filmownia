@@ -5,31 +5,37 @@
 program_state ActorPage::nextAction()
 {
     std::string action;
-    while (std::find(options.begin(), options.end(), action) == options.end())
+    bool condition = std::find(options.begin(), options.end(), action) == options.end();
+    while (condition)
     {
         cppIO::input("Enter desired action: ", action);
+        condition = std::find(options.begin(), options.end(), action) == options.end();
+        if (condition)
+        {
+            cppIO::log("No such option available for this user. Chose one from the list.");
+        }
     }
     if (action == "Exit")
     {
         return program_state::Exit;
     }
-    if (action == "GoBack")
+    else if (action == "GoBack")
     {
         return program_state::GoBack;
     }
-    if (action == "AddRole")
+    else if (action == "AddRole")
     {
         return program_state::AddRole;
     }
-    if (action == "DeleteRole")
+    else if (action == "DeleteRole")
     {
         return program_state::DeleteRole;
     }
-    if (action == "SeeAllRoles")
+    else if (action == "SeeAllRoles")
     {
         return program_state::SeeAllRoles;
     }
-    return program_state::Exit;
+    return program_state::Exit; // tylko dla kompilatora taka sytuacja nie wystąpi w normalnym działaniu programu
 }
 
 Film *findAndChooseMovie(std::string title)
@@ -58,10 +64,9 @@ Film *findAndChooseMovie(std::string title)
             }
         }
         int a = 0;
-        while (a < 1 || a > 10)
+        while (a < 1 || a > 10 || a > found.size())
         {
-            cppIO::input(
-                "Choose number of a movie you wish to choose: ", a);
+            cppIO::input("Choose number of a movie you wish to choose: ", a);
             f = found[a - 1];
         }
     }
@@ -90,6 +95,7 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         Film *f = findAndChooseMovie(film);
         if (f == nullptr)
         {
+            waitForInput();
             std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
             return ptr;
         }
@@ -102,8 +108,8 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         }
         catch (const std::invalid_argument &e)
         {
-            int u;
-            cppIO::input("Actor already has a role in this movie, press 1 to continue... ", u);
+            std::cout << "Actor already has a role in this movie\n";
+            waitForInput();
             std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
             return ptr;
         }
@@ -133,6 +139,7 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         Film *f = findAndChooseMovie(film);
         if (f == nullptr)
         {
+            waitForInput();
             std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
             return ptr;
         }
@@ -153,8 +160,9 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         }
         catch (const std::invalid_argument &e)
         {
-            int u;
-            cppIO::input("This actor never had a role in this movie in the first place, press 1 to continue... ", u);
+            std::cout << "This actor never had a role in this movie in the "
+                         "first place\n";
+            waitForInput();
             std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
             return ptr;
         }
@@ -170,10 +178,7 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         clearTerminal();
         actor.displayRoles(std::cout);
 
-        // Pause until Enter is pressed
-        std::cout << "Press Enter to continue...";
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cin.get();
+        waitForInput();
 
         std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
         return ptr;

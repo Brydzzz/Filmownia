@@ -71,12 +71,14 @@ class Director : public Person {
     using Person::Person;
 
     // ctor for data from csv
-    Director(unsigned int id, const std::string& name, Date date, std::string films)
+    Director(unsigned int id, const std::string& name, Date date,
+             std::string films)
         : Person(id, name, date), films(parseFilms(films)) {}
 
     const std::vector<const Film*>& getFilms() const;
     void addFilm(const Film& film);
     void deleteFilm(const Film& film);
+    void displayDirectorInfo(std::ostream& os) const;
     void displayFilms(std::ostream& os) const;
     friend std::ostream& operator<<(std::ostream& os, const Director& director);
 };

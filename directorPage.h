@@ -9,26 +9,26 @@
 #include "page.h"
 #include "person.h"
 #include "role.h"
-class ActorPage : public Page
+class DirectorPage : public Page
 {
     std::vector<std::string> options;
-    std::vector<std::string> optionsRest = {
-        "SeeAllRoles",
-        "GoBack",
-        "Exit",
-    };
     std::vector<std::string> optionsAdmin = {
-        "AddRole",
-        "DeleteRole",
-        "SeeAllRoles",
+        "AddFilm",
+        "DeleteFilm",
+        "SeeAllFilms",
         "GoBack",
         "Exit",
     };
-    Actor actor;
+    std::vector<std::string> optionsRest = {
+        "SeeAllFilms",
+        "GoBack",
+        "Exit",
+    };
+    Director director;
 
 public:
-    ActorPage(Actor a) : actor(a) {}
-    void print() override; // print actor info
+    DirectorPage(Director d) : director(d) {}
+    void print() override; // print director info
     program_state nextAction() override;
 
     std::unique_ptr<Page> doAction(program_state,

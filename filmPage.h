@@ -10,7 +10,9 @@
 #include "reviewsPage.h"
 class FilmPage : public Page
 {
-    std::vector<std::string> options = {"AddReview", "SeeActor", "Browse", "Exit", "Reviews"};
+    std::vector<std::string> options;
+    std::vector<std::string> optionsGuest = {"SeeActor", "Browse", "Exit", "Reviews"};
+    std::vector<std::string> optionsRest = {"AddReview", "SeeActor", "Browse", "Exit", "Reviews"};
     Film *film;
     void loadRevs();
 
@@ -20,8 +22,16 @@ public:
     program_state nextAction() override;
 
     std::unique_ptr<Page> doAction(program_state, std::unique_ptr<Role> &us_ptr) override;
-    void showOptions() override
+    void showOptions(const Role *us_ptr) override
     {
+        if (us_ptr->getName() == "guest")
+        {
+            options = optionsGuest;
+        }
+        else
+        {
+            options = optionsRest;
+        }
         std::cout << "Avaiable Options: \n";
         for (auto opt : options)
         {

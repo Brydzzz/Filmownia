@@ -11,8 +11,8 @@
 class BrowsePage : public Page
 {
     std::string msg = "CHOOSE OPTION: ";
-    std::vector<std::string> options = {"Exit", "BrowseMovies",
-                                        "BrowseActors", "GoBack"};
+    std::vector<std::string> options = {"Exit", "BrowseMovies", "BrowseActors",
+                                        "BrowseDirectors", "GoBack"};
 
 public:
     void print() override
@@ -28,7 +28,7 @@ public:
                                    std::unique_ptr<Role> &us_ptr) override;
 
     program_state nextAction() override;
-    void showOptions() override
+    void showOptions(const Role *us_ptr) override
     {
         std::cout << "Available Options: \n";
         for (auto opt : options)
