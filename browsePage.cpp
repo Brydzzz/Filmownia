@@ -41,7 +41,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                     a);
                 // a = (int)a;
                 // std::cout << a << std::endl;
-                // std::cout << (a < -1) << std::endl;
+                std::cout << (a < -1) << std::endl;
                 if (a < -1 || a > 10 || a > found.size() || a == 0)
                 {
                     // std::unique_ptr<BrowsePage> ptr =

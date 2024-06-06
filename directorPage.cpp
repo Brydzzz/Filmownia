@@ -93,6 +93,48 @@ std::unique_ptr<Page> DirectorPage::doAction(program_state act,
     }
     else if (act == program_state::DeleteDirectorFilm)
     {
+        // DatabaseManager db_mgmt;
+        // std::string film;
+        // std::cout << "Delete director from movie: " << std::endl;
+        // std::cin.clear();
+        // std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        // std::getline(std::cin, film);
+        // Film *f = findAndChooseMovie(film);
+        // if (f == nullptr)
+        // {
+        //     waitForInput();
+        //     std::unique_ptr<DirectorPage> ptr = std::make_unique<DirectorPage>(director);
+        //     return ptr;
+        // }
+        // std::ostringstream os;
+        // os << director;
+        // std::string oldRecord = os.str();
+        // director.deleteFilm(*f);
+        // os.str("");
+        // os << director;
+        // std::string newRecord = os.str();
+        // db_mgmt.replaceLine(newRecord, oldRecord, whichDb::actorsDb);
+        // os.str("");
+        // os << f;
+        // std::string oldMovie = os.str();
+        // try
+        // {
+        //     f->(actor.getName());
+        // }
+        // catch (const std::invalid_argument &e)
+        // {
+        //     std::cout << "This actor never had a role in this movie in the "
+        //                  "first place\n";
+        //     waitForInput();
+        //     std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
+        //     return ptr;
+        // }
+        // os.str("");
+        // os << f;
+        // std::string newMovie = os.str();
+        // db_mgmt.replaceLine(newMovie, oldMovie, whichDb::moviesDb);
+        // std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
+        // return ptr;
         std::unique_ptr<DirectorPage> ptr = std::make_unique<DirectorPage>(director);
         return ptr;
     }
