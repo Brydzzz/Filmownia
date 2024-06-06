@@ -93,9 +93,45 @@ int main()
     //     std::istringstream(row) >> f;
     //     list.push_back(f);
 
-    std::vector<Writer> writers;
+    // std::vector<Writer> writers;
+    // io::CSVReader<4, io::trim_chars<' '>, io::no_quote_escape<';'>> in(
+    //     "../writers.csv");
+    // in.read_header(io::ignore_missing_column, "ID", "Name", "Birthday",
+    //                "Films");
+    // unsigned int ID;
+    // std::string Name;
+    // std::string Birthday;
+    // std::string Films;
+    // while (in.read_row(ID, Name, Birthday, Films))
+    // {
+    //     Date BirthdayDate;
+    //     if (Birthday.size() == 4)
+    //     {
+    //         unsigned int year = std::stol(Birthday);
+    //         BirthdayDate = Date(1, 1, year);
+    //     }
+    //     else if (Birthday.size() > 1)
+    //     {
+    //         std::istringstream bday(Birthday);
+    //         bday >> BirthdayDate;
+    //     }
+    //     else
+    //     {
+    //         BirthdayDate = Date(1, 1, 1970);
+    //     }
+    //     std::cout << ID << std::endl;
+    //     Writer w(ID, Name, BirthdayDate, Films);
+    //     writers.push_back(w);
+    // }
+    // std::ofstream out("../writers3.csv");
+    // out << "ID;Name;Birthday;Films\n";
+    // for (auto writer : writers)
+    // {
+    //     out << writer << '\n';
+    // }
+    std::vector<Producer> producers;
     io::CSVReader<4, io::trim_chars<' '>, io::no_quote_escape<';'>> in(
-        "../writers.csv");
+        "../producers.csv");
     in.read_header(io::ignore_missing_column, "ID", "Name", "Birthday",
                    "Films");
     unsigned int ID;
@@ -120,12 +156,12 @@ int main()
             BirthdayDate = Date(1, 1, 1970);
         }
         std::cout << ID << std::endl;
-        Writer w(ID, Name, BirthdayDate, Films);
-        writers.push_back(w);
+        Producer p(ID, Name, BirthdayDate, Films);
+        producers.push_back(p);
     }
-    std::ofstream out("../writers3.csv");
+    std::ofstream out("../producers2.csv");
     out << "ID;Name;Birthday;Films\n";
-    for (auto writer : writers)
+    for (auto writer : producers)
     {
         out << writer << '\n';
     }

@@ -110,10 +110,13 @@ private:
     std::vector<ProducerJob> jobs = {};
     std::vector<ProducerJob>::iterator findJob(const Film &film);
     std::vector<ProducerJob>::iterator findJob(const ProducerJob &job);
+    std::vector<ProducerJob> parseFilms(std::string content);
 
 public:
     using Person::Person;
-
+    Producer(unsigned int id, const std::string &name, Date date,
+             std::string jobs)
+        : Person(id, name, date), jobs(parseFilms(jobs)) {}
     const std::vector<ProducerJob> &getJobs() const;
     void addJob(ProducerType ptype, const Film &film);
     void deleteJob(const Film &film);
