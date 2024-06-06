@@ -2,6 +2,7 @@
 
 #include "databaseManager.h"
 #include "page.h"
+#include "global.h"
 program_state ActorPage::nextAction()
 {
     std::string action;

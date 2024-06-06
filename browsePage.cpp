@@ -39,6 +39,9 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                 cppIO::input(
                     "Choose number of a movie you wish to see or -1 for exit: ",
                     a);
+                // a = (int)a;
+                // std::cout << a << std::endl;
+                // std::cout << (a < -1) << std::endl;
                 if (a < -1 || a > 10 || a > found.size() || a == 0)
                 {
                     // std::unique_ptr<BrowsePage> ptr =

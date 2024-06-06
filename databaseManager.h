@@ -5,7 +5,8 @@ enum class whichDb
 {
     moviesDb,
     actorsDb,
-    reviewsDb
+    reviewsDb,
+    directorsDb
 };
 
 class DatabaseManager

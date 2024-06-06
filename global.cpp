@@ -1,6 +1,8 @@
 #include "global.h"
 #include "csv.h"
 #include "user.h"
+#include "databaseManager.h"
+#include "page.h"
 
 std::vector<Film> loadFilms()
 {
