@@ -6,7 +6,9 @@
 #include "csv.h"
 #include "film.h"
 #include "person.h"
-int main() {
+int main()
+{
+
     // std::string action;
     // cppIO::input("Enter desired action: ", action);
     // std::cout << action;
@@ -51,31 +53,31 @@ int main() {
     // for (auto actor : actors) {
     //     out << actor << '\n';
     // }
-    std::vector<Director> directors;
-    io::CSVReader<4, io::trim_chars<' '>, io::no_quote_escape<';'>> in(
-        "../directors.csv");
-    in.read_header(io::ignore_missing_column, "ID", "Name", "Birthday",
-                   "Films");
-    unsigned int ID;
-    std::string Name;
-    std::string Birthday;
-    std::string Films;
-    while (in.read_row(ID, Name, Birthday, Films)) {
-        Date BirthdayDate;
-        // if (Birthday.size() > 1) {
-        //     std::istringstream bday(Birthday);
-        //     bday >> BirthdayDate;
-        // }
-        std::istringstream bday(Birthday);
-        bday >> BirthdayDate;
-        Director d(ID, Name, BirthdayDate, Films);
-        directors.push_back(d);
-    }
-    std::ofstream out("../directors2.csv");
-    out << "ID;Name;Birthday;Films\n";
-    for (auto director : directors) {
-        out << director << '\n';
-    }
+    // std::vector<Director> directors;
+    // io::CSVReader<4, io::trim_chars<' '>, io::no_quote_escape<';'>> in(
+    //     "../directors.csv");
+    // in.read_header(io::ignore_missing_column, "ID", "Name", "Birthday",
+    //                "Films");
+    // unsigned int ID;
+    // std::string Name;
+    // std::string Birthday;
+    // std::string Films;
+    // while (in.read_row(ID, Name, Birthday, Films)) {
+    //     Date BirthdayDate;
+    //     // if (Birthday.size() > 1) {
+    //     //     std::istringstream bday(Birthday);
+    //     //     bday >> BirthdayDate;
+    //     // }
+    //     std::istringstream bday(Birthday);
+    //     bday >> BirthdayDate;
+    //     Director d(ID, Name, BirthdayDate, Films);
+    //     directors.push_back(d);
+    // }
+    // std::ofstream out("../directors2.csv");
+    // out << "ID;Name;Birthday;Films\n";
+    // for (auto director : directors) {
+    //     out << director << '\n';
+    // }
     // std::ifstream input("../movies.csv");
     // if (!input.is_open())
     // {
@@ -90,5 +92,42 @@ int main() {
     //     Film f;
     //     std::istringstream(row) >> f;
     //     list.push_back(f);
+
+    std::vector<Writer> writers;
+    io::CSVReader<4, io::trim_chars<' '>, io::no_quote_escape<';'>> in(
+        "../writers.csv");
+    in.read_header(io::ignore_missing_column, "ID", "Name", "Birthday",
+                   "Films");
+    unsigned int ID;
+    std::string Name;
+    std::string Birthday;
+    std::string Films;
+    while (in.read_row(ID, Name, Birthday, Films))
+    {
+        Date BirthdayDate;
+        if (Birthday.size() == 4)
+        {
+            unsigned int year = std::stol(Birthday);
+            BirthdayDate = Date(1, 1, year);
+        }
+        else if (Birthday.size() > 1)
+        {
+            std::istringstream bday(Birthday);
+            bday >> BirthdayDate;
+        }
+        else
+        {
+            BirthdayDate = Date(1, 1, 1970);
+        }
+        std::cout << ID << std::endl;
+        Writer w(ID, Name, BirthdayDate, Films);
+        writers.push_back(w);
+    }
+    std::ofstream out("../writers3.csv");
+    out << "ID;Name;Birthday;Films\n";
+    for (auto writer : writers)
+    {
+        out << writer << '\n';
+    }
     return 0;
 }
