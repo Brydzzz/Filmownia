@@ -1,7 +1,18 @@
 #include "csv.h"
 #include "global.h"
 #include "person.h"
+<<<<<<< databaseManager.h
+enum class whichDb
+{
+    moviesDb,
+    actorsDb,
+    reviewsDb,
+    directorsDb,
+    producersDb
+};
+=======
 enum class whichDb { moviesDb, actorsDb, reviewsDb, producersDb };
+>>>>>>> databaseManager.h
 
 class DatabaseManager {
     std::string moviesDb;

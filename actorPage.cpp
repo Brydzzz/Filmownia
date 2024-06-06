@@ -2,8 +2,9 @@
 
 #include "databaseManager.h"
 #include "page.h"
-extern Film *findAndChooseMovie(std::string film);
-program_state ActorPage::nextAction() {
+#include "global.h"
+program_state ActorPage::nextAction()
+{
     std::string action;
     bool condition =
         std::find(options.begin(), options.end(), action) == options.end();
