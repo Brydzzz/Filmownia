@@ -729,6 +729,22 @@ TEST(writer_test, add_job_duplicate) {
     ASSERT_EQ(w.getJobs().size(), 2);
     ASSERT_THROW(w.addJob(WriterType::Screenplay, f1), std::exception);
 }
+TEST(producer_test, constructor_csv) {
+    Date d(1, 10, 2005);
+    Producer p(3, "Brygida Silawko", d,
+               "[[19995, Producer], [285, Executive Producer]");
+    ASSERT_EQ(p.getName(), "Brygida Silawko");
+    ASSERT_EQ(p.getId(), 3);
+    ASSERT_EQ(p.getBirthDate().getDay(), 1);
+    ASSERT_EQ(p.getBirthDate().getMonth(), 10);
+    ASSERT_EQ(p.getBirthDate().getYear(), 2005);
+    std::stringstream ss;
+    p.displayJobs(ss);
+    ASSERT_EQ(ss.str(),
+              "Films produced by Brygida Silawko:\n\"Avatar\" (2009) as "
+              "Producer\n\"Pirates of the Caribbean: At World's End\" (2007) "
+              "as Executive Producer\n");
+}
 
 TEST(writer_test, add_job_films_with_the_same_title) {
     Writer w(5, "Jon Spaihts", 4, 2, 1970);
@@ -798,6 +814,22 @@ TEST(writer_test, delete_job_job_not_in_jobs) {
     ASSERT_EQ(w.getJobs().size(), 1);
     w.deleteJob(f2);
     ASSERT_EQ(w.getJobs().size(), 1);
+}
+
+TEST(writer_test, constructor_csv) {
+    Date d(1, 10, 2005);
+    Writer w(3, "Brygida Silawko", d, "[[50646, Writer], [2454, Screenplay]");
+    ASSERT_EQ(w.getName(), "Brygida Silawko");
+    ASSERT_EQ(w.getId(), 3);
+    ASSERT_EQ(w.getBirthDate().getDay(), 1);
+    ASSERT_EQ(w.getBirthDate().getMonth(), 10);
+    ASSERT_EQ(w.getBirthDate().getYear(), 2005);
+    std::stringstream ss;
+    w.displayJobs(ss);
+    ASSERT_EQ(ss.str(),
+              "Films written by Brygida Silawko:\n\"Crazy, Stupid, Love.\" "
+              "(2011) - Writer\n\"The Chronicles of Narnia: Prince Caspian\" "
+              "(2008) - Screenplay\n");
 }
 
 TEST(writer_test, display_jobs) {

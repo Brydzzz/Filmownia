@@ -5,14 +5,13 @@
 #include "date.h"
 #include "film.h"
 
-class Person
-{
-protected:
+class Person {
+   protected:
     std::string name;
     Date birthDate;
     unsigned int id;
 
-public:
+   public:
     Person(unsigned int id, const std::string &name, unsigned int day,
            unsigned int month, unsigned int year)
         : id(id), name(name), birthDate(day, month, year) {}
@@ -26,11 +25,9 @@ public:
     // TODO method of reading from csv and saving to csv format
 };
 
-class Actor : public Person
-{
-private:
-    struct Role
-    {
+class Actor : public Person {
+   private:
+    struct Role {
         std::string character;
         const Film *film;
 
@@ -47,7 +44,7 @@ private:
     std::vector<Role>::iterator findRole(const Role &role);
     std::vector<Role> parseRoles(const std::string &content);
 
-public:
+   public:
     using Person::Person;
 
     // ctor for data from csv
@@ -63,15 +60,14 @@ public:
     friend std::ostream &operator<<(std::ostream &os, const Actor &actor);
 };
 
-class Director : public Person
-{
-private:
+class Director : public Person {
+   private:
     std::vector<const Film *> films = {};
     std::vector<const Film *>::iterator findFilm(const Film &film);
-    std::vector<const Film *> parseFilms(std::string content); // TODO
-                                                               // parseFilms
+    std::vector<const Film *> parseFilms(std::string content);  // TODO
+                                                                // parseFilms
 
-public:
+   public:
     using Person::Person;
 
     // ctor for data from csv
@@ -87,18 +83,12 @@ public:
     friend std::ostream &operator<<(std::ostream &os, const Director &director);
 };
 
-enum class ProducerType
-{
-    Producer,
-    ExecutiveProducer
-};
+enum class ProducerType { Producer, ExecutiveProducer };
 std::string ptypeToString(ProducerType ptype);
 
-class Producer : public Person
-{
-private:
-    struct ProducerJob
-    {
+class Producer : public Person {
+   private:
+    struct ProducerJob {
         ProducerType ptype;
         const Film *film;
 
@@ -112,7 +102,7 @@ private:
     std::vector<ProducerJob>::iterator findJob(const ProducerJob &job);
     std::vector<ProducerJob> parseFilms(std::string content);
 
-public:
+   public:
     using Person::Person;
     Producer(unsigned int id, const std::string &name, Date date,
              std::string jobs)
@@ -124,19 +114,12 @@ public:
     friend std::ostream &operator<<(std::ostream &os, const Producer &producer);
 };
 
-enum class WriterType
-{
-    Screenplay,
-    Story,
-    Writer
-};
+enum class WriterType { Screenplay, Story, Writer };
 std::string wtypeToString(WriterType wtype);
 
-class Writer : public Person
-{
-private:
-    struct WriterJob
-    {
+class Writer : public Person {
+   private:
+    struct WriterJob {
         WriterType wtype;
         const Film *film;
 
@@ -150,7 +133,7 @@ private:
     std::vector<WriterJob>::iterator findJob(const WriterJob &job);
     std::vector<WriterJob> parseFilms(std::string content);
 
-public:
+   public:
     using Person::Person;
     Writer(unsigned int id, const std::string &name, Date date,
            std::string jobs)
