@@ -104,14 +104,10 @@ std::unique_ptr<Page> FilmPage::doAction(program_state act, std::unique_ptr<Role
                 std::make_unique<BrowsePage>();
             return ptr;
         }
-        cppIO::log("Test1");
         std::string actor_name = actors[a - 1];
-        cppIO::log(actor_name);
         std::vector<Actor> foundActors = db_mgmt.actorSearch(actor_name);
-        cppIO::log(foundActors.size());
         std::unique_ptr<ActorPage> ptr =
             std::make_unique<ActorPage>(foundActors[0]);
-        cppIO::log("Test4");
         return ptr;
     }
     else
