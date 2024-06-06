@@ -66,6 +66,7 @@ public:
     unsigned int getRating() const;
     friend bool operator==(const Film &lfilm, const Film &rfilm);
     friend std::ostream &operator<<(std::ostream &os, Film &fm);
+    friend std::ostream &operator<<(std::ostream &os, Film *fm);
     friend std::istream &operator>>(std::istream &is, Film &fm);
     std::ostream &write(std::ostream &os);
     const std::map<std::string, std::string> &getWriters() const;

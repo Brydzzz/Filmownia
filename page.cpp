@@ -1,8 +1,7 @@
 #include "page.h"
 
 #include <cstdlib>
-void clearTerminal()
-{
+void clearTerminal() {
 #ifdef _WIN32
     std::system("cls");
 #else
@@ -10,9 +9,12 @@ void clearTerminal()
 #endif
 }
 
-void printBorder()
-{
-    {
-        std::cout << "------------------------------" << std::endl;
-    }
+void printBorder() {
+    { std::cout << "------------------------------" << std::endl; }
+}
+
+void waitForInput() {
+    int u;
+    cppIO::input("Press 1 to continue... ", u);
+    return;
 }

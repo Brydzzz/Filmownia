@@ -7,15 +7,16 @@ enum class whichDb
     actorsDb,
     reviewsDb
 };
-    
-    
-class DatabaseManager {
+
+class DatabaseManager
+{
     std::string moviesDb;
     std::string actorsDb;
     std::string reviewsDb;
     std::string directorsDb;
+    std::string enumDbToStr(whichDb db);
 
-   public:
+public:
     DatabaseManager(std::string moviesDb = "../movies.csv",
                     std::string actorsDb = "../actors.csv",
                     std::string reviewsDb = "../reviews.csv",

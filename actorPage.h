@@ -11,7 +11,13 @@
 #include "role.h"
 class ActorPage : public Page
 {
-    std::vector<std::string> options = {
+    std::vector<std::string> options;
+    std::vector<std::string> optionsRest = {
+        "SeeAllRoles",
+        "GoBack",
+        "Exit",
+    };
+    std::vector<std::string> optionsAdmin = {
         "AddRole",
         "DeleteRole",
         "SeeAllRoles",
@@ -27,8 +33,16 @@ public:
 
     std::unique_ptr<Page> doAction(program_state,
                                    std::unique_ptr<Role> &us_ptr) override;
-    void showOptions() override
+    void showOptions(const Role *us_ptr) override
     {
+        if (us_ptr->getName() == "admin")
+        {
+            options = optionsAdmin;
+        }
+        else
+        {
+            options = optionsRest;
+        }
         std::cout << "Available Options: \n";
         for (auto opt : options)
         {
