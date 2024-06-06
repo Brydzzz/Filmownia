@@ -83,10 +83,10 @@ std::unique_ptr<Page> FilmPage::doAction(program_state act, std::unique_ptr<Role
     {
         int a = 0;
         DatabaseManager db_mgmt;
-        std::vector<std::pair<std::string, std::string>> actors;
+        std::vector<std::string> actors;
         for (auto it = film->getCast().begin(); it != film->getCast().end(); ++it)
         {
-            actors.push_back(std::pair<std::string, std::string>(it->first, it->second));
+            actors.push_back(it->first);
         }
         while (a < -1 || a > 10 || a > actors.size() || a == 0)
         {
@@ -104,10 +104,14 @@ std::unique_ptr<Page> FilmPage::doAction(program_state act, std::unique_ptr<Role
                 std::make_unique<BrowsePage>();
             return ptr;
         }
-        std::string actor_name = actors[a - 1].first + " " + actors[a - 1].second;
+        cppIO::log("Test1");
+        std::string actor_name = actors[a - 1];
+        cppIO::log(actor_name);
         std::vector<Actor> foundActors = db_mgmt.actorSearch(actor_name);
+        cppIO::log(foundActors.size());
         std::unique_ptr<ActorPage> ptr =
             std::make_unique<ActorPage>(foundActors[0]);
+        cppIO::log("Test4");
         return ptr;
     }
     else
