@@ -626,6 +626,38 @@ TEST(producer_test, delete_job_job_not_in_jobs) {
     ASSERT_EQ(p.getJobs().size(), 1);
 }
 
+TEST(producer_test, display_info) {
+    Producer p(4, "Kevin Feige", 2, 6, 1973);
+    ASSERT_EQ(p.getJobs().empty(), true);
+    Film f1(3, "The Avengers", 2012, {film_genre::Action}, {},
+            "When an unexpected enemy emerges and threatens global safety and "
+            "security, Nick Fury, director of the international peacekeeping "
+            "agency known as S.H.I.E.L.D., finds himself in need of a team to "
+            "pull the world back from the brink of disaster. Spanning the "
+            "globe, a daring recruitment effort begins!",
+            {}, 143, {}, {}, "");
+    Film f2(
+        4, "Iron Man", 2008, {film_genre::Action}, {},
+        "After being held captive in an Afghan cave, billionaire engineer Tony "
+        "Stark creates a unique weaponized suit of armor to fight evil.",
+        {}, 126, {}, {}, "");
+    p.addJob(ProducerType::Producer, f1);
+    p.addJob(ProducerType::ExecutiveProducer, f2);
+    std::stringstream ss;
+    p.displayProducerInfo(ss);
+    ASSERT_EQ(ss.str(),
+              "Kevin Feige\nBirthdate: 1973-06-02\nSelected films: \n\"Iron "
+              "Man\" (2008)\n\"The Avengers\" (2012)\n");
+}
+
+TEST(producer_test, display_info_no_jobs) {
+    Producer p(4, "Kevin Feige", 2, 6, 1973);
+    ASSERT_EQ(p.getJobs().empty(), true);
+    std::stringstream ss;
+    p.displayProducerInfo(ss);
+    ASSERT_EQ(ss.str(), "Kevin Feige\nBirthdate: 1973-06-02\n");
+}
+
 TEST(producer_test, display_jobs) {
     Producer p(4, "Kevin Feige", 2, 6, 1973);
     ASSERT_EQ(p.getJobs().empty(), true);

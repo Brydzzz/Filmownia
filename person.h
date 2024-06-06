@@ -111,6 +111,7 @@ class Producer : public Person {
     void addJob(ProducerType ptype, const Film &film);
     void deleteJob(const Film &film);
     void displayJobs(std::ostream &os) const;
+    void displayProducerInfo(std::ostream &os) const;
     friend std::ostream &operator<<(std::ostream &os, const Producer &producer);
 };
 
