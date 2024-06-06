@@ -11,8 +11,8 @@
 class FilmPage : public Page
 {
     std::vector<std::string> options;
-    std::vector<std::string> optionsGuest = {"SeeActor", "Browse", "Exit", "Reviews"};
-    std::vector<std::string> optionsRest = {"AddReview", "SeeActor", "Browse", "Exit", "Reviews"};
+    std::vector<std::string> optionsGuest = {"SeeDirector", "SeeActor", "Browse", "Exit", "Reviews"};
+    std::vector<std::string> optionsRest = {"AddReview", "SeeDirector", "SeeActor", "Browse", "Exit", "Reviews"};
     Film *film;
     void loadRevs();
 
