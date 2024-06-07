@@ -110,9 +110,78 @@ TEST(loggedTest, ldefaultTest) {
     ASSERT_EQ(logged.getReviews().size(), 0);
 };
 
-// TEST(loggedTest, constructor2Test)
-// {
-//     Review review;
-//     Logged logged(review);
-//     ASSERT_EQ(logged.getReviews().size(), 1);
-// };
+TEST(loggedTest, constructor2Test) {
+    User user;
+    Film f;
+    std::string s =
+        R"(19995;Avatar;['Action', 'Adventure', 'Fantasy', 'Science Fiction'];2009;162;In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.;[[CCH Pounder, Moat], [Giovanni Ribisi, Selfridge], [Joel David Moore, Norm Spellman], [Laz Alonso, \"Tsu'Tey\"], [Michelle Rodriguez, Trudy Chacon], [Sam Worthington, Jake Sully], [Sigourney Weaver, Dr. Grace Augustine], [Stephen Lang, Col. Quaritch], [Wes Studi, Eytukan], [Zoe Saldana, Neytiri]];James Cameron;[[James Cameron, Screenplay]];[[James Cameron, Producer], [Jon Landau, Producer], [Laeta Kalogridis, Executive Producer]])";
+    std::istringstream is(s);
+    is >> f;
+    Review review(&f, 1, "Tomek", 4, "Good");
+    Logged logged(&user, review);
+    ASSERT_EQ(logged.getReviews().size(), 1);
+};
+
+TEST(loggedTest, constructor3Test) {
+    User user;
+    Film f;
+    std::string s =
+        R"(19995;Avatar;['Action', 'Adventure', 'Fantasy', 'Science Fiction'];2009;162;In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.;[[CCH Pounder, Moat], [Giovanni Ribisi, Selfridge], [Joel David Moore, Norm Spellman], [Laz Alonso, \"Tsu'Tey\"], [Michelle Rodriguez, Trudy Chacon], [Sam Worthington, Jake Sully], [Sigourney Weaver, Dr. Grace Augustine], [Stephen Lang, Col. Quaritch], [Wes Studi, Eytukan], [Zoe Saldana, Neytiri]];James Cameron;[[James Cameron, Screenplay]];[[James Cameron, Producer], [Jon Landau, Producer], [Laeta Kalogridis, Executive Producer]])";
+    std::istringstream is(s);
+    is >> f;
+    std::vector<Review> reviews;
+    Review review1(&f, 1, "Tomek", 4, "Good");
+    Review review2(&f, 2, "Adam", 1, "Bad");
+    reviews.push_back(review1);
+    reviews.push_back(review2);
+    Logged logged(&user, reviews);
+    ASSERT_EQ(logged.getReviews().size(), 2);
+};
+
+TEST(loggedTest, setReviewsTest) {
+    User user;
+    Logged logged(&user);
+    Film f;
+    std::string s =
+        R"(19995;Avatar;['Action', 'Adventure', 'Fantasy', 'Science Fiction'];2009;162;In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.;[[CCH Pounder, Moat], [Giovanni Ribisi, Selfridge], [Joel David Moore, Norm Spellman], [Laz Alonso, \"Tsu'Tey\"], [Michelle Rodriguez, Trudy Chacon], [Sam Worthington, Jake Sully], [Sigourney Weaver, Dr. Grace Augustine], [Stephen Lang, Col. Quaritch], [Wes Studi, Eytukan], [Zoe Saldana, Neytiri]];James Cameron;[[James Cameron, Screenplay]];[[James Cameron, Producer], [Jon Landau, Producer], [Laeta Kalogridis, Executive Producer]])";
+    std::istringstream is(s);
+    is >> f;
+    std::vector<Review> reviews;
+    Review review1(&f, 1, "Tomek", 4, "Good");
+    Review review2(&f, 2, "Adam", 1, "Bad");
+    reviews.push_back(review1);
+    reviews.push_back(review2);
+    logged.setReviews(reviews);
+    ASSERT_EQ(logged.getReviews().size(), 2);
+};
+
+TEST(loggedTest, addReviewTest) {
+    User user;
+    Logged logged(&user);
+    Film f;
+    std::string s =
+        R"(19995;Avatar;['Action', 'Adventure', 'Fantasy', 'Science Fiction'];2009;162;In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.;[[CCH Pounder, Moat], [Giovanni Ribisi, Selfridge], [Joel David Moore, Norm Spellman], [Laz Alonso, \"Tsu'Tey\"], [Michelle Rodriguez, Trudy Chacon], [Sam Worthington, Jake Sully], [Sigourney Weaver, Dr. Grace Augustine], [Stephen Lang, Col. Quaritch], [Wes Studi, Eytukan], [Zoe Saldana, Neytiri]];James Cameron;[[James Cameron, Screenplay]];[[James Cameron, Producer], [Jon Landau, Producer], [Laeta Kalogridis, Executive Producer]])";
+    std::istringstream is(s);
+    is >> f;
+    Review review1(&f, 1, "Tomek", 4, "Good");
+    logged.add_review(review1);
+    ASSERT_EQ(logged.getReviews().size(), 1);
+};
+
+TEST(loggedTest, deleteReviewTest) {
+    User user;
+    Film f;
+    std::string s =
+        R"(19995;Avatar;['Action', 'Adventure', 'Fantasy', 'Science Fiction'];2009;162;In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.;[[CCH Pounder, Moat], [Giovanni Ribisi, Selfridge], [Joel David Moore, Norm Spellman], [Laz Alonso, \"Tsu'Tey\"], [Michelle Rodriguez, Trudy Chacon], [Sam Worthington, Jake Sully], [Sigourney Weaver, Dr. Grace Augustine], [Stephen Lang, Col. Quaritch], [Wes Studi, Eytukan], [Zoe Saldana, Neytiri]];James Cameron;[[James Cameron, Screenplay]];[[James Cameron, Producer], [Jon Landau, Producer], [Laeta Kalogridis, Executive Producer]])";
+    std::istringstream is(s);
+    is >> f;
+    std::vector<Review> reviews;
+    Review review1(&f, 1, "Tomek", 4, "Good");
+    Review review2(&f, 2, "Adam", 1, "Bad");
+    reviews.push_back(review1);
+    reviews.push_back(review2);
+    Logged logged(&user, reviews);
+    ASSERT_EQ(logged.getReviews().size(), 2);
+    logged.delete_review(review1);
+    ASSERT_EQ(logged.getReviews().size(), 1);
+};

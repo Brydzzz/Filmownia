@@ -204,14 +204,17 @@ void Director::deleteFilm(Film &film) {
     auto it = findFilm(film);
     if (it != films.end() && (*it)->getID() == film.getID()) {
         films.erase(it);
+    } else {
+        throw std::invalid_argument(
+            "This director was never in this movie in the first place");
     }
 }
 
-std::vector<Film *> Director::findFilmsByTitle(const std::string& title) {
+std::vector<Film *> Director::findFilmsByTitle(const std::string &title) {
     std::vector<Film *> result = {};
     auto it = films.begin();
     while (it != films.end()) {
-        it = std::find_if(it, films.end(), [title](Film*film) {
+        it = std::find_if(it, films.end(), [title](Film *film) {
             return film->getTitle().find(title) != std::string::npos;
         });
         if (it == films.end()) {
