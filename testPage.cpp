@@ -1,5 +1,3 @@
 #include <gtest/gtest.h>
 
-TEST(filmPageTest, actionsTest)
-{
-}
+TEST(filmPageTest, actionsTest) {}
