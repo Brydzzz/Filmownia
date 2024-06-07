@@ -5,6 +5,7 @@
 #include "csv.h"
 #include "databaseManager.h"
 #include "directorPage.h"
+#include "producerPage.h"
 void FilmPage::loadRevs() {
     if (film->getReviews().size() == 0) {
         io::CSVReader<5, io::trim_chars<' '>, io::no_quote_escape<';'>> in(
@@ -58,6 +59,9 @@ program_state FilmPage::nextAction() {
     if (action == "SeeDirector") {
         return program_state::SeeDirector;
     }
+    if (action == "SeeProducer") {
+        return program_state::SeeProducer;
+    }
     return program_state::Exit;
 }
 
@@ -102,9 +106,35 @@ std::unique_ptr<Page> FilmPage::doAction(program_state act,
     } else if (act == program_state::SeeDirector) {
         DatabaseManager db_mgmt;
         std::vector<Director> foundDirector =
-            db_mgmt.personSearch<Director>(film->getDir());
+            db_mgmt.directorSearch(film->getDir());
         std::unique_ptr<DirectorPage> ptr =
             std::make_unique<DirectorPage>(foundDirector[0]);
+        return ptr;
+    } else if (act == program_state::SeeProducer) {
+        int a = 0;
+        DatabaseManager db_mgmt;
+        std::vector<std::string> producers;
+        for (auto it = film->getProducers().begin();
+             it != film->getProducers().end(); ++it) {
+            producers.push_back(it->first);
+        }
+        while (a < -1 || a > 10 || a > producers.size() || a == 0) {
+            cppIO::input(
+                "Choose number of a producer you wish to see or -1 for exit: ",
+                a);
+            if (a == -1) {
+                break;
+            }
+        }
+        if (a == -1) {
+            std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
+            return ptr;
+        }
+        std::string actor_name = producers[a - 1];
+        std::vector<Producer> foundProducers =
+            db_mgmt.personSearch<Producer>(actor_name);
+        std::unique_ptr<ProducerPage> ptr =
+            std::make_unique<ProducerPage>(foundProducers[0]);
         return ptr;
     } else
     //    (act == program_state::Exit)
