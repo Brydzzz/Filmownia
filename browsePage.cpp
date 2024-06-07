@@ -63,7 +63,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::getline(std::cin, name);
         DatabaseManager db_mgmt;
-        std::vector<Actor> foundActors = db_mgmt.actorSearch(name);
+        std::vector<Actor> foundActors = db_mgmt.personSearch<Actor>(name);
         if (foundActors.size() != 0) {
             int a;
             std::cout << "Found actors: " << std::endl;
@@ -107,7 +107,8 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::getline(std::cin, name);
         DatabaseManager db_mgmt;
-        std::vector<Producer> foundProducers = db_mgmt.producerSearch(name);
+        std::vector<Producer> foundProducers =
+            db_mgmt.personSearch<Producer>(name);
         if (foundProducers.size() != 0) {
             int a;
             std::cout << "Found producers: " << std::endl;
@@ -151,7 +152,8 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::getline(std::cin, name);
         DatabaseManager db_mgmt;
-        std::vector<Director> foundDirectors = db_mgmt.directorSearch(name);
+        std::vector<Director> foundDirectors =
+            db_mgmt.personSearch<Director>(name);
         if (foundDirectors.size() != 0) {
             int a;
             std::cout << "Found directors: " << std::endl;
