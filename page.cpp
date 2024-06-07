@@ -50,8 +50,6 @@ Film *chooseMovie(std::vector<Film *> films) {
     if (films.size() == 0) {
         std::cout << "Movie not found" << std::endl;
         return nullptr;
-    } else if (films.size() == 1) {
-        f = films[0];
     } else {
         int i = 1;
         for (auto f : films) {
