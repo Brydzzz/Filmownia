@@ -106,7 +106,7 @@ std::unique_ptr<Page> FilmPage::doAction(program_state act,
     } else if (act == program_state::SeeDirector) {
         DatabaseManager db_mgmt;
         std::vector<Director> foundDirector =
-            db_mgmt.directorSearch(film->getDir());
+            db_mgmt.personSearch<Director>(film->getDir());
         std::unique_ptr<DirectorPage> ptr =
             std::make_unique<DirectorPage>(foundDirector[0]);
         return ptr;
