@@ -39,7 +39,7 @@ program_state ActorPage::nextAction()
     }
     else if (action == "SeeAllRoles")
     {
-        return program_state::SeeAllRoles;
+        return program_state::SeeAll;
     }
     return program_state::Exit; // tylko dla kompilatora taka sytuacja nie
                                 // wystąpi w normalnym działaniu programu
@@ -145,7 +145,7 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
         return ptr;
     }
-    else if (act == program_state::SeeAllRoles)
+    else if (act == program_state::SeeAll)
     {
         clearTerminal();
         actor.displayRoles(std::cout);

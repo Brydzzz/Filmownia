@@ -35,7 +35,7 @@ program_state DirectorPage::nextAction()
     }
     if (action == "SeeAllFilms")
     {
-        return program_state::SeeAllDirectorFilms;
+        return program_state::SeeAll;
     }
     return program_state::Exit;
 }
@@ -138,7 +138,7 @@ std::unique_ptr<Page> DirectorPage::doAction(program_state act,
         std::unique_ptr<DirectorPage> ptr = std::make_unique<DirectorPage>(director);
         return ptr;
     }
-    else if (act == program_state::SeeAllDirectorFilms)
+    else if (act == program_state::SeeAll)
     {
         clearTerminal();
         director.displayFilms(std::cout);

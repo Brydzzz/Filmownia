@@ -21,7 +21,7 @@ program_state ProducerPage::nextAction() {
     } else if (action == "GoBack") {
         return program_state::GoBack;
     } else if (action == "SeeAllJobs") {
-        return program_state::SeeAllRoles;
+        return program_state::SeeAll;
     }
     return program_state::Exit;  // tylko dla kompilatora taka sytuacja nie
                                  // wystąpi w normalnym działaniu programu
@@ -32,7 +32,7 @@ std::unique_ptr<Page> ProducerPage::doAction(program_state act,
     if (act == program_state::GoBack) {
         std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
         return ptr;
-    } else if (act == program_state::SeeAllRoles) {
+    } else if (act == program_state::SeeAll) {
         clearTerminal();
         prod.displayJobs(std::cout);
         waitForInput();
