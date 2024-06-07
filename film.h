@@ -76,6 +76,8 @@ class Film {
     void addReview(Review review);
     void addRole(std::string actor, std::string role);
     void deleteRole(std::string actor);
+    void changeDirector(std::string new_director);
+    void deleteDirector(std::string to_delete);
     const unsigned int &getID() const;
     std::vector<Review> &getReviews();
     const std::string &getTitle() const;

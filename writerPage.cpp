@@ -28,21 +28,30 @@ program_state WriterPage::nextAction() {
 std::unique_ptr<Page> WriterPage::doAction(program_state act,
                                            std::unique_ptr<Role>& us_ptr) {
     if (act == program_state::GoBack) {
-        std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
-        return ptr;
+        if (filmLink != nullptr) {
+            std::unique_ptr<FilmPage> ptr =
+                std::make_unique<FilmPage>(filmLink);
+            return ptr;
+        } else {
+            std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
+            return ptr;
+        }
     } else if (act == program_state::SeeAll) {
         clearTerminal();
         writer.displayJobs(std::cout);
         waitForInput();
 
-        std::unique_ptr<WriterPage> ptr = std::make_unique<WriterPage>(writer);
+        std::unique_ptr<WriterPage> ptr =
+            std::make_unique<WriterPage>(writer, filmLink);
         return ptr;
     } else if (act == program_state::Exit) {
-        std::unique_ptr<WriterPage> ptr = std::make_unique<WriterPage>(writer);
+        std::unique_ptr<WriterPage> ptr =
+            std::make_unique<WriterPage>(writer, filmLink);
         return ptr;
     }
 
-    std::unique_ptr<WriterPage> ptr = std::make_unique<WriterPage>(writer);
+    std::unique_ptr<WriterPage> ptr =
+        std::make_unique<WriterPage>(writer, filmLink);
     return ptr;
 }
 

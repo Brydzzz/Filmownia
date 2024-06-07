@@ -37,6 +37,7 @@ enum class program_state {
     SeeActor,
     SeeDirector,
     SeeProducer,
+    SeeWriter,
     LogIn,
     SignUp,
     LogOut
