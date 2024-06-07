@@ -56,6 +56,10 @@ void Film::deleteRole(std::string actor) {
 
 void Film::addRole(std::string actor, std::string role) { cast[actor] = role; }
 
+void Film::changeDirector(std::string new_director) { director = new_director; }
+
+void Film::deleteDirector(std::string to_delete) { director = ""; }
+
 film_genre toGenre(const std::string &genreStr) {
     if (genreStr == "Action") return film_genre::Action;
     if (genreStr == "Adventure") return film_genre::Adventure;

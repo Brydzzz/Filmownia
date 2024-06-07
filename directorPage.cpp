@@ -75,6 +75,7 @@ std::unique_ptr<Page> DirectorPage::doAction(program_state act,
         os.str("");
         os << f;
         std::string oldMovie = os.str();
+        f->changeDirector(director.getName());
         os.str("");
         os << f;
         std::string newMovie = os.str();
