@@ -28,6 +28,7 @@ enum class program_state {
     BrowseActors,
     BrowseDirectors,
     BrowseProducers,
+    BrowseWriters,
     AddRole,
     DeleteRole,
     SeeAll,

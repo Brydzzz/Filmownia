@@ -10,7 +10,7 @@
 #include "person.h"
 #include "role.h"
 
-class ProducerPage : public Page {
+class WriterPage : public Page {
     std::vector<std::string> options;
     std::vector<std::string> optionsRest = {
         "SeeAllJobs",
@@ -22,18 +22,16 @@ class ProducerPage : public Page {
         "GoBack",
         "Exit",
     };
-    Producer prod;
-    Film* filmLink;
+    Writer writer;
 
    public:
-    ProducerPage(Producer p, Film* filmLink = nullptr)
-        : prod(p), filmLink(filmLink) {}
-    void print() override;  // print Producer info
+    WriterPage(Writer p) : writer(p) {}
+    void print() override;  // print Writer info
     program_state nextAction() override;
 
     std::unique_ptr<Page> doAction(program_state,
-                                   std::unique_ptr<Role>& us_ptr) override;
-    void showOptions(const Role* us_ptr) override {
+                                   std::unique_ptr<Role> &us_ptr) override;
+    void showOptions(const Role *us_ptr) override {
         if (us_ptr->getName() == "admin") {
             options = optionsAdmin;
         } else {
