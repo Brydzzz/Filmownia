@@ -36,7 +36,7 @@ class FilmPage : public Page {
         } else {
             options = optionsRest;
         }
-        std::cout << "Avaiable Options: \n";
+        std::cout << "Available Options: \n";
         for (auto opt : options) {
             std::cout << "- " << opt << std::endl;
         }
