@@ -513,6 +513,53 @@ TEST(producer_test, constructor) {
     ASSERT_EQ(p.getJobs().empty(), true);
 }
 
+TEST(producer_test, constructor_csv) {
+    Date d(1, 10, 2005);
+    Producer p(3, "Brygida Silawko", d,
+               "[[19995, Producer], [285, Executive Producer]");
+    ASSERT_EQ(p.getName(), "Brygida Silawko");
+    ASSERT_EQ(p.getId(), 3);
+    ASSERT_EQ(p.getBirthDate().getDay(), 1);
+    ASSERT_EQ(p.getBirthDate().getMonth(), 10);
+    ASSERT_EQ(p.getBirthDate().getYear(), 2005);
+    ASSERT_EQ(p.getJobs().size(), 2);
+    std::stringstream ss;
+    p.displayJobs(ss);
+    ASSERT_EQ(ss.str(),
+              "Films produced by Brygida Silawko:\n\"Avatar\" (2009) as "
+              "Producer\n\"Pirates of the Caribbean: At World's End\" (2007) "
+              "as Executive Producer\n");
+}
+
+TEST(producer_test, constructor_csv_2) {
+    Date d(1, 10, 2005);
+    Producer p(3, "Brygida Silawko", d,
+               "[['19995', 'Producer'], ['285', 'Executive Producer']");
+    ASSERT_EQ(p.getName(), "Brygida Silawko");
+    ASSERT_EQ(p.getId(), 3);
+    ASSERT_EQ(p.getBirthDate().getDay(), 1);
+    ASSERT_EQ(p.getBirthDate().getMonth(), 10);
+    ASSERT_EQ(p.getBirthDate().getYear(), 2005);
+    ASSERT_EQ(p.getJobs().size(), 2);
+    std::stringstream ss;
+    p.displayJobs(ss);
+    ASSERT_EQ(ss.str(),
+              "Films produced by Brygida Silawko:\n\"Avatar\" (2009) as "
+              "Producer\n\"Pirates of the Caribbean: At World's End\" (2007) "
+              "as Executive Producer\n");
+}
+
+TEST(producer_test, constructor_csv_empty_jobs) {
+    Date d(1, 10, 2005);
+    Producer p(3, "Brygida Silawko", d, "[]");
+    ASSERT_EQ(p.getName(), "Brygida Silawko");
+    ASSERT_EQ(p.getId(), 3);
+    ASSERT_EQ(p.getBirthDate().getDay(), 1);
+    ASSERT_EQ(p.getBirthDate().getMonth(), 10);
+    ASSERT_EQ(p.getBirthDate().getYear(), 2005);
+    ASSERT_EQ(p.getJobs().empty(), true);
+}
+
 TEST(producer_test, add_job) {
     Producer p(4, "Kevin Feige", 2, 6, 1973);
     ASSERT_EQ(p.getJobs().empty(), true);
@@ -721,6 +768,52 @@ TEST(writer_test, constructor) {
     ASSERT_EQ(w.getJobs().empty(), true);
 }
 
+TEST(writer_test, constructor_csv) {
+    Date d(1, 10, 2005);
+    Writer w(3, "Brygida Silawko", d, "[[50646, Writer], [2454, Screenplay]");
+    ASSERT_EQ(w.getName(), "Brygida Silawko");
+    ASSERT_EQ(w.getId(), 3);
+    ASSERT_EQ(w.getBirthDate().getDay(), 1);
+    ASSERT_EQ(w.getBirthDate().getMonth(), 10);
+    ASSERT_EQ(w.getBirthDate().getYear(), 2005);
+    ASSERT_EQ(w.getJobs().size(), 2);
+    std::stringstream ss;
+    w.displayJobs(ss);
+    ASSERT_EQ(ss.str(),
+              "Films written by Brygida Silawko:\n\"Crazy, Stupid, Love.\" "
+              "(2011) - Writer\n\"The Chronicles of Narnia: Prince Caspian\" "
+              "(2008) - Screenplay\n");
+}
+
+TEST(writer_test, constructor_csv_2) {
+    Date d(1, 10, 2005);
+    Writer w(3, "Brygida Silawko", d,
+             "[['50646', 'Writer'], ['2454', 'Screenplay']");
+    ASSERT_EQ(w.getName(), "Brygida Silawko");
+    ASSERT_EQ(w.getId(), 3);
+    ASSERT_EQ(w.getBirthDate().getDay(), 1);
+    ASSERT_EQ(w.getBirthDate().getMonth(), 10);
+    ASSERT_EQ(w.getBirthDate().getYear(), 2005);
+    ASSERT_EQ(w.getJobs().size(), 2);
+    std::stringstream ss;
+    w.displayJobs(ss);
+    ASSERT_EQ(ss.str(),
+              "Films written by Brygida Silawko:\n\"Crazy, Stupid, Love.\" "
+              "(2011) - Writer\n\"The Chronicles of Narnia: Prince Caspian\" "
+              "(2008) - Screenplay\n");
+}
+
+TEST(writer_test, constructor_csv_empty_jobs) {
+    Date d(1, 10, 2005);
+    Writer w(3, "Brygida Silawko", d, "[]");
+    ASSERT_EQ(w.getName(), "Brygida Silawko");
+    ASSERT_EQ(w.getId(), 3);
+    ASSERT_EQ(w.getBirthDate().getDay(), 1);
+    ASSERT_EQ(w.getBirthDate().getMonth(), 10);
+    ASSERT_EQ(w.getBirthDate().getYear(), 2005);
+    ASSERT_EQ(w.getJobs().empty(), true);
+}
+
 TEST(writer_test, add_job) {
     Writer w(5, "Jon Spaihts", 4, 2, 1970);
     ASSERT_EQ(w.getJobs().empty(), true);
@@ -760,22 +853,6 @@ TEST(writer_test, add_job_duplicate) {
     w.addJob(WriterType::Writer, f2);
     ASSERT_EQ(w.getJobs().size(), 2);
     ASSERT_THROW(w.addJob(WriterType::Screenplay, f1), std::exception);
-}
-TEST(producer_test, constructor_csv) {
-    Date d(1, 10, 2005);
-    Producer p(3, "Brygida Silawko", d,
-               "[[19995, Producer], [285, Executive Producer]");
-    ASSERT_EQ(p.getName(), "Brygida Silawko");
-    ASSERT_EQ(p.getId(), 3);
-    ASSERT_EQ(p.getBirthDate().getDay(), 1);
-    ASSERT_EQ(p.getBirthDate().getMonth(), 10);
-    ASSERT_EQ(p.getBirthDate().getYear(), 2005);
-    std::stringstream ss;
-    p.displayJobs(ss);
-    ASSERT_EQ(ss.str(),
-              "Films produced by Brygida Silawko:\n\"Avatar\" (2009) as "
-              "Producer\n\"Pirates of the Caribbean: At World's End\" (2007) "
-              "as Executive Producer\n");
 }
 
 TEST(writer_test, add_job_films_with_the_same_title) {
@@ -848,22 +925,6 @@ TEST(writer_test, delete_job_job_not_in_jobs) {
     ASSERT_EQ(w.getJobs().size(), 1);
 }
 
-TEST(writer_test, constructor_csv) {
-    Date d(1, 10, 2005);
-    Writer w(3, "Brygida Silawko", d, "[[50646, Writer], [2454, Screenplay]");
-    ASSERT_EQ(w.getName(), "Brygida Silawko");
-    ASSERT_EQ(w.getId(), 3);
-    ASSERT_EQ(w.getBirthDate().getDay(), 1);
-    ASSERT_EQ(w.getBirthDate().getMonth(), 10);
-    ASSERT_EQ(w.getBirthDate().getYear(), 2005);
-    std::stringstream ss;
-    w.displayJobs(ss);
-    ASSERT_EQ(ss.str(),
-              "Films written by Brygida Silawko:\n\"Crazy, Stupid, Love.\" "
-              "(2011) - Writer\n\"The Chronicles of Narnia: Prince Caspian\" "
-              "(2008) - Screenplay\n");
-}
-
 TEST(writer_test, display_jobs) {
     Writer w(5, "Jon Spaihts", 4, 2, 1970);
     ASSERT_EQ(w.getJobs().empty(), true);
@@ -886,6 +947,37 @@ TEST(writer_test, display_jobs) {
     ASSERT_EQ(ss.str(),
               "Films written by Jon Spaihts:\n\"Dune\" (2021) - "
               "Screenplay\n\"Passengers\" (2016) - Writer\n");
+}
+
+TEST(writer_test, display_info) {
+    Writer w(5, "Jon Spaihts", 4, 2, 1970);
+    ASSERT_EQ(w.getJobs().empty(), true);
+    Film f1(5, "Dune", 2021, {film_genre::SciFi}, {},
+            "Paul Atreides, a brilliant and gifted young man born into a great "
+            "destiny beyond his understanding, must travel to the most "
+            "dangerous planet in the universe to ensure the future of his "
+            "family and his people.",
+            {}, 155, {}, {}, "");
+    Film f2(
+        6, "Passengers", 2016, {film_genre::Romance}, {},
+        "A spacecraft traveling to a distant colony planet and transporting "
+        "thousands of people has a malfunction in its sleep chambers. As a "
+        "result, two passengers are awakened 90 years early.",
+        {}, 116, {}, {}, "");
+    w.addJob(WriterType::Screenplay, f1);
+    w.addJob(WriterType::Writer, f2);
+    std::stringstream ss;
+    w.displayWriterInfo(ss);
+    ASSERT_EQ(ss.str(),
+              "Jon Spaihts\nBirthdate: 1970-02-04\nSelected films: \n\"Dune\" "
+              "(2021)\n\"Passengers\" (2016)\n");
+}
+
+TEST(writer_test, display_info_no_jobs) {
+    Writer w(5, "Jon Spaihts", 4, 2, 1970);
+    std::stringstream ss;
+    w.displayWriterInfo(ss);
+    ASSERT_EQ(ss.str(), "Jon Spaihts\nBirthdate: 1970-02-04\n");
 }
 
 TEST(writer_test, operator_out) {

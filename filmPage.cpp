@@ -87,9 +87,10 @@ std::unique_ptr<Page> FilmPage::doAction(program_state act,
         }
         while (a < -1 || a > 10 || a > actors.size() || a == 0) {
             cppIO::input(
-                "Choose number of a actor you wish to see or -1 for exit: ", a);
-            if (a == -1) {
-                break;
+                "Choose number of an actor you wish to see or -1 for exit: ",
+                a);
+            if (a < -1 || a > 10 || a > actors.size() || a == 0) {
+                cppIO::log("Choose nr of one of the shown actors.");
             }
         }
         if (a == -1) {
@@ -97,7 +98,8 @@ std::unique_ptr<Page> FilmPage::doAction(program_state act,
             return ptr;
         }
         std::string actor_name = actors[a - 1];
-        std::vector<Actor> foundActors = db_mgmt.actorSearch(actor_name);
+        std::vector<Actor> foundActors =
+            db_mgmt.personSearch<Actor>(actor_name);
         std::unique_ptr<ActorPage> ptr =
             std::make_unique<ActorPage>(foundActors[0]);
         return ptr;
