@@ -28,8 +28,6 @@ Film *findAndChooseMovie(std::string title) {
     if (found.size() == 0) {
         std::cout << "Movie not found" << std::endl;
         return nullptr;
-    } else if (found.size() == 1) {
-        f = found[0];
     } else {
         int i = 1;
         for (auto f : found) {
@@ -52,8 +50,6 @@ Film *chooseMovie(std::vector<Film *> films) {
     if (films.size() == 0) {
         std::cout << "Movie not found" << std::endl;
         return nullptr;
-    } else if (films.size() == 1) {
-        f = films[0];
     } else {
         int i = 1;
         for (auto f : films) {
