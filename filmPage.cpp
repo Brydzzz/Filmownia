@@ -6,6 +6,7 @@
 #include "databaseManager.h"
 #include "directorPage.h"
 #include "producerPage.h"
+#include "writerPage.h"
 void FilmPage::loadRevs() {
     if (film->getReviews().size() == 0) {
         io::CSVReader<5, io::trim_chars<' '>, io::no_quote_escape<';'>> in(
@@ -62,6 +63,9 @@ program_state FilmPage::nextAction() {
     if (action == "SeeProducer") {
         return program_state::SeeProducer;
     }
+    if (action == "SeeWriter") {
+        return program_state::SeeWriter;
+    }
     return program_state::Exit;
 }
 
@@ -89,12 +93,12 @@ std::unique_ptr<Page> FilmPage::doAction(program_state act,
             cppIO::input(
                 "Choose number of an actor you wish to see or -1 for exit: ",
                 a);
-            if (a < -1 || a > 10 || a > actors.size() || a == 0) {
-                cppIO::log("Choose nr of one of the shown actors.");
+            if (a == -1) {
+                break;
             }
         }
         if (a == -1) {
-            std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
+            std::unique_ptr<FilmPage> ptr = std::make_unique<FilmPage>(film);
             return ptr;
         }
         std::string actor_name = actors[a - 1];
@@ -127,18 +131,42 @@ std::unique_ptr<Page> FilmPage::doAction(program_state act,
             }
         }
         if (a == -1) {
-            std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
+            std::unique_ptr<FilmPage> ptr = std::make_unique<FilmPage>(film);
             return ptr;
         }
-        std::string actor_name = producers[a - 1];
+        std::string producer_name = producers[a - 1];
         std::vector<Producer> foundProducers =
-            db_mgmt.personSearch<Producer>(actor_name);
+            db_mgmt.personSearch<Producer>(producer_name);
         std::unique_ptr<ProducerPage> ptr =
             std::make_unique<ProducerPage>(foundProducers[0], film);
         return ptr;
-    } else
-    //    (act == program_state::Exit)
-    {
+    } else if (act == program_state::SeeWriter) {
+        int a = 0;
+        DatabaseManager db_mgmt;
+        std::vector<std::string> writers;
+        for (auto it = film->getWriters().begin();
+             it != film->getWriters().end(); ++it) {
+            writers.push_back(it->first);
+        }
+        while (a < -1 || a > 10 || a > writers.size() || a == 0) {
+            cppIO::input(
+                "Choose number of a writer you wish to see or -1 for exit: ",
+                a);
+            if (a == -1) {
+                break;
+            }
+        }
+        if (a == -1) {
+            std::unique_ptr<FilmPage> ptr = std::make_unique<FilmPage>(film);
+            return ptr;
+        }
+        std::string writer_name = writers[a - 1];
+        std::vector<Writer> foundWriters =
+            db_mgmt.personSearch<Writer>(writer_name);
+        std::unique_ptr<WriterPage> ptr =
+            std::make_unique<WriterPage>(foundWriters[0], film);
+        return ptr;
+    } else {
         std::unique_ptr<FilmPage> ptr = std::make_unique<FilmPage>(film);
         return ptr;
     }
