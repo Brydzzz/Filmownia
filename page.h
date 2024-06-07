@@ -27,19 +27,25 @@ enum class program_state {
     BrowseMovies,
     BrowseActors,
     BrowseDirectors,
+    BrowseProducers,
     AddRole,
     DeleteRole,
     SeeAllRoles,
     AddDirectorFilm,
     DeleteDirectorFilm,
-    SeeAllDirectorFilms
+    SeeAllDirectorFilms,
+    SeeActor,
+    SeeDirector,
+    LogIn,
+    SignUp,
+    LogOut
 };
 
 class Page {
     std::vector<std::string> options;
 
    public:
-    virtual void showOptions() {
+    virtual void showOptions(const Role *us_ptr) {
         for (auto opt : options) {
             std::cout << opt << std::endl;
         }

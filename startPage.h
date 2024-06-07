@@ -9,8 +9,11 @@
 #include "userPage.h"
 class StartPage : public Page
 {
-    std::vector<std::string> options = {"Browse",
-                                        "Exit", "MyPage"};
+    std::vector<std::string> options;
+    std::vector<std::string> optionsRest = {"Browse",
+                                            "Exit", "MyPage", "LogOut"};
+    std::vector<std::string> optionsGuest = {"Browse",
+                                             "Exit", "SignUp", "LogIn"};
     std::string msg = "Welcome to Filmownia movie database!\nPresented to you by: Brygida S, Kinga Ł and Tomasz S";
 
 public:
@@ -23,8 +26,16 @@ public:
         std::cout << msg << std::endl;
         printBorder();
     }
-    void showOptions() override
+    void showOptions(const Role *us_ptr) override
     {
+        if (us_ptr->getName() == "guest")
+        {
+            options = optionsGuest;
+        }
+        else
+        {
+            options = optionsRest;
+        }
         std::cout << "Avaiable Options: \n";
         for (auto opt : options)
         {

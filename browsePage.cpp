@@ -6,6 +6,8 @@
 #include "date.h"
 #include "directorPage.h"
 #include "global.h"
+#include "producerPage.h"
+
 extern std::vector<Film> flist;
 
 std::unique_ptr<Page> BrowsePage::doAction(program_state act,
@@ -37,6 +39,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                     break;
                 }
             }
+
             if (a == -1) {
                 std::unique_ptr<BrowsePage> ptr =
                     std::make_unique<BrowsePage>();
@@ -80,6 +83,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                     break;
                 }
             }
+
             if (a == -1) {
                 std::unique_ptr<BrowsePage> ptr =
                     std::make_unique<BrowsePage>();
@@ -92,6 +96,50 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
             return ptr;
         } else {
             std::cout << "Actor not found\n";
+            waitForInput();
+            std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
+            return ptr;
+        }
+    } else if (act == program_state::BrowseProducers) {
+        std::string name;
+        std::cout << "Enter producer's name: " << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::getline(std::cin, name);
+        DatabaseManager db_mgmt;
+        std::vector<Producer> foundProducers = db_mgmt.producerSearch(name);
+        if (foundProducers.size() != 0) {
+            int a;
+            std::cout << "Found producers: " << std::endl;
+            int i = 0;
+
+            for (auto d : foundProducers) {
+                if (i < 10) {
+                    std::cout << i + 1 << '.' << d.getName() << std::endl;
+                    ++i;
+                }
+            }
+            while (a < -1 || a > 10 || a > foundProducers.size() || a == 0) {
+                cppIO::input(
+                    "Choose number of a producer you wish to see or -1 for "
+                    "exit: ",
+                    a);
+                if (a == -1) {
+                    break;
+                }
+            }
+            if (a == -1) {
+                std::unique_ptr<BrowsePage> ptr =
+                    std::make_unique<BrowsePage>();
+                return ptr;
+            } else {
+                a--;
+            }
+            std::unique_ptr<ProducerPage> ptr =
+                std::make_unique<ProducerPage>(foundProducers[a]);
+            return ptr;
+        } else {
+            std::cout << "Director not found\n";
             waitForInput();
             std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
             return ptr;
@@ -117,7 +165,8 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
             }
             while (a < -1 || a > 10 || a > foundDirectors.size() || a == 0) {
                 cppIO::input(
-                    "Choose number of a actor you wish to see or -1 for exit: ",
+                    "Choose number of a director you wish to see or -1 for "
+                    "exit: ",
                     a);
                 if (a == -1) {
                     break;
@@ -152,8 +201,17 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
 
 program_state BrowsePage::nextAction() {
     std::string action;
-    while (std::find(options.begin(), options.end(), action) == options.end()) {
+    bool condition =
+        std::find(options.begin(), options.end(), action) == options.end();
+    while (condition) {
         cppIO::input("Enter desired action: ", action);
+        condition =
+            std::find(options.begin(), options.end(), action) == options.end();
+        if (condition) {
+            cppIO::log(
+                "No such option available for this user. Chose one from the "
+                "list.");
+        }
     }
     if (action == "Exit") {
         return program_state::Exit;
@@ -163,6 +221,8 @@ program_state BrowsePage::nextAction() {
         return program_state::BrowseActors;
     } else if (action == "BrowseDirectors") {
         return program_state::BrowseDirectors;
+    } else if (action == "BrowseProducers") {
+        return program_state::BrowseProducers;
     } else if (action == "GoBack") {
         return program_state::GoBack;
     }

@@ -9,43 +9,36 @@
 #include "page.h"
 #include "person.h"
 #include "role.h"
-class ActorPage : public Page
-{
+
+class ProducerPage : public Page {
     std::vector<std::string> options;
     std::vector<std::string> optionsRest = {
-        "SeeAllRoles",
+        "SeeAllJobs",
         "GoBack",
         "Exit",
     };
     std::vector<std::string> optionsAdmin = {
-        "AddRole",
-        "DeleteRole",
-        "SeeAllRoles",
+        "SeeAllJobs",
         "GoBack",
         "Exit",
     };
-    Actor actor;
+    Producer prod;
 
-public:
-    ActorPage(Actor a) : actor(a) {}
-    void print() override; // print actor info
+   public:
+    ProducerPage(Producer p) : prod(p) {}
+    void print() override;  // print Producer info
     program_state nextAction() override;
 
     std::unique_ptr<Page> doAction(program_state,
                                    std::unique_ptr<Role> &us_ptr) override;
-    void showOptions(const Role *us_ptr) override
-    {
-        if (us_ptr->getName() == "admin")
-        {
+    void showOptions(const Role *us_ptr) override {
+        if (us_ptr->getName() == "admin") {
             options = optionsAdmin;
-        }
-        else
-        {
+        } else {
             options = optionsRest;
         }
         std::cout << "Available Options: \n";
-        for (auto opt : options)
-        {
+        for (auto opt : options) {
             std::cout << "- " << opt << std::endl;
         }
     }

@@ -1,24 +1,20 @@
 #include "databaseManager.h"
+
 #include <fstream>
 #include <iostream>
-void DatabaseManager::replaceLine(std::string newLine, std::string oldLine, whichDb db)
-{
+void DatabaseManager::replaceLine(std::string newLine, std::string oldLine,
+                                  whichDb db) {
     std::ifstream fileHandler(enumDbToStr(db));
-    if (!fileHandler.is_open())
-    {
+    if (!fileHandler.is_open()) {
         std::cerr << "Error when opening file" << std::endl;
         return;
     }
     std::string line;
     std::ofstream temp("../temp.txt");
-    while (std::getline(fileHandler, line))
-    {
-        if (line == oldLine)
-        {
+    while (std::getline(fileHandler, line)) {
+        if (line == oldLine) {
             temp << newLine << '\n';
-        }
-        else
-        {
+        } else {
             temp << line << '\n';
         }
     }
@@ -26,37 +22,32 @@ void DatabaseManager::replaceLine(std::string newLine, std::string oldLine, whic
     fileHandler.close();
     std::ifstream temp2("../temp.txt", std::ios::in);
     std::ofstream fileHandler2(enumDbToStr(db), std::ios::out);
-    while (std::getline(temp2, line))
-    {
+    while (std::getline(temp2, line)) {
         fileHandler2 << line << '\n';
     }
 }
 
-std::string DatabaseManager::enumDbToStr(whichDb db)
-{
-    switch (db)
-    {
-    case whichDb::moviesDb:
-        return moviesDb;
-    case whichDb::actorsDb:
-        return actorsDb;
-    case whichDb::reviewsDb:
-        return reviewsDb;
-    default:
-        return "Unknown";
+std::string DatabaseManager::enumDbToStr(whichDb db) {
+    switch (db) {
+        case whichDb::moviesDb:
+            return moviesDb;
+        case whichDb::actorsDb:
+            return actorsDb;
+        case whichDb::reviewsDb:
+            return reviewsDb;
+        default:
+            return "Unknown";
     }
 }
 
-std::vector<Film *> DatabaseManager::movieSearch(const std::string &title)
-{
+std::vector<Film *> DatabaseManager::movieSearch(const std::string &title) {
     auto it = flist.begin();
     std::vector<Film *> result = {};
-    while (it != flist.end())
-    {
-        it = std::find_if(it, flist.end(), [&](const Film &film)
-                          { return film.getTitle().find(title) != std::string::npos; });
-        if (it == flist.end())
-        {
+    while (it != flist.end()) {
+        it = std::find_if(it, flist.end(), [&](const Film &film) {
+            return film.getTitle().find(title) != std::string::npos;
+        });
+        if (it == flist.end()) {
             break;
         }
         Film *f = &(*it);
@@ -67,8 +58,29 @@ std::vector<Film *> DatabaseManager::movieSearch(const std::string &title)
     return result;
 }
 
-std::vector<Actor> DatabaseManager::actorSearch(const std::string &name)
-{
+std::vector<Producer> DatabaseManager::producerSearch(const std::string &name) {
+    std::vector<Producer> prods;
+    io::CSVReader<4, io::trim_chars<' '>, io::no_quote_escape<';'>> in(
+        producersDb);
+    in.read_header(io::ignore_missing_column, "ID", "Name", "Birthday",
+                   "Films");
+    unsigned int ID;
+    std::string Name;
+    std::string Birthday;
+    std::string Films;
+    while (in.read_row(ID, Name, Birthday, Films)) {
+        if (Name.find(name) != std::string::npos) {
+            Date BirthdayDate;
+            std::istringstream bday(Birthday);
+            bday >> BirthdayDate;
+            Producer p(ID, Name, BirthdayDate, Films);
+            prods.push_back(p);
+        }
+    }
+    return prods;
+}
+
+std::vector<Actor> DatabaseManager::actorSearch(const std::string &name) {
     std::vector<Actor> actors;
     io::CSVReader<4, io::trim_chars<' '>, io::no_quote_escape<';'>> in(
         actorsDb);
@@ -78,10 +90,8 @@ std::vector<Actor> DatabaseManager::actorSearch(const std::string &name)
     std::string Name;
     std::string Birthday;
     std::string Films;
-    while (in.read_row(ID, Name, Birthday, Films))
-    {
-        if (Name.find(name) != std::string::npos)
-        {
+    while (in.read_row(ID, Name, Birthday, Films)) {
+        if (Name.find(name) != std::string::npos) {
             Date BirthdayDate;
             std::istringstream bday(Birthday);
             bday >> BirthdayDate;
@@ -114,4 +124,3 @@ std::vector<Director> DatabaseManager::directorSearch(const std::string &name) {
     }
     return directors;
 }
-

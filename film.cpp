@@ -90,39 +90,6 @@ void Film::deleteRole(std::string actor)
     cast.erase(actor);
 }
 
-std::ostream &Film::write(std::ostream &os)
-{
-    os << std::quoted(getTitle()) << std::endl;
-    os << "Release year: " << getYear() << "  " << "Runtime: " << getTime() << std::endl;
-    os << "Rating: " << getRating() << std::endl;
-    os << getDesc() << std::endl;
-    os << "Director: " << getDir() << std::endl;
-    os << "Producers: " << std::endl;
-    unsigned int i = 1;
-    for (auto person : getProducers())
-    {
-        os << i << ". " << person.first << " - " << person.second << ", ";
-        ++i;
-    }
-    os << std::endl;
-    os << "Writers: " << std::endl;
-    i = 1;
-    for (auto person : getWriters())
-    {
-        os << i << ". " << person.first << " - " << person.second << ", ";
-        ++i;
-    }
-    i = 1;
-    os << std::endl;
-    os << "Cast: " << std::endl;
-    for (auto person : getCast())
-    {
-        os << i << ". " << person.first << " - " << person.second << std::endl;
-        ++i;
-    }
-    return os;
-}
-
 void Film::addRole(std::string actor, std::string role)
 {
     cast[actor] = role;
@@ -304,18 +271,59 @@ std::string listToStr(std::map<std::string, std::string> mp)
     return result;
 }
 
+std::ostream &Film::write(std::ostream &os)
+{
+    os << std::quoted(getTitle()) << std::endl;
+    os << "Release year: " << getYear() << "  " << "Runtime: " << getTime() << std::endl;
+    os << "Genre: " << strGenres(getGenre()) << std::endl;
+    os << "Rating: " << getRating() << std::endl;
+    os << "Description" << getDesc() << std::endl;
+    os << "Director: " << getDir() << std::endl;
+    os << "Producers: " << std::endl;
+    unsigned int i = 1;
+    for (auto person : getProducers())
+    {
+        os << i << ". " << person.first << " - " << person.second << ", ";
+        ++i;
+    }
+    os << std::endl;
+    os << "Writers: " << std::endl;
+    i = 1;
+    for (auto person : getWriters())
+    {
+        os << i << ". " << person.first << " - " << person.second << ", ";
+        ++i;
+    }
+    i = 1;
+    os << std::endl;
+    os << "Cast: " << std::endl;
+    for (auto person : getCast())
+    {
+        os << i << ". " << person.first << " - " << person.second << std::endl;
+        ++i;
+    }
+    return os;
+}
+
 std::ostream &operator<<(std::ostream &os, Film &fm)
 {
-    os << std::to_string(fm.getID()) << ';';
-    os << fm.getTitle() << ';';
-    os << strGenres(fm.getGenre()) << ';';
-    os << fm.getYear() << ';';
-    os << fm.getTime() << ';';
-    os << fm.getDesc() << ';';
-    os << listToStr(fm.getCast()) << ';';
-    os << fm.getDir() << ';';
-    os << listToStr(fm.getWriters()) << ';';
-    os << listToStr(fm.getProducers());
+    Film *f = &fm;
+    os << f;
+    return os;
+}
+
+std::ostream &operator<<(std::ostream &os, Film *fm)
+{
+    os << std::to_string(fm->getID()) << ';';
+    os << fm->getTitle() << ';';
+    os << strGenres(fm->getGenre()) << ';';
+    os << fm->getYear() << ';';
+    os << fm->getTime() << ';';
+    os << fm->getDesc() << ';';
+    os << listToStr(fm->getCast()) << ';';
+    os << fm->getDir() << ';';
+    os << listToStr(fm->getWriters()) << ';';
+    os << listToStr(fm->getProducers());
     return os;
 }
 
