@@ -9,13 +9,12 @@
 
 // tymczasowo zakładamy ze pierwsze dane w pliku to admin
 class Role;
-class User
-{
-private:
+class User {
+   private:
     std::string login = "guest";
     Role *role;
 
-public:
+   public:
     User() = default;
     const std::string &getLogin() const;
     void setLogin(std::string const &new_login);

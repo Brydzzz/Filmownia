@@ -1,13 +1,12 @@
 #pragma once
-#include "page.h"
 #include "browsePage.h"
 #include "filmPage.h"
-class ReviewsPage : public Page
-{
+#include "page.h"
+class ReviewsPage : public Page {
     std::vector<std::string> options = {"Exit", "GoBack", "Browse"};
     Film *film;
 
-public:
+   public:
     ReviewsPage(Film *film) : film(film){};
     void print() override;
     program_state nextAction() override;

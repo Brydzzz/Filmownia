@@ -1,43 +1,25 @@
 #include "review.h"
 
-const Film *Review::getFilm()
-{
-    return film;
-}
+const Film *Review::getFilm() { return film; }
 
-const unsigned int &Review::getScore()
-{
-    return score;
-}
+const unsigned int &Review::getScore() { return score; }
 
-const std::string &Review::getContent()
-{
-    return content;
-}
+const std::string &Review::getContent() { return content; }
 
-std::ostream &Review::write(std::ostream &os)
-{
+std::ostream &Review::write(std::ostream &os) {
     os << getUser() << ": " << getScore() << std::endl;
     os << getContent() << std::endl;
     return os;
 }
-bool operator==(const Review &lrev, const Review &rrev)
-{
+bool operator==(const Review &lrev, const Review &rrev) {
     return lrev.getID() == rrev.getID();
 }
 
-const unsigned int &Review::getID() const
-{
-    return id;
-}
+const unsigned int &Review::getID() const { return id; }
 
-const std::string &Review::getUser()
-{
-    return User;
-}
+const std::string &Review::getUser() { return User; }
 
-std::ostream &operator<<(std::ostream &os, Review &rev)
-{
+std::ostream &operator<<(std::ostream &os, Review &rev) {
     os << rev.getID() << ';';
     os << rev.getUser() << ';';
     os << rev.getFilm()->getID() << ';';

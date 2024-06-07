@@ -9,8 +9,7 @@
 #include "page.h"
 #include "person.h"
 #include "role.h"
-class ActorPage : public Page
-{
+class ActorPage : public Page {
     std::vector<std::string> options;
     std::vector<std::string> optionsRest = {
         "SeeAllRoles",
@@ -18,34 +17,25 @@ class ActorPage : public Page
         "Exit",
     };
     std::vector<std::string> optionsAdmin = {
-        "AddRole",
-        "DeleteRole",
-        "SeeAllRoles",
-        "GoBack",
-        "Exit",
+        "AddRole", "DeleteRole", "SeeAllRoles", "GoBack", "Exit",
     };
     Actor actor;
 
-public:
+   public:
     ActorPage(Actor a) : actor(a) {}
-    void print() override; // print actor info
+    void print() override;  // print actor info
     program_state nextAction() override;
 
     std::unique_ptr<Page> doAction(program_state,
                                    std::unique_ptr<Role> &us_ptr) override;
-    void showOptions(const Role *us_ptr) override
-    {
-        if (us_ptr->getName() == "admin")
-        {
+    void showOptions(const Role *us_ptr) override {
+        if (us_ptr->getName() == "admin") {
             options = optionsAdmin;
-        }
-        else
-        {
+        } else {
             options = optionsRest;
         }
         std::cout << "Available Options: \n";
-        for (auto opt : options)
-        {
+        for (auto opt : options) {
             std::cout << "- " << opt << std::endl;
         }
     }
