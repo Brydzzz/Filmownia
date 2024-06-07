@@ -21,11 +21,11 @@ bool Actor::Role::operator<(const Role &other) const {
     return film->getTitle() < other.film->getTitle();
 }
 
-std::vector<Actor::Role>::iterator Actor::findRole(const Film &film) {
+std::vector<Actor::Role>::iterator Actor::findRole(Film &film) {
     return findRole(Role("", film));
 }
 
-std::vector<Actor::Role>::iterator Actor::findRole(const Role &role) {
+std::vector<Actor::Role>::iterator Actor::findRole(const Actor::Role &role) {
     auto it = std::lower_bound(roles.begin(), roles.end(), role);
     return it;
 }
@@ -62,8 +62,8 @@ std::vector<Actor::Role> Actor::parseRoles(const std::string &content) {
         if (filmIdStr.empty()) continue;
         if (character.empty()) continue;
         unsigned int filmId = std::stoul(filmIdStr);
-        const Film *film = nullptr;
-        for (const auto &f : flist) {  // using extern flist from global.h
+        Film *film = nullptr;
+        for (auto &f : flist) {  // using extern flist from global.h
             if (f.getID() == filmId) {
                 film = &f;
                 break;
@@ -78,7 +78,7 @@ std::vector<Actor::Role> Actor::parseRoles(const std::string &content) {
     return roles;
 }
 
-void Actor::addRole(const std::string &character, const Film &film) {
+void Actor::addRole(const std::string &character, Film &film) {
     Role newRole(character, film);
     auto it = findRole(newRole);
     if (it != roles.end() && it->film->getID() == film.getID()) {
@@ -88,7 +88,7 @@ void Actor::addRole(const std::string &character, const Film &film) {
     }
 }
 
-void Actor::deleteRole(const Film &film) {
+void Actor::deleteRole(Film &film) {
     auto it = findRole(film);
     if (it != roles.end() && it->film->getID() == film.getID()) {
         roles.erase(it);
@@ -135,8 +135,8 @@ std::ostream &operator<<(std::ostream &os, const Actor &actor) {
     }
 }
 
-std::vector<const Film *> Director::parseFilms(std::string content) {
-    std::vector<const Film *> films;
+std::vector<Film *> Director::parseFilms(std::string content) {
+    std::vector<Film *> films;
     std::istringstream iss(content);
     std::string filmIdStr;
     char firstBracket;
@@ -165,8 +165,8 @@ std::vector<const Film *> Director::parseFilms(std::string content) {
         if (filmIdStr.empty()) continue;
 
         unsigned int filmId = std::stoul(filmIdStr);
-        const Film *film = nullptr;
-        for (const auto &f : flist) {  // using extern flist from global.h
+        Film *film = nullptr;
+        for (auto &f : flist) {  // using extern flist from global.h
             if (f.getID() == filmId) {
                 film = &f;
                 break;
@@ -177,23 +177,22 @@ std::vector<const Film *> Director::parseFilms(std::string content) {
         }
     }
 
-    std::sort(films.begin(), films.end(), [](const Film *lhs, const Film *rhs) {
+    std::sort(films.begin(), films.end(), [](Film *lhs, Film *rhs) {
         return lhs->getTitle() < rhs->getTitle();
     });
     return films;
 }
 
-const std::vector<const Film *> &Director::getFilms() const { return films; }
+const std::vector<Film *> &Director::getFilms() const { return films; }
 
-std::vector<const Film *>::iterator Director::findFilm(const Film &film) {
-    auto it = std::lower_bound(films.begin(), films.end(), &film,
-                               [](const Film *lhs, const Film *rhs) {
-                                   return lhs->getTitle() < rhs->getTitle();
-                               });
+std::vector<Film *>::iterator Director::findFilm(Film &film) {
+    auto it = std::lower_bound(
+        films.begin(), films.end(), &film,
+        [](Film *lhs, Film *rhs) { return lhs->getTitle() < rhs->getTitle(); });
     return it;
 }
 
-void Director::addFilm(const Film &film) {
+void Director::addFilm(Film &film) {
     auto it = findFilm(film);
     if (it != films.end() && (*it)->getID() == film.getID()) {
         throw std::invalid_argument("Film is already on the list");
@@ -201,7 +200,7 @@ void Director::addFilm(const Film &film) {
     films.insert(it, &film);
 }
 
-void Director::deleteFilm(const Film &film) {
+void Director::deleteFilm(Film &film) {
     auto it = findFilm(film);
     if (it != films.end() && (*it)->getID() == film.getID()) {
         films.erase(it);
@@ -221,7 +220,7 @@ void Director::displayDirectorInfo(std::ostream &os) const {
 }
 void Director::displayFilms(std::ostream &os) const {
     os << "Films directed by " << this->name << ":\n";
-    for (const Film *film : films) {
+    for (Film *film : films) {
         os << "\"" << film->getTitle() << "\"" << " (" << film->getYear()
            << ")\n";
     }
@@ -233,7 +232,7 @@ std::ostream &operator<<(std::ostream &os, const Director &director) {
     os << director.getBirthDate() << ';';
     std::stringstream ss;
     ss << '[';
-    for (const Film *film : director.getFilms()) {
+    for (Film *film : director.getFilms()) {
         ss << film->getID() << ", ";
     }
     std::string result = ss.str();
@@ -285,8 +284,8 @@ std::vector<Producer::ProducerJob> Producer::parseFilms(std::string content) {
         if (filmIdStr.empty()) continue;
         if (producerType.empty()) continue;
         unsigned int filmId = std::stoul(filmIdStr);
-        const Film *film = nullptr;
-        for (const auto &f : flist) {  // using extern flist from global.h
+        Film *film = nullptr;
+        for (auto &f : flist) {  // using extern flist from global.h
             if (f.getID() == filmId) {
                 film = &f;
                 break;
@@ -300,13 +299,11 @@ std::vector<Producer::ProducerJob> Producer::parseFilms(std::string content) {
     return jobs;
 }
 
-std::vector<Producer::ProducerJob>::iterator Producer::findJob(
-    const Film &film) {
+std::vector<Producer::ProducerJob>::iterator Producer::findJob(Film &film) {
     return findJob(ProducerJob(ProducerType::Producer, film));
 }
 
-std::vector<Producer::ProducerJob>::iterator Producer::findJob(
-    const ProducerJob &job) {
+std::vector<Producer::ProducerJob>::iterator Producer::findJob(const Producer::ProducerJob &job) {
     auto it = std::lower_bound(jobs.begin(), jobs.end(), job);
     return it;
 }
@@ -319,7 +316,7 @@ bool Producer::ProducerJob::operator<(const ProducerJob &other) const {
     return film->getTitle() < other.film->getTitle();
 }
 
-void Producer::addJob(ProducerType ptype, const Film &film) {
+void Producer::addJob(ProducerType ptype, Film &film) {
     ProducerJob newJob(ptype, film);
     auto it = findJob(newJob);
 
@@ -329,7 +326,7 @@ void Producer::addJob(ProducerType ptype, const Film &film) {
     jobs.insert(it, newJob);
 }
 
-void Producer::deleteJob(const Film &film) {
+void Producer::deleteJob(Film &film) {
     auto it = findJob(film);
     if (it != jobs.end() && it->film->getID() == film.getID()) {
         jobs.erase(it);
@@ -432,8 +429,8 @@ std::vector<Writer::WriterJob> Writer::parseFilms(std::string content) {
         if (writerType.empty()) continue;
 
         unsigned int filmId = std::stoul(filmIdStr);
-        const Film *film = nullptr;
-        for (const auto &f : flist) {  // using extern flist from global.h
+        Film *film = nullptr;
+        for (auto &f : flist) {  // using extern flist from global.h
             if (f.getID() == filmId) {
                 film = &f;
                 break;
@@ -447,11 +444,11 @@ std::vector<Writer::WriterJob> Writer::parseFilms(std::string content) {
     return jobs;
 }
 
-std::vector<Writer::WriterJob>::iterator Writer::findJob(const Film &film) {
+std::vector<Writer::WriterJob>::iterator Writer::findJob(Film &film) {
     return findJob(WriterJob(WriterType::Screenplay, film));
 }
 
-std::vector<Writer::WriterJob>::iterator Writer::findJob(const WriterJob &job) {
+std::vector<Writer::WriterJob>::iterator Writer::findJob(const Writer::WriterJob &job) {
     auto it = std::lower_bound(jobs.begin(), jobs.end(), job);
     return it;
 }
@@ -462,7 +459,7 @@ bool Writer::WriterJob::operator<(const WriterJob &other) const {
     return film->getTitle() < other.film->getTitle();
 }
 
-void Writer::addJob(WriterType wtype, const Film &film) {
+void Writer::addJob(WriterType wtype, Film &film) {
     WriterJob newJob(wtype, film);
     auto it = findJob(newJob);
 
@@ -472,7 +469,7 @@ void Writer::addJob(WriterType wtype, const Film &film) {
     jobs.insert(it, newJob);
 }
 
-void Writer::deleteJob(const Film &film) {
+void Writer::deleteJob(Film &film) {
     auto it = findJob(film);
     if (it != jobs.end() && it->film->getID() == film.getID()) {
         jobs.erase(it);
