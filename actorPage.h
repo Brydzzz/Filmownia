@@ -20,9 +20,11 @@ class ActorPage : public Page {
         "AddRole", "DeleteRole", "SeeAllRoles", "GoBack", "Exit",
     };
     Actor actor;
+    Film *filmLink;  // used in GoBack option
 
    public:
-    ActorPage(Actor a) : actor(a) {}
+    ActorPage(Actor a, Film *filmLink = nullptr)
+        : actor(a), filmLink(filmLink) {}
     void print() override;  // print actor info
     program_state nextAction() override;
 
