@@ -22,7 +22,6 @@ class Person {
     const unsigned int getId() const;
     Date getBirthDate() const;
     bool operator==(const Person &other);
-    // TODO method of reading from csv and saving to csv format
 };
 
 class Actor : public Person {
@@ -64,8 +63,7 @@ class Director : public Person {
    private:
     std::vector<const Film *> films = {};
     std::vector<const Film *>::iterator findFilm(const Film &film);
-    std::vector<const Film *> parseFilms(std::string content);  // TODO
-                                                                // parseFilms
+    std::vector<const Film *> parseFilms(std::string content);
 
    public:
     using Person::Person;

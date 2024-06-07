@@ -147,9 +147,7 @@ std::vector<const Film *> Director::parseFilms(std::string content) {
     while (std::getline(iss, filmIdStr, ',')) {
         filmIdStr.erase(0, filmIdStr.find_first_not_of("\""));
         filmIdStr.erase(0, filmIdStr.find_first_not_of(","));
-        // filmIdStr.erase(0, filmIdStr.find_first_not_of(" "));
         filmIdStr.erase(0, filmIdStr.find_first_not_of("'"));
-        // filmIdStr.erase(0, filmIdStr.find_first_not_of("["));
 
         if (filmIdStr.empty()) break;
 
@@ -246,6 +244,60 @@ std::ostream &operator<<(std::ostream &os, const Director &director) {
     }
 }
 
+std::vector<Producer::ProducerJob> Producer::parseFilms(std::string content) {
+    std::vector<Producer::ProducerJob> jobs;
+    std::istringstream iss(content);
+    std::string job;
+
+    while (std::getline(iss, job, ']')) {
+        job.erase(0, job.find_first_not_of("\""));
+        job.erase(0, job.find_first_not_of(","));
+        job.erase(0, job.find_first_not_of(" "));
+        job.erase(0, job.find_first_not_of("'"));
+        job.erase(0, job.find_first_not_of("["));
+        if (job.empty()) break;
+        std::istringstream jobPair(job);
+        std::string filmIdStr, producerType;
+        std::getline(jobPair, filmIdStr, ',');
+        std::getline(jobPair, producerType, ']');
+
+        // Trim leading/trailing whitespace from filmIdStr and producerType
+        filmIdStr.erase(filmIdStr.find_last_not_of(" ") + 1);
+        filmIdStr.erase(0, filmIdStr.find_first_not_of(" "));
+        producerType.erase(producerType.find_last_not_of(" ") + 1);
+        producerType.erase(0, producerType.find_first_not_of(" "));
+
+        // Trim leading/trailing single quote from filmIdStr and producerType
+        filmIdStr.erase(filmIdStr.find_last_not_of("'") + 1);
+        filmIdStr.erase(0, filmIdStr.find_first_not_of("'"));
+        producerType.erase(producerType.find_last_not_of("'") + 1);
+        producerType.erase(0, producerType.find_first_not_of("'"));
+        ProducerType pt;
+        if (producerType == "Producer") {
+            pt = ProducerType::Producer;
+        } else if (producerType == "Executive Producer") {
+            pt = ProducerType::ExecutiveProducer;
+        } else {
+            continue;
+        }
+        if (filmIdStr.empty()) continue;
+        if (producerType.empty()) continue;
+        unsigned int filmId = std::stoul(filmIdStr);
+        const Film *film = nullptr;
+        for (const auto &f : flist) {  // using extern flist from global.h
+            if (f.getID() == filmId) {
+                film = &f;
+                break;
+            }
+        }
+        if (film) {
+            jobs.emplace_back(pt, *film);
+        }
+    }
+    std::sort(jobs.begin(), jobs.end());
+    return jobs;
+}
+
 std::vector<Producer::ProducerJob>::iterator Producer::findJob(
     const Film &film) {
     return findJob(ProducerJob(ProducerType::Producer, film));
@@ -323,6 +375,76 @@ std::ostream &operator<<(std::ostream &os, const Producer &producer) {
     }
 }
 
+std::vector<Writer::WriterJob> Writer::parseFilms(std::string content) {
+    std::vector<Writer::WriterJob> jobs;
+    std::istringstream iss(content);
+    std::string job;
+
+    while (std::getline(iss, job, ']')) {
+        job.erase(0, job.find_first_not_of("\""));
+        job.erase(0, job.find_first_not_of(","));
+        job.erase(0, job.find_first_not_of(" "));
+        job.erase(0, job.find_first_not_of("'"));
+        job.erase(0, job.find_first_not_of("["));
+        if (job.empty()) break;
+        std::istringstream jobPair(job);
+        std::string filmIdStr, writerType;
+        std::getline(jobPair, filmIdStr, ',');
+        std::getline(jobPair, writerType, ']');
+
+        // Trim leading/trailing whitespace from filmIdStr and writerType
+        filmIdStr.erase(filmIdStr.find_last_not_of(" ") + 1);
+        filmIdStr.erase(0, filmIdStr.find_first_not_of(" "));
+        writerType.erase(writerType.find_last_not_of(" ") + 1);
+        writerType.erase(0, writerType.find_first_not_of(" "));
+
+        // Trim leading/trailing single quote from filmIdStr and writerType
+        filmIdStr.erase(filmIdStr.find_last_not_of("'") + 1);
+        filmIdStr.erase(0, filmIdStr.find_first_not_of("'"));
+        writerType.erase(writerType.find_last_not_of("'") + 1);
+        writerType.erase(0, writerType.find_first_not_of("'"));
+
+        WriterType wt;
+        if (writerType == "Screenplay") {
+            wt = WriterType::Screenplay;
+        } else if (writerType == "Story") {
+            wt = WriterType::Screenplay;
+        } else if (writerType == "Writer") {
+            wt = WriterType::Writer;
+        } else {
+            continue;
+        }
+        if (filmIdStr.empty()) continue;
+        if (writerType.empty()) continue;
+
+        unsigned int filmId = std::stoul(filmIdStr);
+        const Film *film = nullptr;
+        for (const auto &f : flist) {  // using extern flist from global.h
+            if (f.getID() == filmId) {
+                film = &f;
+                break;
+            }
+        }
+        if (film) {
+            jobs.emplace_back(wt, *film);
+        }
+    }
+    std::sort(jobs.begin(), jobs.end());
+    return jobs;
+}
+
+void Producer::displayProducerInfo(std::ostream &os) const {
+    os << name << '\n';
+    os << "Birthdate: " << birthDate << '\n';
+    if (!jobs.empty()) {
+        os << "Selected films: \n";
+        for (int i = 0; i < 5 && i < jobs.size(); ++i) {
+            os << "\"" << jobs[i].film->getTitle() << "\"" << " ("
+               << jobs[i].film->getYear() << ")\n";
+        }
+    }
+}
+
 std::vector<Writer::WriterJob>::iterator Writer::findJob(const Film &film) {
     return findJob(WriterJob(WriterType::Screenplay, film));
 }
@@ -355,134 +477,11 @@ void Writer::deleteJob(const Film &film) {
     }
 }
 
-std::vector<Writer::WriterJob> Writer::parseFilms(std::string content) {
-    std::vector<Writer::WriterJob> jobs;
-    std::istringstream iss(content);
-    std::string job;
-
-    while (std::getline(iss, job, ']')) {
-        job.erase(0, job.find_first_not_of("\""));
-        job.erase(0, job.find_first_not_of(","));
-        job.erase(0, job.find_first_not_of(" "));
-        job.erase(0, job.find_first_not_of("'"));
-        job.erase(0, job.find_first_not_of("["));
-        if (job.empty()) break;
-        std::istringstream rolePair(job);
-        std::string filmIdStr, writerType;
-        std::getline(rolePair, filmIdStr, ',');
-        std::getline(rolePair, writerType, ']');
-
-        // Trim leading/trailing whitespace from filmIdStr and character
-        filmIdStr.erase(filmIdStr.find_last_not_of(" ") + 1);
-        filmIdStr.erase(0, filmIdStr.find_first_not_of(" "));
-        writerType.erase(writerType.find_last_not_of(" ") + 1);
-        writerType.erase(0, writerType.find_first_not_of(" "));
-
-        // Trim leading/trailing single quote from filmIdStr and character
-        filmIdStr.erase(filmIdStr.find_last_not_of("'") + 1);
-        filmIdStr.erase(0, filmIdStr.find_first_not_of("'"));
-        writerType.erase(writerType.find_last_not_of("'") + 1);
-        writerType.erase(0, writerType.find_first_not_of("'"));
-        WriterType wt;
-        if (writerType == "Screenplay") {
-            wt = WriterType::Screenplay;
-        } else if (writerType == "Story") {
-            wt = WriterType::Screenplay;
-        } else if (writerType == "Writer") {
-            wt = WriterType::Writer;
-        } else {
-            continue;
-        }
-        if (filmIdStr.empty()) continue;
-        if (writerType.empty()) continue;
-        unsigned int filmId = std::stoul(filmIdStr);
-        const Film *film = nullptr;
-        for (const auto &f : flist) {  // using extern flist from global.h
-            if (f.getID() == filmId) {
-                film = &f;
-                break;
-            }
-        }
-        if (film) {
-            jobs.emplace_back(wt, *film);
-        }
-    }
-    std::sort(jobs.begin(), jobs.end());
-    return jobs;
-}
-
-void Producer::displayProducerInfo(std::ostream &os) const {
-    os << name << '\n';
-    os << "Birthdate: " << birthDate << '\n';
-    if (!jobs.empty()) {
-        os << "Selected films: \n";
-        for (int i = 0; i < 5 && i < jobs.size(); ++i) {
-            os << "\"" << jobs[i].film->getTitle() << "\"" << " ("
-               << jobs[i].film->getYear() << ")\n";
-        }
-    }
-}
-
-std::vector<Producer::ProducerJob> Producer::parseFilms(std::string content) {
-    std::vector<Producer::ProducerJob> jobs;
-    std::istringstream iss(content);
-    std::string job;
-
-    while (std::getline(iss, job, ']')) {
-        job.erase(0, job.find_first_not_of("\""));
-        job.erase(0, job.find_first_not_of(","));
-        job.erase(0, job.find_first_not_of(" "));
-        job.erase(0, job.find_first_not_of("'"));
-        job.erase(0, job.find_first_not_of("["));
-        if (job.empty()) break;
-        std::istringstream rolePair(job);
-        std::string filmIdStr, producerType;
-        std::getline(rolePair, filmIdStr, ',');
-        std::getline(rolePair, producerType, ']');
-
-        // Trim leading/trailing whitespace from filmIdStr and character
-        filmIdStr.erase(filmIdStr.find_last_not_of(" ") + 1);
-        filmIdStr.erase(0, filmIdStr.find_first_not_of(" "));
-        producerType.erase(producerType.find_last_not_of(" ") + 1);
-        producerType.erase(0, producerType.find_first_not_of(" "));
-
-        // Trim leading/trailing single quote from filmIdStr and character
-        filmIdStr.erase(filmIdStr.find_last_not_of("'") + 1);
-        filmIdStr.erase(0, filmIdStr.find_first_not_of("'"));
-        producerType.erase(producerType.find_last_not_of("'") + 1);
-        producerType.erase(0, producerType.find_first_not_of("'"));
-        ProducerType pt;
-        if (producerType == "Producer") {
-            pt = ProducerType::Producer;
-        } else if (producerType == "Executive Producer") {
-            pt = ProducerType::ExecutiveProducer;
-        } else {
-            continue;
-        }
-        if (filmIdStr.empty()) continue;
-        if (producerType.empty()) continue;
-        unsigned int filmId = std::stoul(filmIdStr);
-        const Film *film = nullptr;
-        for (const auto &f : flist) {  // using extern flist from global.h
-            if (f.getID() == filmId) {
-                film = &f;
-                break;
-            }
-        }
-        if (film) {
-            jobs.emplace_back(pt, *film);
-        }
-    }
-    std::sort(jobs.begin(), jobs.end());
-    return jobs;
-}
-
 std::string wtypeToString(WriterType wtype) {
     switch (wtype) {
         case WriterType::Screenplay:
             return "Screenplay";
             break;
-
         case WriterType::Story:
             return "Story";
             break;
