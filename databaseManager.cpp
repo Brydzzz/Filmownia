@@ -36,6 +36,8 @@ std::string DatabaseManager::enumDbToStr(whichDb db) {
             return actorsDb;
         case whichDb::reviewsDb:
             return reviewsDb;
+        case whichDb::writersDb:
+            return writersDb;
         default:
             return "Unknown";
     }
