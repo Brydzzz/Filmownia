@@ -28,8 +28,6 @@ Film *findAndChooseMovie(std::string title) {
     if (found.size() == 0) {
         std::cout << "Movie not found" << std::endl;
         return nullptr;
-    } else if (found.size() == 1) {
-        f = found[0];
     } else {
         int i = 1;
         for (auto f : found) {
