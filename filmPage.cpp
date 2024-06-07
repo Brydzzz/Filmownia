@@ -3,6 +3,7 @@
 #include "addReviewPage.h"
 #include "actorPage.h"
 #include "databaseManager.h"
+#include "directorPage.h"
 void FilmPage::loadRevs()
 {
     if (film->getReviews().size() == 0)
@@ -59,6 +60,10 @@ program_state FilmPage::nextAction()
     {
         return program_state::SeeActor;
     }
+    if (action == "SeeDirector")
+    {
+        return program_state::SeeDirector;
+    }
     return program_state::Exit;
 }
 
@@ -83,10 +88,10 @@ std::unique_ptr<Page> FilmPage::doAction(program_state act, std::unique_ptr<Role
     {
         int a = 0;
         DatabaseManager db_mgmt;
-        std::vector<std::pair<std::string, std::string>> actors;
+        std::vector<std::string> actors;
         for (auto it = film->getCast().begin(); it != film->getCast().end(); ++it)
         {
-            actors.push_back(std::pair<std::string, std::string>(it->first, it->second));
+            actors.push_back(it->first);
         }
         while (a < -1 || a > 10 || a > actors.size() || a == 0)
         {
@@ -104,10 +109,18 @@ std::unique_ptr<Page> FilmPage::doAction(program_state act, std::unique_ptr<Role
                 std::make_unique<BrowsePage>();
             return ptr;
         }
-        std::string actor_name = actors[a - 1].first + " " + actors[a - 1].second;
+        std::string actor_name = actors[a - 1];
         std::vector<Actor> foundActors = db_mgmt.actorSearch(actor_name);
         std::unique_ptr<ActorPage> ptr =
             std::make_unique<ActorPage>(foundActors[0]);
+        return ptr;
+    }
+    else if (act == program_state::SeeDirector)
+    {
+        DatabaseManager db_mgmt;
+        std::vector<Director> foundDirector = db_mgmt.directorSearch(film->getDir());
+        std::unique_ptr<DirectorPage> ptr =
+            std::make_unique<DirectorPage>(foundDirector[0]);
         return ptr;
     }
     else

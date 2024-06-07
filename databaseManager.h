@@ -1,9 +1,18 @@
 #include "csv.h"
 #include "global.h"
 #include "person.h"
-enum class whichDb { moviesDb, actorsDb, reviewsDb, producersDb };
 
-class DatabaseManager {
+enum class whichDb
+{
+    moviesDb,
+    actorsDb,
+    reviewsDb,
+    directorsDb,
+    producersDb
+};
+
+class DatabaseManager
+{
     std::string moviesDb;
     std::string actorsDb;
     std::string reviewsDb;
@@ -11,7 +20,7 @@ class DatabaseManager {
     std::string producersDb;
     std::string enumDbToStr(whichDb db);
 
-   public:
+public:
     DatabaseManager(std::string moviesDb = "../movies.csv",
                     std::string actorsDb = "../actors.csv",
                     std::string reviewsDb = "../reviews.csv",
