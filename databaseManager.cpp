@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <type_traits>
 void DatabaseManager::replaceLine(std::string newLine, std::string oldLine,
                                   whichDb db) {
     std::ifstream fileHandler(enumDbToStr(db));
