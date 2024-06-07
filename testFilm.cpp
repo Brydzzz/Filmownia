@@ -65,7 +65,7 @@ TEST(filmTest, writeTest) {
     ASSERT_EQ(
         os.str(),
         "\"All Quiet on The Western Front\"\nRelease year: 2022  Runtime: "
-        "120\nGenre: ['Drama']\nRating: 8\nDescriptionFamous anti war movie "
+        "120\nGenre: ['Drama']\nRating: 8\nDescription: Famous anti war movie "
         "based on a novel\nDirector: Ich\nProducers: \n\nWriters: \n\nCast: "
         "\n1. Him - The other character\n2. Me - The main character\n");
 }

@@ -1,16 +1,16 @@
 #pragma once
 #include <memory>
-#include "page.h"
+
 #include "csv.h"
+#include "page.h"
 #include "startPage.h"
-class UserPage : public Page
-{
+class UserPage : public Page {
     std::vector<std::string> options = {"GoBack", "Exit"};
     std::string usr;
     std::vector<Review> revs;
     std::vector<Review> findReviews(std::string name);
 
-public:
+   public:
     UserPage(std::string usr) : usr(usr) { revs = findReviews(usr); };
     void print() override;
     program_state nextAction() override;

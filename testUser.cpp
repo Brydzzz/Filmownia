@@ -6,29 +6,25 @@
 #include "admin.h"
 #include "guest.h"
 #include "logged.h"
+#include "review.h"
 #include "role.h"
 #include "user.h"
-#include "review.h"
 // std::cin for testing purposes
-class InputSimulator
-{
+class InputSimulator {
     std::istringstream input;
 
-public:
-    InputSimulator(const std::string &data) : input(data)
-    {
+   public:
+    InputSimulator(const std::string &data) : input(data) {
         std::cin.rdbuf(input.rdbuf());
     }
 };
 
-TEST(userTest, defaultTest)
-{
+TEST(userTest, defaultTest) {
     User user;
     ASSERT_EQ(user.getLogin(), "guest");
 };
 
-TEST(userTest, logAdminTest)
-{
+TEST(userTest, logAdminTest) {
     InputSimulator input("Admin\n0000\n");
 
     User user;
@@ -38,8 +34,7 @@ TEST(userTest, logAdminTest)
     ASSERT_EQ(user.getRole()->getName(), "admin");
 };
 
-TEST(userTest, logLoggedTest)
-{
+TEST(userTest, logLoggedTest) {
     InputSimulator input("Lara\n1234\n");
 
     User user;
@@ -49,8 +44,7 @@ TEST(userTest, logLoggedTest)
     ASSERT_EQ(user.getRole()->getName(), "logged");
 };
 
-TEST(userTest, logIncorrectTest)
-{
+TEST(userTest, logIncorrectTest) {
     InputSimulator input("Lara\n5678\n");
 
     User user;
@@ -62,8 +56,7 @@ TEST(userTest, logIncorrectTest)
     // ASSERT_NE(output.find("Logged in as admin"), std::string::npos);
 };
 
-TEST(userTest, logOutTest)
-{
+TEST(userTest, logOutTest) {
     InputSimulator input("Lara\n1234\n");
 
     User user;
@@ -79,19 +72,16 @@ TEST(userTest, logOutTest)
 };
 
 // uwaga ten test wymaga pliku testowego testlogin.txt
-TEST(guestTest, gdefaultTest)
-{
+TEST(guestTest, gdefaultTest) {
     // reseting test file
     std::ofstream file;
-    file.open("../testlogin.txt", std::ios::out); // Open in write mode
-    if (!file.is_open())
-    {
+    file.open("../testlogin.txt", std::ios::out);  // Open in write mode
+    if (!file.is_open()) {
         std::cerr << "Could not open the file!" << std::endl;
         return;
-    }
-    else
-    {
-        file << "Lara" << " " << "1234"; // we can do that only because it's a test file
+    } else {
+        file << "Lara" << " "
+             << "1234";  // we can do that only because it's a test file
         file.close();
     }
     User user;
@@ -104,8 +94,7 @@ TEST(guestTest, gdefaultTest)
     ASSERT_EQ(guest.getUser()->getRole()->getName(), "logged");
 };
 
-TEST(guestTest, takenLoginTest)
-{
+TEST(guestTest, takenLoginTest) {
     User user;
     InputSimulator input("Lara\n23ab\nLara\n23ab\n");
     Guest guest(&user);
@@ -115,8 +104,7 @@ TEST(guestTest, takenLoginTest)
     ASSERT_EQ(guest.getName(), "guest");
 };
 
-TEST(loggedTest, ldefaultTest)
-{
+TEST(loggedTest, ldefaultTest) {
     User user;
     Logged logged(&user);
     ASSERT_EQ(logged.getReviews().size(), 0);
