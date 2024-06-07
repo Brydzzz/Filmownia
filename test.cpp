@@ -51,31 +51,31 @@ int main() {
     // for (auto actor : actors) {
     //     out << actor << '\n';
     // }
-    // std::vector<Director> directors;
-    // io::CSVReader<4, io::trim_chars<' '>, io::no_quote_escape<';'>> in(
-    //     "../directors.csv");
-    // in.read_header(io::ignore_missing_column, "ID", "Name", "Birthday",
-    //                "Films");
-    // unsigned int ID;
-    // std::string Name;
-    // std::string Birthday;
-    // std::string Films;
-    // while (in.read_row(ID, Name, Birthday, Films)) {
-    //     Date BirthdayDate;
-    //     // if (Birthday.size() > 1) {
-    //     //     std::istringstream bday(Birthday);
-    //     //     bday >> BirthdayDate;
-    //     // }
-    //     std::istringstream bday(Birthday);
-    //     bday >> BirthdayDate;
-    //     Director d(ID, Name, BirthdayDate, Films);
-    //     directors.push_back(d);
-    // }
-    // std::ofstream out("../directors2.csv");
-    // out << "ID;Name;Birthday;Films\n";
-    // for (auto director : directors) {
-    //     out << director << '\n';
-    // }
+    std::vector<Director> directors;
+    io::CSVReader<4, io::trim_chars<' '>, io::no_quote_escape<';'>> in(
+        "../directors.csv");
+    in.read_header(io::ignore_missing_column, "ID", "Name", "Birthday",
+                   "Films");
+    unsigned int ID;
+    std::string Name;
+    std::string Birthday;
+    std::string Films;
+    while (in.read_row(ID, Name, Birthday, Films)) {
+        Date BirthdayDate;
+        // if (Birthday.size() > 1) {
+        //     std::istringstream bday(Birthday);
+        //     bday >> BirthdayDate;
+        // }
+        std::istringstream bday(Birthday);
+        bday >> BirthdayDate;
+        Director d(ID, Name, BirthdayDate, Films);
+        directors.push_back(d);
+    }
+    std::ofstream out("../directors2.csv");
+    out << "ID;Name;Birthday;Films\n";
+    for (auto director : directors) {
+        out << director << '\n';
+    }
     // std::ifstream input("../movies.csv");
     // if (!input.is_open())
     // {
@@ -127,34 +127,34 @@ int main() {
     // {
     //     out << writer << '\n';
     // }
-    std::vector<Producer> producers;
-    io::CSVReader<4, io::trim_chars<' '>, io::no_quote_escape<';'>> in(
-        "../producers.csv");
-    in.read_header(io::ignore_missing_column, "ID", "Name", "Birthday",
-                   "Films");
-    unsigned int ID;
-    std::string Name;
-    std::string Birthday;
-    std::string Films;
-    while (in.read_row(ID, Name, Birthday, Films)) {
-        Date BirthdayDate;
-        if (Birthday.size() == 4) {
-            unsigned int year = std::stol(Birthday);
-            BirthdayDate = Date(1, 1, year);
-        } else if (Birthday.size() > 1) {
-            std::istringstream bday(Birthday);
-            bday >> BirthdayDate;
-        } else {
-            BirthdayDate = Date(1, 1, 1970);
-        }
-        std::cout << ID << std::endl;
-        Producer p(ID, Name, BirthdayDate, Films);
-        producers.push_back(p);
-    }
-    std::ofstream out("../producers2.csv");
-    out << "ID;Name;Birthday;Films\n";
-    for (auto writer : producers) {
-        out << writer << '\n';
-    }
+    // std::vector<Producer> producers;
+    // io::CSVReader<4, io::trim_chars<' '>, io::no_quote_escape<';'>> in(
+    //     "../producers.csv");
+    // in.read_header(io::ignore_missing_column, "ID", "Name", "Birthday",
+    //                "Films");
+    // unsigned int ID;
+    // std::string Name;
+    // std::string Birthday;
+    // std::string Films;
+    // while (in.read_row(ID, Name, Birthday, Films)) {
+    //     Date BirthdayDate;
+    //     if (Birthday.size() == 4) {
+    //         unsigned int year = std::stol(Birthday);
+    //         BirthdayDate = Date(1, 1, year);
+    //     } else if (Birthday.size() > 1) {
+    //         std::istringstream bday(Birthday);
+    //         bday >> BirthdayDate;
+    //     } else {
+    //         BirthdayDate = Date(1, 1, 1970);
+    //     }
+    //     std::cout << ID << std::endl;
+    //     Producer p(ID, Name, BirthdayDate, Films);
+    //     producers.push_back(p);
+    // }
+    // std::ofstream out("../producers2.csv");
+    // out << "ID;Name;Birthday;Films\n";
+    // for (auto writer : producers) {
+    //     out << writer << '\n';
+    // }
     return 0;
 }
