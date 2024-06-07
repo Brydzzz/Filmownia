@@ -97,12 +97,13 @@ std::unique_ptr<Page> DirectorPage::doAction(program_state act,
         return ptr;
     } else if (act == program_state::DeleteDirectorFilm) {
         DatabaseManager db_mgmt;
-        std::string film;
+        std::string title;
         std::cout << "Delete director from movie: " << std::endl;
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::getline(std::cin, film);
-        Film *f = findAndChooseMovie(film);
+        std::getline(std::cin, title);
+        // Film *f = findAndChooseMovie(title);
+        Film *f = chooseMovie(director.findFilmsByTitle(title));
         if (f == nullptr) {
             waitForInput();
             std::unique_ptr<DirectorPage> ptr =

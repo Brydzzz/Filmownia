@@ -37,6 +37,7 @@ enum class program_state {
     SeeActor,
     SeeDirector,
     SeeProducer,
+    SeeWriter,
     LogIn,
     SignUp,
     LogOut
@@ -63,3 +64,7 @@ void clearTerminal();
 void printBorder();
 
 void waitForInput();
+
+Film *findAndChooseMovie(std::string title);
+
+Film *chooseMovie(std::vector<Film *> films);

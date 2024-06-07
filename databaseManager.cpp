@@ -36,12 +36,10 @@ std::string DatabaseManager::enumDbToStr(whichDb db) {
             return actorsDb;
         case whichDb::reviewsDb:
             return reviewsDb;
-<<<<<<< databaseManager.cpp
         case whichDb::directorsDb:
             return directorsDb;
         case whichDb::writersDb:
             return writersDb;
->>>>>>> databaseManager.cpp
         default:
             return "Unknown";
     }
