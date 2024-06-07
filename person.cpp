@@ -177,20 +177,19 @@ std::vector<const Film *> Director::parseFilms(std::string content) {
         }
     }
 
-    std::sort(films.begin(), films.end());
+    std::sort(films.begin(), films.end(), [](const Film *lhs, const Film *rhs) {
+        return lhs->getTitle() < rhs->getTitle();
+    });
     return films;
 }
 
 const std::vector<const Film *> &Director::getFilms() const { return films; }
 
 std::vector<const Film *>::iterator Director::findFilm(const Film &film) {
-    // auto it = std::lower_bound(films.begin(), films.end(), &film,
-    //                            [](const Film *lhs, const Film *rhs) {
-    //                                return lhs->getTitle() < rhs->getTitle();
-    //                            });
-    auto it = std::find_if(films.begin(), films.end(), [&film](const Film *f) {
-        return f->getTitle() == film.getTitle();
-    });
+    auto it = std::lower_bound(films.begin(), films.end(), &film,
+                               [](const Film *lhs, const Film *rhs) {
+                                   return lhs->getTitle() < rhs->getTitle();
+                               });
     return it;
 }
 
