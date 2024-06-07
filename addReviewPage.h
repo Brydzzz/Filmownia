@@ -15,7 +15,7 @@ public:
     std::unique_ptr<Page> doAction(program_state act, std::unique_ptr<Role> &us_ptr) override;
     void showOptions(const Role *us_ptr) override
     {
-        std::cout << "Avaiable Options: \n";
+        std::cout << "Available Options: \n";
         for (auto opt : options)
         {
             std::cout << "- " << opt << std::endl;
