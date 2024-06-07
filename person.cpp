@@ -207,6 +207,23 @@ void Director::deleteFilm(Film &film) {
     }
 }
 
+std::vector<Film *> Director::findFilmsByTitle(const std::string& title) {
+    std::vector<Film *> result = {};
+    auto it = films.begin();
+    while (it != films.end()) {
+        it = std::find_if(it, films.end(), [title](Film*film) {
+            return film->getTitle().find(title) != std::string::npos;
+        });
+        if (it == films.end()) {
+            break;
+        }
+        Film *f = *it;
+        ++it;
+        result.push_back(f);
+    }
+    return result;
+}
+
 void Director::displayDirectorInfo(std::ostream &os) const {
     os << name << '\n';
     os << "Birthdate: " << birthDate << '\n';
@@ -303,7 +320,8 @@ std::vector<Producer::ProducerJob>::iterator Producer::findJob(Film &film) {
     return findJob(ProducerJob(ProducerType::Producer, film));
 }
 
-std::vector<Producer::ProducerJob>::iterator Producer::findJob(const Producer::ProducerJob &job) {
+std::vector<Producer::ProducerJob>::iterator Producer::findJob(
+    const Producer::ProducerJob &job) {
     auto it = std::lower_bound(jobs.begin(), jobs.end(), job);
     return it;
 }
@@ -448,7 +466,8 @@ std::vector<Writer::WriterJob>::iterator Writer::findJob(Film &film) {
     return findJob(WriterJob(WriterType::Screenplay, film));
 }
 
-std::vector<Writer::WriterJob>::iterator Writer::findJob(const Writer::WriterJob &job) {
+std::vector<Writer::WriterJob>::iterator Writer::findJob(
+    const Writer::WriterJob &job) {
     auto it = std::lower_bound(jobs.begin(), jobs.end(), job);
     return it;
 }

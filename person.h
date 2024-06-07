@@ -63,7 +63,6 @@ class Director : public Person {
    private:
     std::vector<Film *> films = {};
     std::vector<Film *>::iterator findFilm(Film &film);
-    std::vector<Film *> findFilmsByTitle(std::string title);
     std::vector<Film *> parseFilms(std::string content);
 
    public:
@@ -77,6 +76,7 @@ class Director : public Person {
     const std::vector<Film *> &getFilms() const;
     void addFilm(Film &film);
     void deleteFilm(Film &film);
+    std::vector<Film *> findFilmsByTitle(const std::string &title);
     void displayDirectorInfo(std::ostream &os) const;
     void displayFilms(std::ostream &os) const;
     friend std::ostream &operator<<(std::ostream &os, const Director &director);
