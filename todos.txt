@@ -1,1 +1,2 @@
 -ustandaryzowac kolejnosc wyswietlania options
+-director/producer/writer/actor search potencjalnie jako funkcja template personSearch(?)

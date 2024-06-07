@@ -35,13 +35,11 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                 cppIO::input(
                     "Choose number of a movie you wish to see or -1 for exit: ",
                     a);
-                if (a < -1 || a > 10 || a > found.size() || a == 0) {
-                    // std::unique_ptr<BrowsePage> ptr =
-                    //     std::make_unique<BrowsePage>();
-                    // return ptr;
-                    cppIO::log("Choose nr of one of the shown movies.");
+                if (a == -1) {
+                    break;
                 }
             }
+
             if (a == -1) {
                 std::unique_ptr<BrowsePage> ptr =
                     std::make_unique<BrowsePage>();
@@ -81,13 +79,11 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                 cppIO::input(
                     "Choose number of a actor you wish to see or -1 for exit: ",
                     a);
-                if (a < -1 || a >= 10) {
-                    // std::unique_ptr<BrowsePage> ptr =
-                    //     std::make_unique<BrowsePage>();
-                    // return ptr;
-                    cppIO::log("Choose nr of one of the shown actors.");
+                if (a == -1) {
+                    break;
                 }
             }
+
             if (a == -1) {
                 std::unique_ptr<BrowsePage> ptr =
                     std::make_unique<BrowsePage>();
@@ -128,8 +124,8 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                     "Choose number of a producer you wish to see or -1 for "
                     "exit: ",
                     a);
-                if (a < -1 || a >= 10) {
-                    cppIO::log("Choose nr of one of the shown producers.");
+                if (a == -1) {
+                    break;
                 }
             }
             if (a == -1) {
@@ -172,8 +168,8 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                     "Choose number of a director you wish to see or -1 for "
                     "exit: ",
                     a);
-                if (a < -1 || a >= 10) {
-                    cppIO::log("Choose nr of one of the shown directors.");
+                if (a == -1) {
+                    break;
                 }
             }
             if (a == -1) {
