@@ -206,8 +206,6 @@ void Director::deleteFilm(const Film &film) {
     auto it = findFilm(film);
     if (it != films.end() && (*it)->getID() == film.getID()) {
         films.erase(it);
-    } else {
-        std::cout << "ladidadida" << std::endl;
     }
 }
 
