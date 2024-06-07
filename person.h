@@ -141,5 +141,6 @@ class Writer : public Person {
     void addJob(WriterType wtype, const Film &film);
     void deleteJob(const Film &film);
     void displayJobs(std::ostream &os) const;
+    void displayWriterInfo(std::ostream &os) const;
     friend std::ostream &operator<<(std::ostream &os, const Writer &writer);
 };

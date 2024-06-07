@@ -354,6 +354,18 @@ void Producer::displayJobs(std::ostream &os) const {
     }
 }
 
+void Producer::displayProducerInfo(std::ostream &os) const {
+    os << name << '\n';
+    os << "Birthdate: " << birthDate << '\n';
+    if (!jobs.empty()) {
+        os << "Selected films: \n";
+        for (int i = 0; i < 5 && i < jobs.size(); ++i) {
+            os << "\"" << jobs[i].film->getTitle() << "\"" << " ("
+               << jobs[i].film->getYear() << ")\n";
+        }
+    }
+}
+
 std::ostream &operator<<(std::ostream &os, const Producer &producer) {
     os << std::to_string(producer.getId()) << ';';
     os << producer.getName() << ';';
@@ -433,18 +445,6 @@ std::vector<Writer::WriterJob> Writer::parseFilms(std::string content) {
     return jobs;
 }
 
-void Producer::displayProducerInfo(std::ostream &os) const {
-    os << name << '\n';
-    os << "Birthdate: " << birthDate << '\n';
-    if (!jobs.empty()) {
-        os << "Selected films: \n";
-        for (int i = 0; i < 5 && i < jobs.size(); ++i) {
-            os << "\"" << jobs[i].film->getTitle() << "\"" << " ("
-               << jobs[i].film->getYear() << ")\n";
-        }
-    }
-}
-
 std::vector<Writer::WriterJob>::iterator Writer::findJob(const Film &film) {
     return findJob(WriterJob(WriterType::Screenplay, film));
 }
@@ -497,6 +497,18 @@ void Writer::displayJobs(std::ostream &os) const {
         os << "\"" << job.film->getTitle() << "\"" << " ("
            << job.film->getYear() << ") - ";
         os << wtypeToString(job.wtype) << '\n';
+    }
+}
+
+void Writer::displayWriterInfo(std::ostream &os) const {
+    os << name << '\n';
+    os << "Birthdate: " << birthDate << '\n';
+    if (!jobs.empty()) {
+        os << "Selected films: \n";
+        for (int i = 0; i < 5 && i < jobs.size(); ++i) {
+            os << "\"" << jobs[i].film->getTitle() << "\"" << " ("
+               << jobs[i].film->getYear() << ")\n";
+        }
     }
 }
 
