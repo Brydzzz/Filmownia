@@ -62,11 +62,12 @@ TEST(filmTest, writeTest) {
         Review(&f, 2, std::string("Tomek"), 9, std::string("Very good movie")));
     std::ostringstream os;
     f.write(os);
-    ASSERT_EQ(os.str(),
-              "\"All Quiet on The Western Front\"\nRelease year: 2022  "
-              "Runtime: 120\nRating: 8\nFamous anti war movie based on a "
-              "novel\nDirector: Ich\nProducers: \n\nWriters: \n\nCast: \n1. "
-              "Him - The other character\n2. Me - The main character\n");
+    ASSERT_EQ(
+        os.str(),
+        "\"All Quiet on The Western Front\"\nRelease year: 2022  Runtime: "
+        "120\nGenre: ['Drama']\nRating: 8\nDescription: Famous anti war movie "
+        "based on a novel\nDirector: Ich\nProducers: \n\nWriters: \n\nCast: "
+        "\n1. Him - The other character\n2. Me - The main character\n");
 }
 
 TEST(reviewTest, constructTest) {

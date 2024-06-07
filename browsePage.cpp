@@ -35,13 +35,11 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                 cppIO::input(
                     "Choose number of a movie you wish to see or -1 for exit: ",
                     a);
-                if (a < -1 || a > 10 || a > found.size() || a == 0) {
-                    // std::unique_ptr<BrowsePage> ptr =
-                    //     std::make_unique<BrowsePage>();
-                    // return ptr;
-                    cppIO::log("Choose nr of one of the shown movies.");
+                if (a == -1) {
+                    break;
                 }
             }
+
             if (a == -1) {
                 std::unique_ptr<BrowsePage> ptr =
                     std::make_unique<BrowsePage>();
@@ -65,7 +63,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::getline(std::cin, name);
         DatabaseManager db_mgmt;
-        std::vector<Actor> foundActors = db_mgmt.actorSearch(name);
+        std::vector<Actor> foundActors = db_mgmt.personSearch<Actor>(name);
         if (foundActors.size() != 0) {
             int a;
             std::cout << "Found actors: " << std::endl;
@@ -81,13 +79,11 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                 cppIO::input(
                     "Choose number of a actor you wish to see or -1 for exit: ",
                     a);
-                if (a < -1 || a >= 10) {
-                    // std::unique_ptr<BrowsePage> ptr =
-                    //     std::make_unique<BrowsePage>();
-                    // return ptr;
-                    cppIO::log("Choose nr of one of the shown actors.");
+                if (a == -1) {
+                    break;
                 }
             }
+
             if (a == -1) {
                 std::unique_ptr<BrowsePage> ptr =
                     std::make_unique<BrowsePage>();
@@ -111,7 +107,8 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::getline(std::cin, name);
         DatabaseManager db_mgmt;
-        std::vector<Producer> foundProducers = db_mgmt.producerSearch(name);
+        std::vector<Producer> foundProducers =
+            db_mgmt.personSearch<Producer>(name);
         if (foundProducers.size() != 0) {
             int a;
             std::cout << "Found producers: " << std::endl;
@@ -128,8 +125,8 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                     "Choose number of a producer you wish to see or -1 for "
                     "exit: ",
                     a);
-                if (a < -1 || a >= 10) {
-                    cppIO::log("Choose nr of one of the shown producers.");
+                if (a == -1) {
+                    break;
                 }
             }
             if (a == -1) {
@@ -155,7 +152,8 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::getline(std::cin, name);
         DatabaseManager db_mgmt;
-        std::vector<Director> foundDirectors = db_mgmt.directorSearch(name);
+        std::vector<Director> foundDirectors =
+            db_mgmt.personSearch<Director>(name);
         if (foundDirectors.size() != 0) {
             int a;
             std::cout << "Found directors: " << std::endl;
@@ -172,8 +170,8 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                     "Choose number of a director you wish to see or -1 for "
                     "exit: ",
                     a);
-                if (a < -1 || a >= 10) {
-                    cppIO::log("Choose nr of one of the shown directors.");
+                if (a == -1) {
+                    break;
                 }
             }
             if (a == -1) {

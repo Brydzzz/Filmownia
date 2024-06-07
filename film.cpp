@@ -116,34 +116,6 @@ std::map<std::string, std::string> Film::parsePeople(std::string &people) {
     return ncast;
 }
 
-std::map<std::string, std::string> parsePeople(std::string &people) {
-    char l1, l2;
-    std::stringstream s(people);
-    s >> l1;
-    // s >> l2;
-    std::string actrole;
-    std::map<std::string, std::string> ncast;
-    while (std::getline(s, actrole, ']')) {
-        actrole.erase(0, actrole.find_first_not_of(","));
-        actrole.erase(0, actrole.find_first_not_of(" "));
-        actrole.erase(0, actrole.find_first_not_of("["));
-        std::stringstream ss(actrole);
-        std::string name;
-        std::getline(ss, name, ',');
-        if (name.size() > 2) {
-            // name.erase(0, 1);
-            // name.erase(name.size() - 1);
-            std::string role;
-            std::getline(ss, role, ',');
-            role.erase(0, role.find_first_not_of(" "));
-            // role.erase(0, 1);
-            // role.erase(role.size() - 1);
-            ncast[name] = role;
-        }
-    }
-    return ncast;
-}
-
 std::string gnrToStr(film_genre genre) {
     switch (genre) {
         case film_genre::Action:
@@ -210,7 +182,7 @@ std::ostream &Film::write(std::ostream &os) {
        << std::endl;
     os << "Genre: " << strGenres(getGenre()) << std::endl;
     os << "Rating: " << getRating() << std::endl;
-    os << "Description" << getDesc() << std::endl;
+    os << "Description: " << getDesc() << std::endl;
     os << "Director: " << getDir() << std::endl;
     os << "Producers: " << std::endl;
     unsigned int i = 1;
@@ -276,12 +248,13 @@ std::istream &operator>>(std::istream &is, Film &fm) {
     std::map<std::string, std::string> cast = {};
     std::map<std::string, std::string> writers = {};
     std::map<std::string, std::string> producers = {};
-    if (row[6].size() > 0) cast = parsePeople(row[6].erase(row[6].size() - 1));
+    if (row[6].size() > 0)
+        cast = fm.parsePeople(row[6].erase(row[6].size() - 1));
     std::string director = row[7];
     if (row[8].size() > 0)
-        writers = parsePeople(row[8].erase(row[8].size() - 1));
+        writers = fm.parsePeople(row[8].erase(row[8].size() - 1));
     if (row[9].size() > 0)
-        producers = parsePeople(row[9].erase(row[9].size() - 1));
+        producers = fm.parsePeople(row[9].erase(row[9].size() - 1));
     fm = Film(id, title, year, genres, cast, desc, {}, runtime, writers,
               producers, director);
     return is;

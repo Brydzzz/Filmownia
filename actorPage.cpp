@@ -26,8 +26,10 @@ program_state ActorPage::nextAction() {
         return program_state::AddRole;
     } else if (action == "DeleteRole") {
         return program_state::DeleteRole;
-    } else if (action == "SeeAllRoles") {
-        return program_state::SeeAllRoles;
+    }
+    else if (action == "SeeAllRoles")
+    {
+        return program_state::SeeAll;
     }
     return program_state::Exit;  // tylko dla kompilatora taka sytuacja nie
                                  // wystąpi w normalnym działaniu programu
@@ -118,7 +120,9 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         db_mgmt.replaceLine(newMovie, oldMovie, whichDb::moviesDb);
         std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
         return ptr;
-    } else if (act == program_state::SeeAllRoles) {
+    }
+    else if (act == program_state::SeeAll)
+    {
         clearTerminal();
         actor.displayRoles(std::cout);
 

@@ -11,10 +11,15 @@
 #include "role.h"
 class FilmPage : public Page {
     std::vector<std::string> options;
-    std::vector<std::string> optionsGuest = {"SeeDirector", "SeeActor",
-                                             "Browse", "Exit", "Reviews"};
-    std::vector<std::string> optionsRest = {
-        "AddReview", "SeeDirector", "SeeActor", "Browse", "Exit", "Reviews"};
+    std::vector<std::string> optionsGuest = {
+        "SeeDirector", "SeeActor", "SeeProducer", "Browse", "Exit", "Reviews"};
+    std::vector<std::string> optionsRest = {"AddReview",
+                                            "SeeDirector",
+                                            "SeeActor",
+                                            "SeeProducer"
+                                            "Browse",
+                                            "Exit",
+                                            "Reviews"};
     Film *film;
     void loadRevs();
 
@@ -31,7 +36,7 @@ class FilmPage : public Page {
         } else {
             options = optionsRest;
         }
-        std::cout << "Avaiable Options: \n";
+        std::cout << "Available Options: \n";
         for (auto opt : options) {
             std::cout << "- " << opt << std::endl;
         }

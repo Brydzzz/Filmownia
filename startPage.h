@@ -33,8 +33,9 @@ class StartPage : public Page {
         } else {
             options = optionsRest;
         }
-        std::cout << "Avaiable Options: \n";
-        for (auto opt : options) {
+        std::cout << "Available Options: \n";
+        for (auto opt : options)
+        {
             std::cout << "- " << opt << std::endl;
         }
     }
