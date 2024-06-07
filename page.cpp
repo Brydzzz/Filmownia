@@ -44,3 +44,27 @@ Film *findAndChooseMovie(std::string title) {
     }
     return f;
 }
+
+Film *chooseMovie(std::vector<Film *> films) {
+    Film *f;
+    if (films.size() == 0) {
+        std::cout << "Movie not found" << std::endl;
+        return nullptr;
+    } else if (films.size() == 1) {
+        f = films[0];
+    } else {
+        int i = 1;
+        for (auto f : films) {
+            if (i <= 10) {
+                std::cout << i << '.' << f->getTitle() << std::endl;
+                ++i;
+            }
+        }
+        int a = 0;
+        while (a < 1 || a > 10 || a > films.size()) {
+            cppIO::input("Choose number of a movie you wish to choose: ", a);
+            f = films[a - 1];
+        }
+    }
+    return f;
+}
