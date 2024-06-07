@@ -7,7 +7,7 @@
 #include "directorPage.h"
 #include "global.h"
 #include "producerPage.h"
-
+#include "writerPage.h"
 extern std::vector<Film> flist;
 
 std::unique_ptr<Page> BrowsePage::doAction(program_state act,
@@ -100,6 +100,50 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
             std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
             return ptr;
         }
+    } else if (act == program_state::BrowseWriters) {
+        std::string name;
+        std::cout << "Enter writer's name: " << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::getline(std::cin, name);
+        DatabaseManager db_mgmt;
+        std::vector<Writer> foundWriters = db_mgmt.personSearch<Writer>(name);
+        if (foundWriters.size() != 0) {
+            int a;
+            std::cout << "Found writers: " << std::endl;
+            int i = 0;
+
+            for (auto w : foundWriters) {
+                if (i < 10) {
+                    std::cout << i + 1 << '.' << w.getName() << std::endl;
+                    ++i;
+                }
+            }
+            while (a < -1 || a > 10 || a > foundWriters.size() || a == 0) {
+                cppIO::input(
+                    "Choose number of a writer you wish to see or -1 for "
+                    "exit: ",
+                    a);
+                if (a == -1) {
+                    break;
+                }
+            }
+            if (a == -1) {
+                std::unique_ptr<BrowsePage> ptr =
+                    std::make_unique<BrowsePage>();
+                return ptr;
+            } else {
+                a--;
+            }
+            std::unique_ptr<WriterPage> ptr =
+                std::make_unique<WriterPage>(foundWriters[a]);
+            return ptr;
+        } else {
+            std::cout << "Writer not found\n";
+            waitForInput();
+            std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
+            return ptr;
+        }
     } else if (act == program_state::BrowseProducers) {
         std::string name;
         std::cout << "Enter producer's name: " << std::endl;
@@ -114,9 +158,9 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
             std::cout << "Found producers: " << std::endl;
             int i = 0;
 
-            for (auto d : foundProducers) {
+            for (auto p : foundProducers) {
                 if (i < 10) {
-                    std::cout << i + 1 << '.' << d.getName() << std::endl;
+                    std::cout << i + 1 << '.' << p.getName() << std::endl;
                     ++i;
                 }
             }
@@ -140,7 +184,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                 std::make_unique<ProducerPage>(foundProducers[a]);
             return ptr;
         } else {
-            std::cout << "Director not found\n";
+            std::cout << "Producer not found\n";
             waitForInput();
             std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
             return ptr;
@@ -211,7 +255,8 @@ program_state BrowsePage::nextAction() {
             std::find(options.begin(), options.end(), action) == options.end();
         if (condition) {
             cppIO::log(
-                "No such option available for this user. Chose one from the "
+                "No such option available for this user. Chose one from "
+                "the "
                 "list.");
         }
     }
@@ -225,6 +270,8 @@ program_state BrowsePage::nextAction() {
         return program_state::BrowseDirectors;
     } else if (action == "BrowseProducers") {
         return program_state::BrowseProducers;
+    } else if (action == "BrowseWriters") {
+        return program_state::BrowseWriters;
     } else if (action == "GoBack") {
         return program_state::GoBack;
     }
