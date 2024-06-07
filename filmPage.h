@@ -16,10 +16,10 @@ class FilmPage : public Page {
     std::vector<std::string> optionsRest = {"AddReview",
                                             "SeeDirector",
                                             "SeeActor",
-                                            "SeeProducer"
+                                            "SeeProducer",
                                             "Browse",
                                             "Exit",
-                                            "Reviews"};
+                                            "Reviews"};  // TODO add SeeWriter
     Film *film;
     void loadRevs();
 

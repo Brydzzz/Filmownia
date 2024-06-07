@@ -20,9 +20,11 @@ class DirectorPage : public Page {
         "Exit",
     };
     Director director;
+    Film *filmLink;
 
    public:
-    DirectorPage(Director d) : director(d) {}
+    DirectorPage(Director d, Film *filmLink = nullptr)
+        : director(d), filmLink(filmLink) {}
     void print() override;  // print director info
     program_state nextAction() override;
 

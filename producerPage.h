@@ -23,15 +23,17 @@ class ProducerPage : public Page {
         "Exit",
     };
     Producer prod;
+    Film* filmLink;
 
    public:
-    ProducerPage(Producer p) : prod(p) {}
+    ProducerPage(Producer p, Film* filmLink = nullptr)
+        : prod(p), filmLink(filmLink) {}
     void print() override;  // print Producer info
     program_state nextAction() override;
 
     std::unique_ptr<Page> doAction(program_state,
-                                   std::unique_ptr<Role> &us_ptr) override;
-    void showOptions(const Role *us_ptr) override {
+                                   std::unique_ptr<Role>& us_ptr) override;
+    void showOptions(const Role* us_ptr) override {
         if (us_ptr->getName() == "admin") {
             options = optionsAdmin;
         } else {
