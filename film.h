@@ -1,14 +1,14 @@
 #pragma once
-#include <string>
-#include <vector>
-#include "review.h"
-#include <sstream>
 #include <iomanip>
-#include <utility>
 #include <map>
+#include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
 
-enum class film_genre
-{
+#include "review.h"
+
+enum class film_genre {
     Action,
     Adventure,
     Comedy,
@@ -24,8 +24,7 @@ enum class film_genre
 };
 
 class Review;
-class Film
-{
+class Film {
     unsigned int id;
     std::string title;
     unsigned int prod_year;
@@ -40,20 +39,45 @@ class Film
     std::map<std::string, std::string> parsePeople(std::string &people);
     std::vector<film_genre> parseGenres(std::string &content);
 
-public:
-    Film(unsigned int id, std::string title, unsigned int prod_year, std::vector<film_genre> genre, std::map<std::string, std::string> cast, std::string desc, std::vector<Review> reviews, unsigned int time, std::map<std::string, std::string> writers, std::map<std::string, std::string> producers, std::string director)
-        : id(id), title(title), prod_year(prod_year), genre(genre), cast(cast), desc(desc), reviews(reviews), time(time), writers(writers), producers(producers), director(director)
-    {
-    }
+   public:
+    Film(unsigned int id, std::string title, unsigned int prod_year,
+         std::vector<film_genre> genre, std::map<std::string, std::string> cast,
+         std::string desc, std::vector<Review> reviews, unsigned int time,
+         std::map<std::string, std::string> writers,
+         std::map<std::string, std::string> producers, std::string director)
+        : id(id),
+          title(title),
+          prod_year(prod_year),
+          genre(genre),
+          cast(cast),
+          desc(desc),
+          reviews(reviews),
+          time(time),
+          writers(writers),
+          producers(producers),
+          director(director) {}
 
-    Film(unsigned int id, std::string title, unsigned int prod_year, std::string genre, std::string cast, std::string desc, std::vector<Review> reviews, unsigned int time, std::string writers, std::string producers, std::string director)
-        : id(id), title(title), prod_year(prod_year), genre(parseGenres(genre)), cast(parsePeople(cast)), desc(desc), reviews(reviews), time(time), writers(parsePeople(writers)), producers(parsePeople(producers)), director(director)
-    {
-    }
+    Film(unsigned int id, std::string title, unsigned int prod_year,
+         std::string genre, std::string cast, std::string desc,
+         std::vector<Review> reviews, unsigned int time, std::string writers,
+         std::string producers, std::string director)
+        : id(id),
+          title(title),
+          prod_year(prod_year),
+          genre(parseGenres(genre)),
+          cast(parsePeople(cast)),
+          desc(desc),
+          reviews(reviews),
+          time(time),
+          writers(parsePeople(writers)),
+          producers(parsePeople(producers)),
+          director(director) {}
     Film(){};
     void addReview(Review review);
     void addRole(std::string actor, std::string role);
     void deleteRole(std::string actor);
+    void changeDirector(std::string new_director);
+    void deleteDirector(std::string to_delete);
     const unsigned int &getID() const;
     std::vector<Review> &getReviews();
     const std::string &getTitle() const;

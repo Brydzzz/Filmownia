@@ -1,8 +1,8 @@
-#include "producerPage.h"
+#include "writerPage.h"
 
 #include "databaseManager.h"
 #include "page.h"
-program_state ProducerPage::nextAction() {
+program_state WriterPage::nextAction() {
     std::string action;
     bool condition =
         std::find(options.begin(), options.end(), action) == options.end();
@@ -23,12 +23,10 @@ program_state ProducerPage::nextAction() {
     } else if (action == "SeeAllJobs") {
         return program_state::SeeAll;
     }
-    return program_state::Exit;  // tylko dla kompilatora taka sytuacja nie
-                                 // wystąpi w normalnym działaniu programu
+    return program_state::Exit;
 }
-
-std::unique_ptr<Page> ProducerPage::doAction(program_state act,
-                                             std::unique_ptr<Role> &us_ptr) {
+std::unique_ptr<Page> WriterPage::doAction(program_state act,
+                                           std::unique_ptr<Role>& us_ptr) {
     if (act == program_state::GoBack) {
         if (filmLink != nullptr) {
             std::unique_ptr<FilmPage> ptr =
@@ -40,26 +38,27 @@ std::unique_ptr<Page> ProducerPage::doAction(program_state act,
         }
     } else if (act == program_state::SeeAll) {
         clearTerminal();
-        prod.displayJobs(std::cout);
+        writer.displayJobs(std::cout);
         waitForInput();
 
-        std::unique_ptr<ProducerPage> ptr =
-            std::make_unique<ProducerPage>(prod, filmLink);
+        std::unique_ptr<WriterPage> ptr =
+            std::make_unique<WriterPage>(writer, filmLink);
         return ptr;
     } else if (act == program_state::Exit) {
-        std::unique_ptr<ProducerPage> ptr =
-            std::make_unique<ProducerPage>(prod, filmLink);
+        std::unique_ptr<WriterPage> ptr =
+            std::make_unique<WriterPage>(writer, filmLink);
         return ptr;
     }
 
-    std::unique_ptr<ProducerPage> ptr = std::make_unique<ProducerPage>(prod, filmLink);
+    std::unique_ptr<WriterPage> ptr =
+        std::make_unique<WriterPage>(writer, filmLink);
     return ptr;
 }
 
-void ProducerPage::print() {
+void WriterPage::print() {
     clearTerminal();
     printBorder();
-    std::cout << "PRODUCER PAGE" << std::endl;
+    std::cout << "Writer PAGE" << std::endl;
     printBorder();
-    prod.displayProducerInfo(std::cout);
+    writer.displayWriterInfo(std::cout);
 }

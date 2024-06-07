@@ -6,9 +6,7 @@
 #include "csv.h"
 #include "film.h"
 #include "person.h"
-int main()
-{
-
+int main() {
     // std::string action;
     // cppIO::input("Enter desired action: ", action);
     // std::cout << action;
@@ -138,21 +136,15 @@ int main()
     std::string Name;
     std::string Birthday;
     std::string Films;
-    while (in.read_row(ID, Name, Birthday, Films))
-    {
+    while (in.read_row(ID, Name, Birthday, Films)) {
         Date BirthdayDate;
-        if (Birthday.size() == 4)
-        {
+        if (Birthday.size() == 4) {
             unsigned int year = std::stol(Birthday);
             BirthdayDate = Date(1, 1, year);
-        }
-        else if (Birthday.size() > 1)
-        {
+        } else if (Birthday.size() > 1) {
             std::istringstream bday(Birthday);
             bday >> BirthdayDate;
-        }
-        else
-        {
+        } else {
             BirthdayDate = Date(1, 1, 1970);
         }
         std::cout << ID << std::endl;
@@ -161,8 +153,7 @@ int main()
     }
     std::ofstream out("../producers2.csv");
     out << "ID;Name;Birthday;Films\n";
-    for (auto writer : producers)
-    {
+    for (auto writer : producers) {
         out << writer << '\n';
     }
     return 0;

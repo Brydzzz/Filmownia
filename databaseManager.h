@@ -2,7 +2,14 @@
 #include "global.h"
 #include "person.h"
 
-enum class whichDb { moviesDb, actorsDb, reviewsDb, directorsDb, producersDb };
+enum class whichDb {
+    moviesDb,
+    actorsDb,
+    reviewsDb,
+    directorsDb,
+    producersDb,
+    writersDb
+};
 
 class DatabaseManager {
     std::string moviesDb;
@@ -10,6 +17,7 @@ class DatabaseManager {
     std::string reviewsDb;
     std::string directorsDb;
     std::string producersDb;
+    std::string writersDb;
     std::string enumDbToStr(whichDb db);
 
    public:
@@ -17,12 +25,14 @@ class DatabaseManager {
                     std::string actorsDb = "../actors.csv",
                     std::string reviewsDb = "../reviews.csv",
                     std::string directorsDb = "../directors.csv",
-                    std::string producersDb = "../producers.csv")
+                    std::string producersDb = "../producers.csv",
+                    std::string writersDb = "../writers.csv")
         : moviesDb(moviesDb),
           actorsDb(actorsDb),
           reviewsDb(reviewsDb),
           directorsDb(directorsDb),
-          producersDb(producersDb){};
+          producersDb(producersDb),
+          writersDb(writersDb){};
     std::vector<Film *> movieSearch(const std::string &title);
     void replaceLine(std::string newLine, std::string oldLine, whichDb db);
     template <typename T>
@@ -35,6 +45,8 @@ class DatabaseManager {
             db = actorsDb;
         } else if constexpr (std::is_same<T, Director>::value) {
             db = directorsDb;
+        } else if constexpr (std::is_same<T, Writer>::value) {
+            db = writersDb;
         }
         io::CSVReader<4, io::trim_chars<' '>, io::no_quote_escape<';'>> in(db);
         in.read_header(io::ignore_missing_column, "ID", "Name", "Birthday",

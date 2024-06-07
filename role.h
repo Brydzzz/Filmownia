@@ -1,15 +1,15 @@
 #pragma once
 #include <string>
+
 #include "user.h"
 
 class User;
-class Role
-{
-protected:
+class Role {
+   protected:
     User *user;
     std::string name = "guest";
 
-public:
+   public:
     Role(User *us) : user(us){};
     virtual ~Role() = default;
     User *getUser();

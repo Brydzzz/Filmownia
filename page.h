@@ -28,6 +28,7 @@ enum class program_state {
     BrowseActors,
     BrowseDirectors,
     BrowseProducers,
+    BrowseWriters,
     AddRole,
     DeleteRole,
     SeeAll,
@@ -36,6 +37,7 @@ enum class program_state {
     SeeActor,
     SeeDirector,
     SeeProducer,
+    SeeWriter,
     LogIn,
     SignUp,
     LogOut
