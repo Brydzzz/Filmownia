@@ -40,8 +40,14 @@ program_state DirectorPage::nextAction() {
 std::unique_ptr<Page> DirectorPage::doAction(program_state act,
                                              std::unique_ptr<Role> &us_ptr) {
     if (act == program_state::GoBack) {
-        std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
-        return ptr;
+        if (filmLink != nullptr) {
+            std::unique_ptr<FilmPage> ptr =
+                std::make_unique<FilmPage>(filmLink);
+            return ptr;
+        } else {
+            std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
+            return ptr;
+        }
     } else if (act == program_state::AddDirectorFilm) {
         DatabaseManager db_mgmt;
         std::cin.clear();
@@ -53,7 +59,7 @@ std::unique_ptr<Page> DirectorPage::doAction(program_state act,
         if (f == nullptr) {
             waitForInput();
             std::unique_ptr<DirectorPage> ptr =
-                std::make_unique<DirectorPage>(director);
+                std::make_unique<DirectorPage>(director, filmLink);
             return ptr;
         }
         std::ostringstream os;
@@ -65,7 +71,7 @@ std::unique_ptr<Page> DirectorPage::doAction(program_state act,
             std::cout << "Director already is already in this movie.\n";
             waitForInput();
             std::unique_ptr<DirectorPage> ptr =
-                std::make_unique<DirectorPage>(director);
+                std::make_unique<DirectorPage>(director, filmLink);
             return ptr;
         }
         os.str("");
@@ -80,7 +86,7 @@ std::unique_ptr<Page> DirectorPage::doAction(program_state act,
         std::string newMovie = os.str();
         db_mgmt.replaceLine(newMovie, oldMovie, whichDb::moviesDb);
         std::unique_ptr<DirectorPage> ptr =
-            std::make_unique<DirectorPage>(director);
+            std::make_unique<DirectorPage>(director, filmLink);
         return ptr;
     } else if (act == program_state::DeleteDirectorFilm) {
         // DatabaseManager db_mgmt;
@@ -94,7 +100,7 @@ std::unique_ptr<Page> DirectorPage::doAction(program_state act,
         // {
         //     waitForInput();
         //     std::unique_ptr<DirectorPage> ptr =
-        //     std::make_unique<DirectorPage>(director); return ptr;
+        //     std::make_unique<DirectorPage>(director, filmLink); return ptr;
         // }
         // std::ostringstream os;
         // os << director;
@@ -126,7 +132,7 @@ std::unique_ptr<Page> DirectorPage::doAction(program_state act,
         // std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor);
         // return ptr;
         std::unique_ptr<DirectorPage> ptr =
-            std::make_unique<DirectorPage>(director);
+            std::make_unique<DirectorPage>(director, filmLink);
         return ptr;
     } else if (act == program_state::SeeAll) {
         clearTerminal();
@@ -135,15 +141,15 @@ std::unique_ptr<Page> DirectorPage::doAction(program_state act,
         waitForInput();
 
         std::unique_ptr<DirectorPage> ptr =
-            std::make_unique<DirectorPage>(director);
+            std::make_unique<DirectorPage>(director, filmLink);
         return ptr;
     } else if (act == program_state::Exit) {
         std::unique_ptr<DirectorPage> ptr =
-            std::make_unique<DirectorPage>(director);
+            std::make_unique<DirectorPage>(director, filmLink);
         return ptr;
     }
     std::unique_ptr<DirectorPage> ptr =
-        std::make_unique<DirectorPage>(director);
+        std::make_unique<DirectorPage>(director, filmLink);
     return ptr;
 }
 

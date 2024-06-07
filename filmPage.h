@@ -19,7 +19,7 @@ class FilmPage : public Page {
                                             "SeeProducer",
                                             "Browse",
                                             "Exit",
-                                            "Reviews"};
+                                            "Reviews"};  // TODO add SeeWriter
     Film *film;
     void loadRevs();
 
