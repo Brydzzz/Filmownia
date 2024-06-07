@@ -182,7 +182,7 @@ std::ostream &Film::write(std::ostream &os) {
        << std::endl;
     os << "Genre: " << strGenres(getGenre()) << std::endl;
     os << "Rating: " << getRating() << std::endl;
-    os << "Description" << getDesc() << std::endl;
+    os << "Description: " << getDesc() << std::endl;
     os << "Director: " << getDir() << std::endl;
     os << "Producers: " << std::endl;
     unsigned int i = 1;
