@@ -16,7 +16,7 @@ class FilmPage : public Page {
     std::vector<std::string> optionsRest = {"AddReview",
                                             "SeeDirector",
                                             "SeeActor",
-                                            "SeeProducer"
+                                            "SeeProducer",
                                             "Browse",
                                             "Exit",
                                             "Reviews"};
