@@ -134,7 +134,7 @@ std::unique_ptr<Page> FilmPage::doAction(program_state act,
         std::vector<Producer> foundProducers =
             db_mgmt.personSearch<Producer>(actor_name);
         std::unique_ptr<ProducerPage> ptr =
-            std::make_unique<ProducerPage>(foundProducers[0]);
+            std::make_unique<ProducerPage>(foundProducers[0], film);
         return ptr;
     } else
     //    (act == program_state::Exit)
