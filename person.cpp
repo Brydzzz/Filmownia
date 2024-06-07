@@ -184,10 +184,13 @@ std::vector<const Film *> Director::parseFilms(std::string content) {
 const std::vector<const Film *> &Director::getFilms() const { return films; }
 
 std::vector<const Film *>::iterator Director::findFilm(const Film &film) {
-    auto it = std::lower_bound(films.begin(), films.end(), &film,
-                               [](const Film *lhs, const Film *rhs) {
-                                   return lhs->getTitle() < rhs->getTitle();
-                               });
+    // auto it = std::lower_bound(films.begin(), films.end(), &film,
+    //                            [](const Film *lhs, const Film *rhs) {
+    //                                return lhs->getTitle() < rhs->getTitle();
+    //                            });
+    auto it = std::find_if(films.begin(), films.end(), [&film](const Film *f) {
+        return f->getTitle() == film.getTitle();
+    });
     return it;
 }
 
@@ -203,6 +206,8 @@ void Director::deleteFilm(const Film &film) {
     auto it = findFilm(film);
     if (it != films.end() && (*it)->getID() == film.getID()) {
         films.erase(it);
+    } else {
+        std::cout << "ladidadida" << std::endl;
     }
 }
 
