@@ -98,11 +98,11 @@ void Film::addWriter(std::string writer, std::string job) {
     writers[writer] = job;
 }
 
-void Film::deleteWriter(std::string prod) {
-    if (writers.count(prod) == 0) {
+void Film::deleteWriter(std::string writer) {
+    if (writers.count(writer) == 0) {
         throw std::invalid_argument("Writer doesn't have a job in this movie");
     }
-    writers.erase(prod);
+    writers.erase(writer);
 }
 
 void Film::changeDirector(std::string new_director) { director = new_director; }
