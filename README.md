@@ -70,7 +70,7 @@ Reprezentuje administratora bazy danych, który dodatkowo ma możliwość modyfi
 
 ### Film i recenzje
 #### Film
-Klasa `Film` zawiera wszystko najważniejsze informacje, których chcielibyśmy się dowiedzieć o danej produkcji. Posiada możliwość "zrzucania się" do formatu kompatybilnego z naszymi plikami `csv`, oraz konstruktor kompatybilny z tymże formatem.
+Klasa `Film` zawiera wszystko najważniejsze informacje, których chcielibyśmy się dowiedzieć o danej produkcji. Posiada możliwość "zrzucania się" do formatu kompatybilnego z naszymi plikami `.csv`, oraz konstruktor kompatybilny z tymże formatem.
 Posiada też `getRating()`, które oblicza średnia ocene z recenzji, oraz `write()`, ktory w estetyczny sposób wyrzuca na strumień wyjściowy informacje o filmie.
 
 #### Review
