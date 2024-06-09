@@ -416,7 +416,7 @@ TEST(director_test, delete_film_film_not_in_films) {
             {}, 144, {}, {}, "");
     d.addFilm(f1);
     ASSERT_EQ(d.getFilms().size(), 1);
-    d.deleteFilm(f2);
+    ASSERT_THROW(d.deleteFilm(f2), std::exception);
     ASSERT_EQ(d.getFilms().size(), 1);
     ASSERT_EQ(d.getFilms()[0], &f1);
 }
