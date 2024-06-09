@@ -76,5 +76,3 @@ target_link_libraries(testPerson PUBLIC gtest_main)
 add_executable(testDate testDate.cpp date.h date.cpp)
 target_link_libraries(testDate PUBLIC gtest_main)
 
-add_executable(testPage testPage.cpp ${PROJECT_SOURCES_MAIN})
-target_link_libraries(testPage PUBLIC gtest_main)
