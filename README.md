@@ -71,22 +71,22 @@ Wszystkie strony dziedziczą po klasie Page, która ma zdefiniowane wirtualne me
 - nextAction() do wybierania co chcemy zrobić dalej w programie
 - doAction() który egzekwuje to co wybraliśmy w nextAction()
 
-## StartPage
+#### StartPage
 Pozwala nam zalogować się albo się zarejestrować,  zobaczyć naszą stronę użytkownika (jeśli jesteśmy zalogowani) albo wejść do strony wyszkiwania.
 
-## UserPage
+#### UserPage
 Wyświetla recenzje naszego użytkownika, pozwala je też usunąć.
 
-## BrowsePage
+#### BrowsePage
 Pozwala na wyszukiwanie Filmów, albo osób (Actor, Director, Producer, Writer), i przy każdym wyszukiwaniu współpracuje z DatabaseManager
 
-## FilmPage
+#### FilmPage
 Przedstawia informacje o filmie, pozwala na przejscie do stron osób powiązanych z filmem, oraz dodanie recenzji jeśli jesteśmy zalogowani.
 
-## AddReviewPage
+#### AddReviewPage
 Służy do obsługi dodawania recenzji.
 
-## Actor/Producer/Writer Page
+#### Actor/Producer/Writer/Director Page
 Przedstawiają informacje o osobach, które reprezentują. Jeśli jesteśmy adminem dodatkowo pozwalają na dodanie roli/pracy albo jej usunięcie.
 
 
