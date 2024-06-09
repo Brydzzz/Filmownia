@@ -187,6 +187,10 @@ std::string listToStr(std::map<std::string, std::string> mp) {
     return result;
 }
 
+void Film::addProducer(std::string prod, std::string job) {
+    producers[prod] = job;
+}
+
 std::ostream &Film::write(std::ostream &os) {
     os << std::quoted(getTitle()) << std::endl;
     os << "Release year: " << getYear() << "  " << "Runtime: " << getTime()

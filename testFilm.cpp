@@ -52,6 +52,14 @@ TEST(filmTest, eqOperatorFalseTest) {
     ASSERT_FALSE(f == f2);
 }
 
+TEST(film_test, addProducerTest) {
+    Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama},
+           {{"Me", "The main character"}, {"Him", "The other character"}},
+           "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
+    f.addProducer("Wir", "Producer");
+    ASSERT_EQ(f.getProducers().size(), 1);
+}
+
 TEST(filmTest, writeTest) {
     Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama},
            {{"Me", "The main character"}, {"Him", "The other character"}},
