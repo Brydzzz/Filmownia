@@ -42,8 +42,14 @@ Film *chooseMovie(std::vector<Film *> films) {
         }
         int a = 0;
         while (a < 1 || a > 10 || a > films.size()) {
-            cppIO::input("Choose number of a movie you wish to choose: ", a);
+            cppIO::input(
+                "Choose number of a movie you wish to choose or -1 to exit "
+                "action: ",
+                a);
             f = films[a - 1];
+            if (a == -1) {
+                return nullptr;
+            }
         }
     }
     return f;
