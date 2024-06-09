@@ -49,12 +49,45 @@ bool operator==(const Film &lfilm, const Film &rfilm) {
 
 void Film::deleteRole(std::string actor) {
     if (cast.count(actor) == 0) {
-        throw std::invalid_argument("Actor doesn't have a role ");
+        throw std::invalid_argument("Actor doesn't have a role in this movie");
     }
     cast.erase(actor);
 }
+void Film::deleteProducer(std::string prod) {
+    if (producers.count(prod) == 0) {
+        throw std::invalid_argument(
+            "Producer doesn't have a job in this movie");
+    }
+    producers.erase(prod);
+}
+void Film::addRole(std::string actor, std::string role) {
+    if (cast.count(actor) != 0) {
+        throw std::invalid_argument("Actor already has a role in this movie");
+    }
+    cast[actor] = role;
+}
 
-void Film::addRole(std::string actor, std::string role) { cast[actor] = role; }
+void Film::addProducer(std::string prod, std::string job) {
+    if (producers.count(prod) != 0) {
+        throw std::invalid_argument(
+            "Producer already has a role in this movie");
+    }
+    producers[prod] = job;
+}
+
+void Film::addWriter(std::string writer, std::string job) {
+    if (writers.count(writer) != 0) {
+        throw std::invalid_argument("Writer already has a role in this movie");
+    }
+    writers[writer] = job;
+}
+
+void Film::deleteWriter(std::string writer) {
+    if (writers.count(writer) == 0) {
+        throw std::invalid_argument("Writer doesn't have a job in this movie");
+    }
+    writers.erase(writer);
+}
 
 void Film::changeDirector(std::string new_director) { director = new_director; }
 

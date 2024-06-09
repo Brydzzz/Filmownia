@@ -98,11 +98,12 @@ std::unique_ptr<Page> DirectorPage::doAction(program_state act,
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::getline(std::cin, title);
-        Film *f = chooseMovie(director.findFilmsByTitle(title));
+        std::vector<Film *> foundFilms = director.findFilmsByTitle(title);
+        Film *f = chooseMovie(foundFilms);
         if (f == nullptr) {
             waitForInput();
             std::unique_ptr<DirectorPage> ptr =
-                std::make_unique<DirectorPage>(director);
+                std::make_unique<DirectorPage>(director, filmLink);
             return ptr;
         }
         std::ostringstream os;
@@ -115,7 +116,7 @@ std::unique_ptr<Page> DirectorPage::doAction(program_state act,
                          "first place\n";
             waitForInput();
             std::unique_ptr<DirectorPage> ptr =
-                std::make_unique<DirectorPage>(director);
+                std::make_unique<DirectorPage>(director, filmLink);
             return ptr;
         }
         os.str("");

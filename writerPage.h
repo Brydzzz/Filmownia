@@ -18,6 +18,8 @@ class WriterPage : public Page {
         "Exit",
     };
     std::vector<std::string> optionsAdmin = {
+        "AddJob",
+        "DeleteJob",
         "SeeAllJobs",
         "GoBack",
         "Exit",

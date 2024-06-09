@@ -78,6 +78,10 @@ class Film {
     void deleteRole(std::string actor);
     void changeDirector(std::string new_director);
     void deleteDirector(std::string to_delete);
+    void addProducer(std::string prod, std::string job);
+    void deleteProducer(std::string prod);
+    void addWriter(std::string writer, std::string job);
+    void deleteWriter(std::string writer);
     const unsigned int &getID() const;
     std::vector<Review> &getReviews();
     const std::string &getTitle() const;

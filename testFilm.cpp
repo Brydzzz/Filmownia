@@ -52,6 +52,71 @@ TEST(filmTest, eqOperatorFalseTest) {
     ASSERT_FALSE(f == f2);
 }
 
+TEST(filmTest, addWriterTest) {
+    Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama},
+           {{"Me", "The main character"}, {"Him", "The other character"}},
+           "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
+    f.addWriter("Wir", "Writer");
+    ASSERT_EQ(f.getWriters().size(), 1);
+}
+
+TEST(filmTest, addWriterAlreadyThereTest) {
+    Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama},
+           {{"Me", "The main character"}, {"Him", "The other character"}},
+           "Famous anti war movie based on a novel", {}, 120,
+           {{"Wir", "Writer"}}, {}, "Ich");
+    ASSERT_THROW(f.addWriter("Wir", "Writer"), std::exception);
+}
+
+TEST(filmTest, deleteWriterTest) {
+    Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama},
+           {{"Me", "The main character"}, {"Him", "The other character"}},
+           "Famous anti war movie based on a novel", {}, 120,
+           {{"Wir", "Writer"}}, {}, "Ich");
+    f.deleteWriter("Wir");
+    ASSERT_EQ(f.getWriters().size(), 0);
+}
+
+TEST(filmTest, deleteWriterNotThereTest) {
+    Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama},
+           {{"Me", "The main character"}, {"Him", "The other character"}},
+           "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
+    ASSERT_THROW(f.deleteWriter("Wir"), std::exception);
+}
+
+TEST(filmTest, addProducerTest) {
+    Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama},
+           {{"Me", "The main character"}, {"Him", "The other character"}},
+           "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
+    f.addProducer("Wir", "Producer");
+    ASSERT_EQ(f.getProducers().size(), 1);
+}
+
+TEST(filmTest, addProducerAlreadyThereTest) {
+    Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama},
+           {{"Me", "The main character"}, {"Him", "The other character"}},
+           "Famous anti war movie based on a novel", {}, 120, {},
+           {{"Wir", "Producer"}}, "Ich");
+    ASSERT_THROW(f.addProducer("Wir", "Producer"), std::exception);
+}
+
+TEST(filmTest, deleteProducerTest) {
+    Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama},
+           {{"Me", "The main character"}, {"Him", "The other character"}},
+           "Famous anti war movie based on a novel", {}, 120, {},
+           {{"Wir", "Producer"}}, "Ich");
+    f.deleteProducer("Wir");
+    ASSERT_EQ(f.getProducers().size(), 0);
+}
+
+TEST(filmTest, deleteProducerNotThereTest) {
+    Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama},
+           {{"Me", "The main character"}, {"Him", "The other character"}},
+           "Famous anti war movie based on a novel", {}, 120, {},
+           {{"Wir", "Producer"}}, "Ich");
+    ASSERT_THROW(f.deleteProducer("Ihr"), std::exception);
+}
+
 TEST(filmTest, writeTest) {
     Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama},
            {{"Me", "The main character"}, {"Him", "The other character"}},
@@ -218,6 +283,15 @@ TEST(filmTest, addRoleTest) {
     ASSERT_EQ(f.getCast(), expected);
 }
 
+TEST(filmTest, addRoleAlreadyThereTest) {
+    Film f(1, "All Quiet on The Western Front", 2022,
+           {film_genre::Drama, film_genre::Action},
+           {{"Me", "The main character"}, {"Him", "The other character"}},
+           "Famous anti war movie based on a novel", {}, 120,
+           {{"Ja", "Prodcuer"}}, {{"Ty", "Writer"}}, "Ich");
+    ASSERT_THROW(f.addRole("Me", "Soldat"), std::exception);
+}
+
 TEST(filmTest, delRoleTest) {
     Film f(1, "All Quiet on The Western Front", 2022,
            {film_genre::Drama, film_genre::Action},
@@ -230,20 +304,21 @@ TEST(filmTest, delRoleTest) {
     ASSERT_EQ(f.getCast(), expected);
 }
 
-// TEST(filmTest, hugeLoadingTest)
-// {
-//     std::vector<Film> list;
-//     std::ifstream input("movies.csv");
-//     if (!input.is_open())
-//     {
-//         FAIL() << "Unable to open file movies.csv";
-//     }
-//     std::string row;
-//     getline(input, row, '\n');
-//     while (getline(input, row, '\n'))
-//     {
-//         Film f;
-//         std::istringstream(row) >> f;
-//         list.push_back(f);
-//     }
-// }
+TEST(filmTest, delRoleNotThereTest) {
+    Film f(1, "All Quiet on The Western Front", 2022,
+           {film_genre::Drama, film_genre::Action},
+           {{"Me", "The main character"}, {"Him", "The other character"}},
+           "Famous anti war movie based on a novel", {}, 120,
+           {{"Ja", "Prodcuer"}}, {{"Ty", "Writer"}}, "Ich");
+    ASSERT_THROW(f.deleteRole("You"), std::exception);
+}
+
+TEST(filmTest, changeDirectorTest) {
+    Film f(1, "All Quiet on The Western Front", 2022,
+           {film_genre::Drama, film_genre::Action},
+           {{"Me", "The main character"}, {"Him", "The other character"}},
+           "Famous anti war movie based on a novel", {}, 120,
+           {{"Ja", "Prodcuer"}}, {{"Ty", "Writer"}}, "Ich");
+    f.changeDirector("Ja");
+    ASSERT_EQ(f.getDir(), "Ja");
+}
