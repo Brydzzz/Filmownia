@@ -57,6 +57,17 @@ Dostępne testy:
 
 ### Osoby
 
+Klasa `Person` reprezentuje osobę i zawiera jej `id`, imię i nazwisko (`name`) oraz datę urodzenia (`birthDate`)
+Po klasie `Person` dziedziczą:
+- `Actor` - dodatkowy atrybut: `std::vector<Role> roles` - lista ról granych przez aktora, gdzie każda rola zawiera nazwę postaci i wskaźnik na film.
+- `Director` - dodatkowy atrybut: `std::vector<Film *> films` - lista filmów wyreżyserowanych przez reżysera.
+- `Producer` - dodatkowy atrybut: `std::vector<ProducerJob> jobs` - lista prac producenta, gdzie każda praca zawiera typ producenta i wskaźnik na film.
+- `Writer` - dodatkowy atrybut: `std::vector<WriterJob> jobs` - lista prac scenarzysty, gdzie każda praca zawiera typ scenarzysty i wskaźnik na film.
+
+Każda z osób ma metody na dodawanie lub usuwanie elementu z jej kolekcji, wyświetlanie informacji o niej oraz wyszukiwanie filmów, w których brała udział.
+
+Klasy dziedziczące po `Person` są używane w celu wyświetlenia stron osób w głównym programie oraz łatwiejszej edycji bazy danych.
+
 ### Strony
 
 ### Zarządzanie bazą danych
