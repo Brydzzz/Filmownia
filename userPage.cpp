@@ -44,8 +44,17 @@ std::unique_ptr<Page> UserPage::doAction(program_state act,
         int a = 0;
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        while (a < 1 || a > revs.size())
+        while (a < 1 || a > revs.size()) {
             cppIO::input("Delete which review?: ", a);
+            if (std::cin.fail()) {
+                std::cin.clear();  // Clear the error state
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),
+                                '\n');  // Ignore remaining input
+                std::cout << "Invalid input. Please enter a number."
+                          << std::endl;
+                a = 0;  // Reset 'a' to ensure the loop continues
+            }
+        }
         Review delRev = revs[a - 1];
         std::ostringstream os;
         os << delRev;
