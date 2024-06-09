@@ -29,6 +29,9 @@ std::unique_ptr<Page> AddReviewPage::doAction(program_state act,
         int rev = 11;
         while (rev > 10 || rev < 0) {
             cppIO::input("Enter score: ", rev);
+            if (rev > 10 || rev < 0) {
+                cppIO::log("Score value must be between 1-10.");
+            }
         }
         std::string content;
         std::cout << "Your thoughts on the movie: ";
