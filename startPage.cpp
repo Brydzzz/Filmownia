@@ -42,7 +42,7 @@ std::unique_ptr<Page> StartPage::doAction(program_state act,
             std::make_unique<UserPage>(us_ptr->getUser()->getLogin());
         return ptr;
     } else if (act == program_state::LogIn) {
-        cppIO::log("To quit press enter.");
+        cppIO::log("To quit press -1.");
         bool is_logged = false;
         while (!is_logged) {
             is_logged = us_ptr->getUser()->log_in();

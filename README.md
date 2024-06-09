@@ -12,34 +12,13 @@
 
 ### Budowanie programu
 
-W katalogu projektu wywołaj:
-```bash
-cmake -S . -B build
-cmake --build build --target main
+```
+cmake --build build --config Release --target all
 ```
 ### Uruchomienie programu
-
-```bash
+```
 (cd build && ./main)
 ```
-
-## Testy jednostkowe
-
-Należy zbudować wybrany test a następnie go uruchomić:
-```bash
-cmake --build build --target <wybrany test>
-(cd build && ./<nazwa pliku wykonywalnego>)
-```
-np.
-```bash
-cmake --build build --target testPerson
-(cd build && ./testPerson)
-```
-Dostępne testy:
-- `testDate.cpp`
-- `testFilm.cpp`
-- `testPerson.cpp`
-- `testUser.cpp`
 
 ### Przykładowe użycie
 

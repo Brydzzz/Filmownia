@@ -13,7 +13,6 @@
 #include "user.h"
 
 // correct login: Lara, 1234
-// extern std::vector<Review> loadReviews(User &user);
 extern std::vector<Film> flist;
 int main() {
     User user;

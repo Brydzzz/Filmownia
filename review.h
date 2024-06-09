@@ -20,7 +20,7 @@ class Review {
     const Film *getFilm();
     const unsigned int &getScore();
     const std::string &getContent();
-    const std::string &getUser();
+    const std::string &getUser() const;
     std::ostream &write(std::ostream &os);
     friend bool operator==(const Review &lrev, const Review &rrev);
     friend std::ostream &operator<<(std::ostream &os, Review &rev);

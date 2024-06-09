@@ -3,6 +3,7 @@
 
 #include "admin.h"
 #include "browsePage.h"
+#include "databaseManager.h"
 #include "global.h"
 #include "guest.h"
 #include "logged.h"
@@ -18,10 +19,12 @@ class FilmPage : public Page {
         "AddReview", "SeeDirector", "SeeActor", "SeeProducer",
         "SeeWriter", "Browse",      "Exit",     "Reviews"};
     Film *film;
-    void loadRevs();
 
    public:
-    FilmPage(Film *f) : film(f) { loadRevs(); };
+    FilmPage(Film *f) : film(f) {
+        DatabaseManager db_mgmt;
+        db_mgmt.loadRevs(f);
+    };
     void print() override;
     program_state nextAction() override;
 

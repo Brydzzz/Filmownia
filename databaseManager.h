@@ -1,3 +1,4 @@
+#pragma once
 #include "csv.h"
 #include "global.h"
 #include "person.h"
@@ -34,6 +35,11 @@ class DatabaseManager {
           producersDb(producersDb),
           writersDb(writersDb){};
     std::vector<Film *> movieSearch(const std::string &title);
+    void appendToFile(whichDb db, std::string content);
+    void loadRevs(Film *f);
+    void deleteLine(std::string oldLine, whichDb db);
+    std::vector<Review> findReviews(std::string name);
+    unsigned int generateReviewID();
     void replaceLine(std::string newLine, std::string oldLine, whichDb db);
     template <typename T>
     std::vector<T> personSearch(const std::string &name) {

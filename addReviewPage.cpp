@@ -20,16 +20,6 @@ program_state AddReviewPage::nextAction() {
     return program_state::Exit;
 }
 
-unsigned int AddReviewPage::generateID() {
-    std::ifstream inputFile("../reviews.csv");
-    std::string line;
-    unsigned int count = 0;
-    while (std::getline(inputFile, line)) {
-        count++;
-    }
-    return count;
-}
-
 std::unique_ptr<Page> AddReviewPage::doAction(program_state act,
                                               std::unique_ptr<Role> &us_ptr) {
     if (act == program_state::GoBack) {
@@ -45,13 +35,21 @@ std::unique_ptr<Page> AddReviewPage::doAction(program_state act,
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::getline(std::cin, content);
-        unsigned int id = generateID();
+        DatabaseManager db_mgmt;
+        unsigned int id = db_mgmt.generateReviewID();
         Review r(film, id, us_ptr->getUser()->getLogin(), rev, content);
-        film->addReview(r);
-        std::fstream f;
-        f.open("../reviews.csv", std::ios::app);
-        f << r << "\n";
-        f.close();
+        try {
+            film->addReview(r);
+        } catch (std::invalid_argument) {
+            std::cout << "You already wrote a review for this movie"
+                      << std::endl;
+            waitForInput();
+            std::unique_ptr<FilmPage> ptr = std::make_unique<FilmPage>(film);
+            return ptr;
+        }
+        std::stringstream ss;
+        ss << r;
+        db_mgmt.appendToFile(whichDb::reviewsDb, ss.str());
         std::unique_ptr<FilmPage> ptr = std::make_unique<FilmPage>(film);
         return ptr;
     }
