@@ -35,6 +35,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                 cppIO::input(
                     "Choose number of a movie you wish to see or -1 for exit: ",
                     a);
+                checkForCinFail(a);
                 if (a == -1) {
                     break;
                 } else if (a < -1 || a > 10 || a > found.size() || a == 0) {
@@ -83,6 +84,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                 cppIO::input(
                     "Choose number of a actor you wish to see or -1 for exit: ",
                     a);
+                checkForCinFail(a);
                 if (a == -1) {
                     break;
                 } else if (a < -1 || a > 10 || a > foundActors.size() ||
@@ -133,6 +135,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                     "Choose number of a writer you wish to see or -1 for "
                     "exit: ",
                     a);
+                checkForCinFail(a);
                 if (a == -1) {
                     break;
                 } else if (a < -1 || a > 10 || a > foundWriters.size() ||
@@ -183,6 +186,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                     "Choose number of a producer you wish to see or -1 for "
                     "exit: ",
                     a);
+                checkForCinFail(a);
                 if (a == -1) {
                     break;
                 } else if (a < -1 || a > 10 || a > foundProducers.size() ||
@@ -233,6 +237,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                     "Choose number of a director you wish to see or -1 for "
                     "exit: ",
                     a);
+                checkForCinFail(a);
                 if (a == -1) {
                     break;
                 } else if (a < -1 || a > 10 || a > foundDirectors.size() ||

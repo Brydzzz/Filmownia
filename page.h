@@ -61,6 +61,8 @@ void printBorder();
 
 void waitForInput();
 
+void checkForCinFail(int &answer, int restoreValue = 0);
+
 std::vector<Film *> findMovies(std::string title);
 
 Film *chooseMovie(std::vector<Film *> films);

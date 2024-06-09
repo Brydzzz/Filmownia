@@ -55,6 +55,7 @@ std::unique_ptr<Page> ProducerPage::doAction(program_state act,
         while (j != 1 && j != 2) {
             cppIO::input("Choose job: \n1.Producer \n2.Executive Producer\n",
                          j);
+            checkForCinFail(j);
         }
         std::cout << "In movie: " << std::endl;
         std::cin.clear();

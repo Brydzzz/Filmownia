@@ -18,7 +18,18 @@ void printBorder() {
 void waitForInput() {
     int u;
     cppIO::input("Press 1 to continue... ", u);
+    checkForCinFail(u, 1);
     return;
+}
+
+void checkForCinFail(int &answer, int restoreValue = 0) {
+    if (std::cin.fail()) {
+        std::cin.clear();  // Clear the error state
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(),
+                        '\n');  // Ignore remaining input
+        std::cout << "Invalid input. Please enter a number." << std::endl;
+        answer = restoreValue;  // Reset 'a' to ensure the loop continues
+    }
 }
 
 std::vector<Film *> findMovies(std::string title) {
@@ -46,6 +57,7 @@ Film *chooseMovie(std::vector<Film *> films) {
                 "Choose number of a movie you wish to choose or -1 to exit "
                 "action: ",
                 a);
+            checkForCinFail(a);
             f = films[a - 1];
             if (a == -1) {
                 return nullptr;

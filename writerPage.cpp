@@ -54,6 +54,7 @@ std::unique_ptr<Page> WriterPage::doAction(program_state act,
         while (j != 1 && j != 2 && j != 3) {
             cppIO::input(
                 "Choose job: \n1. Screenplay \n2. Story \n3. Writer \n", j);
+            checkForCinFail(j);
         }
         std::cout << "In movie: " << std::endl;
         std::cin.clear();

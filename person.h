@@ -83,7 +83,7 @@ class Director : public Person {
     friend std::ostream &operator<<(std::ostream &os, const Director &director);
 };
 
-enum class ProducerType { Producer, ExecutiveProducer };
+enum class ProducerType { Producer = 1, ExecutiveProducer = 2 };
 std::string ptypeToString(ProducerType ptype);
 
 class Producer : public Person {
@@ -116,7 +116,7 @@ class Producer : public Person {
     friend std::ostream &operator<<(std::ostream &os, const Producer &producer);
 };
 
-enum class WriterType { Screenplay, Story, Writer };
+enum class WriterType { Screenplay = 1, Story = 2, Writer = 3 };
 std::string wtypeToString(WriterType wtype);
 
 class Writer : public Person {

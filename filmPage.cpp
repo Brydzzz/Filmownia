@@ -73,6 +73,7 @@ std::unique_ptr<Page> FilmPage::doAction(program_state act,
             cppIO::input(
                 "Choose number of an actor you wish to see or -1 for exit: ",
                 a);
+            checkForCinFail(a);
             if (a == -1) {
                 break;
             } else if (a < -1 || a > 10 || a > actors.size() || a == 0) {
@@ -108,6 +109,7 @@ std::unique_ptr<Page> FilmPage::doAction(program_state act,
             cppIO::input(
                 "Choose number of a producer you wish to see or -1 for exit: ",
                 a);
+            checkForCinFail(a);
             if (a == -1) {
                 break;
             } else if (a < -1 || a > 10 || a > producers.size() || a == 0) {
@@ -136,6 +138,7 @@ std::unique_ptr<Page> FilmPage::doAction(program_state act,
             cppIO::input(
                 "Choose number of a writer you wish to see or -1 for exit: ",
                 a);
+            checkForCinFail(a);
             if (a == -1) {
                 break;
             } else if (a < -1 || a > 10 || a > writers.size() || a == 0) {
