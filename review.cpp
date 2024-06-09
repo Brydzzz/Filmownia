@@ -12,7 +12,7 @@ std::ostream &Review::write(std::ostream &os) {
     return os;
 }
 bool operator==(const Review &lrev, const Review &rrev) {
-    return lrev.getUser() == rrev.getUser();
+    return lrev.getID() == rrev.getID();
 }
 
 const unsigned int &Review::getID() const { return id; }
