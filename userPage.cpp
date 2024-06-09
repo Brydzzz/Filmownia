@@ -7,6 +7,9 @@ void UserPage::print() {
     printBorder();
     std::cout << "User name: " << usr << std::endl;
     std::cout << "Reviews: " << std::endl;
+    if (revs.size() == 0) {
+        std::cout << "No reviews found..." << std::endl;
+    }
     int i = 1;
     for (Review &rev : revs) {
         std::cout << i << ". " << std::quoted(rev.getFilm()->getTitle())
@@ -38,14 +41,22 @@ std::unique_ptr<Page> UserPage::doAction(program_state act,
         std::unique_ptr<StartPage> ptr = std::make_unique<StartPage>();
         return ptr;
     } else if (act == program_state::DeleteElement) {
+        if (revs.size() == 0) {
+            std::cout << "No Review to Delete" << std::endl;
+            waitForInput();
+            std::unique_ptr<UserPage> ptr =
+                std::make_unique<UserPage>(us_ptr->getUser()->getLogin());
+            return ptr;
+        }
         DatabaseManager db_mgmt;
         std::string title;
         std::cout << "Delete review from movie: " << std::endl;
         int a = 0;
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        while (a < 1 || a > revs.size())
-            cppIO::input("Delete which review?: ", a);
+        while (a < 1 || a > revs.size()) {
+            auto a = cppIO::input<int>("Delete which movie");
+        }
         Review delRev = revs[a - 1];
         std::ostringstream os;
         os << delRev;
