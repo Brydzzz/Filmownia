@@ -23,9 +23,9 @@ program_state ActorPage::nextAction() {
     } else if (action == "GoBack") {
         return program_state::GoBack;
     } else if (action == "AddRole") {
-        return program_state::AddRole;
+        return program_state::AddElement;
     } else if (action == "DeleteRole") {
-        return program_state::DeleteRole;
+        return program_state::DeleteElement;
     } else if (action == "SeeAllRoles") {
         return program_state::SeeAll;
     }
@@ -44,7 +44,7 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
             std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
             return ptr;
         }
-    } else if (act == program_state::AddRole) {
+    } else if (act == program_state::AddElement) {
         DatabaseManager db_mgmt;
         std::string character;
         std::cout << "Played character: " << std::endl;
@@ -89,7 +89,7 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         std::unique_ptr<ActorPage> ptr =
             std::make_unique<ActorPage>(actor, filmLink);
         return ptr;
-    } else if (act == program_state::DeleteRole) {
+    } else if (act == program_state::DeleteElement) {
         DatabaseManager db_mgmt;
         std::string title;
         std::cout << "Delete role from movie: " << std::endl;
