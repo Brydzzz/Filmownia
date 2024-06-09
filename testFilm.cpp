@@ -26,13 +26,23 @@ TEST(filmTest, addReviewTest) {
     ASSERT_EQ(film->getTitle(), "All Quiet on The Western Front");
 };
 
+TEST(filmTest, addReviewUserAlreadyMadeOneTest) {
+    Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama}, {},
+           "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
+    f.addReview(
+        Review(&f, 1, std::string("Tomek"), 7, std::string("Very good movie")));
+    ASSERT_THROW(f.addReview(Review(&f, 1, std::string("Tomek"), 9,
+                                    std::string("Very good movie"))),
+                 std::exception);
+};
+
 TEST(filmTest, ratingTest) {
     Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama}, {},
            "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
     f.addReview(
         Review(&f, 1, std::string("Tomek"), 7, std::string("Very good movie")));
     f.addReview(
-        Review(&f, 1, std::string("Tomek"), 9, std::string("Very good movie")));
+        Review(&f, 1, std::string("Romek"), 9, std::string("Very good movie")));
     ASSERT_EQ(f.getRating(), 8);
 }
 
@@ -124,7 +134,7 @@ TEST(filmTest, writeTest) {
     f.addReview(
         Review(&f, 1, std::string("Tomek"), 7, std::string("Very good movie")));
     f.addReview(
-        Review(&f, 2, std::string("Tomek"), 9, std::string("Very good movie")));
+        Review(&f, 2, std::string("Romek"), 9, std::string("Very good movie")));
     std::ostringstream os;
     f.write(os);
     ASSERT_EQ(
@@ -172,7 +182,7 @@ TEST(reviewTest, eqOperatornotEqTest) {
            {{"Me", "The main character"}, {"Him", "The other character"}},
            "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
     Review r(&f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
-    Review r2(&f, 2, std::string("Tomek"), 7, std::string("Very good movie"));
+    Review r2(&f, 2, std::string("Romek"), 7, std::string("Very good movie"));
     ASSERT_FALSE(r == r2);
 }
 

@@ -4,7 +4,23 @@
 
 #include "cppio.hpp"
 #include "csv.h"
-void Film::addReview(Review review) { reviews.push_back(review); }
+void Film::addReview(Review review) {
+    auto it = std::find(reviews.begin(), reviews.end(), review);
+    if (it == reviews.end()) {
+        reviews.push_back(review);
+    } else
+        throw std::invalid_argument(
+            "There is already a review for this movie made by the user");
+}
+
+void Film::deleteReview(std::string name) {
+    // auto it = std::find(reviews.begin(), reviews.end(), review);
+    // if (it != reviews.end()) {
+    //     reviews.erase(review);
+    // } else
+    //     throw std::invalid_argument(
+    //         "There is already a review for this movie made by the user");
+}
 
 std::vector<Review> &Film::getReviews() { return reviews; }
 

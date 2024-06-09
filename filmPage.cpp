@@ -7,26 +7,6 @@
 #include "directorPage.h"
 #include "producerPage.h"
 #include "writerPage.h"
-void FilmPage::loadRevs() {
-    if (film->getReviews().size() == 0) {
-        io::CSVReader<5, io::trim_chars<' '>, io::no_quote_escape<';'>> in(
-            "../reviews.csv");
-        in.read_header(io::ignore_missing_column, "ID", "User", "Film_id",
-                       "Score", "Content");
-        unsigned int ID;
-        std::string User;
-        unsigned int Film_id;
-        unsigned int Score;
-        std::string Content;
-        while (in.read_row(ID, User, Film_id, Score, Content)) {
-            if (Film_id == film->getID()) {
-                Review r(film, ID, User, Score, Content);
-                film->addReview(r);
-            }
-        }
-    }
-    return;
-}
 program_state FilmPage::nextAction() {
     std::string action;
     bool condition =
