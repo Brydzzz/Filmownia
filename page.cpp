@@ -22,7 +22,7 @@ void waitForInput() {
     return;
 }
 
-void checkForCinFail(int &answer, int restoreValue = 0) {
+void checkForCinFail(int &answer, int restoreValue) {
     if (std::cin.fail()) {
         std::cin.clear();  // Clear the error state
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(),
