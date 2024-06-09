@@ -27,8 +27,7 @@ program_state ProducerPage::nextAction() {
     } else if (action == "DeleteJob") {
         return program_state::DeleteElement;
     }
-    return program_state::Exit;  // tylko dla kompilatora taka sytuacja nie
-                                 // wystąpi w normalnym działaniu programu
+    return program_state::Exit;
 }
 
 std::unique_ptr<Page> ProducerPage::doAction(program_state act,

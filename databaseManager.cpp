@@ -60,7 +60,6 @@ std::vector<Film *> DatabaseManager::movieSearch(const std::string &title) {
         Film *f = &(*it);
         ++it;
         result.push_back(f);
-        // std::cout << f.getTitle() << std::endl;
     }
     return result;
 }

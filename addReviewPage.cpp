@@ -9,10 +9,6 @@ program_state AddReviewPage::nextAction() {
     std::string action;
     while (std::find(options.begin(), options.end(), action) == options.end()) {
         cppIO::input("Enter desired action: ", action);
-        // for (int i = 0; i < action.size(); ++i)
-        // {
-        //     action[i] = (char)tolower(action[i]);
-        // }
     }
     if (action == "Exit") {
         return program_state::Exit;
