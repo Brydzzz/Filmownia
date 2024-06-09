@@ -4,7 +4,7 @@
 #include "databaseManager.h"
 #include "global.h"
 #include "page.h"
-extern Film *findAndChooseMovie(std::string title);
+
 program_state DirectorPage::nextAction() {
     std::string action;
     bool condition =
@@ -52,10 +52,11 @@ std::unique_ptr<Page> DirectorPage::doAction(program_state act,
         DatabaseManager db_mgmt;
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::string film;
+        std::string title;
         std::cout << "Movie: " << std::endl;
-        std::getline(std::cin, film);
-        Film *f = findAndChooseMovie(film);
+        std::getline(std::cin, title);
+        std::vector<Film *> foundFilms = findMovies(title);
+        Film *f = chooseMovie(foundFilms);
         if (f == nullptr) {
             waitForInput();
             std::unique_ptr<DirectorPage> ptr =
@@ -102,7 +103,6 @@ std::unique_ptr<Page> DirectorPage::doAction(program_state act,
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::getline(std::cin, title);
-        // Film *f = findAndChooseMovie(title);
         Film *f = chooseMovie(director.findFilmsByTitle(title));
         if (f == nullptr) {
             waitForInput();

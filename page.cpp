@@ -21,30 +21,10 @@ void waitForInput() {
     return;
 }
 
-Film *findAndChooseMovie(std::string title) {
+std::vector<Film *> findMovies(std::string title) {
     DatabaseManager db_mgmt;
     std::vector<Film *> found = db_mgmt.movieSearch(title);
-    Film *f;
-    if (found.size() == 0) {
-        std::cout << "Movie not found" << std::endl;
-        return nullptr;
-    } else if (found.size() == 1) {
-        f = found[0];
-    } else {
-        int i = 1;
-        for (auto f : found) {
-            if (i <= 10) {
-                std::cout << i << '.' << f->getTitle() << std::endl;
-                ++i;
-            }
-        }
-        int a = 0;
-        while (a < 1 || a > 10 || a > found.size()) {
-            cppIO::input("Choose number of a movie you wish to choose: ", a);
-            f = found[a - 1];
-        }
-    }
-    return f;
+    return found;
 }
 
 Film *chooseMovie(std::vector<Film *> films) {
