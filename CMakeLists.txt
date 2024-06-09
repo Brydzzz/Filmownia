@@ -61,9 +61,6 @@ include_directories("${csvreader_SOURCE_DIR}")
 add_executable(main main.cpp ${PROJECT_SOURCES_MAIN})
 target_link_libraries(main PUBLIC ${csvReader_SOURCE_DIR})
 
-add_executable(test test.cpp ${PROJECT_SOURCES_MAIN})
-target_link_libraries(test PUBLIC ${csvReader_SOURCE_DIR})
-
 add_executable(testFilm testFilm.cpp ${PROJECT_SOURCES_FILM})
 target_link_libraries(testFilm PUBLIC gtest_main)
 

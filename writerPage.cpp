@@ -88,7 +88,6 @@ std::unique_ptr<Page> WriterPage::doAction(program_state act,
         os.str("");
         os << f;
         std::string oldMovie = os.str();
-        // f->addWriter(writer.getName(), wtypeToString(wt));
         try {
             f->addWriter(writer.getName(), wtypeToString(wt));
             os.str("");
@@ -103,10 +102,6 @@ std::unique_ptr<Page> WriterPage::doAction(program_state act,
                 std::make_unique<WriterPage>(writer, filmLink);
             return ptr;
         }
-        // os.str("");
-        // os << f;
-        // std::string newMovie = os.str();
-        // db_mgmt.replaceLine(newMovie, oldMovie, whichDb::moviesDb);
         std::unique_ptr<WriterPage> ptr =
             std::make_unique<WriterPage>(writer, filmLink);
         return ptr;

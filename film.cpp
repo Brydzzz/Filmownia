@@ -4,7 +4,23 @@
 
 #include "cppio.hpp"
 #include "csv.h"
-void Film::addReview(Review review) { reviews.push_back(review); }
+void Film::addReview(Review review) {
+    auto it = std::find(reviews.begin(), reviews.end(), review);
+    if (it == reviews.end()) {
+        reviews.push_back(review);
+    } else
+        throw std::invalid_argument(
+            "There is already a review for this movie made by the user");
+}
+
+void Film::deleteReview(std::string name) {
+    // auto it = std::find(reviews.begin(), reviews.end(), review);
+    // if (it != reviews.end()) {
+    //     reviews.erase(review);
+    // } else
+    //     throw std::invalid_argument(
+    //         "There is already a review for this movie made by the user");
+}
 
 std::vector<Review> &Film::getReviews() { return reviews; }
 
@@ -136,7 +152,6 @@ std::map<std::string, std::string> Film::parsePeople(std::string &people) {
     char l1, l2;
     std::stringstream s(people);
     s >> l1;
-    // s >> l2;
     std::string actrole;
     std::map<std::string, std::string> ncast;
     while (std::getline(s, actrole, ']')) {
@@ -147,13 +162,9 @@ std::map<std::string, std::string> Film::parsePeople(std::string &people) {
         std::string name;
         std::getline(ss, name, ',');
         if (name.size() > 2) {
-            // name.erase(0, 1);
-            // name.erase(name.size() - 1);
             std::string role;
             std::getline(ss, role, ',');
             role.erase(0, role.find_first_not_of(" "));
-            // role.erase(0, 1);
-            // role.erase(role.size() - 1);
             ncast[name] = role;
         }
     }

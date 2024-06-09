@@ -12,7 +12,7 @@ class Role;
 class User {
    private:
     std::string login = "guest";
-    Role *role;
+    Role *role = nullptr;
 
    public:
     User() = default;
