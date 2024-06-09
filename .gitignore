@@ -2,5 +2,11 @@
 build/
 .clang-format
 *.csv
+!actors.csv
+!directors.csv
+!movies.csv
+!producers.csv
+!reviews.csv
+!writers.csv
 temp.txt
 test.cpp
