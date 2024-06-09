@@ -119,7 +119,7 @@ std::unique_ptr<Page> DirectorPage::doAction(program_state act,
         if (f == nullptr) {
             waitForInput();
             std::unique_ptr<DirectorPage> ptr =
-                std::make_unique<DirectorPage>(director);
+                std::make_unique<DirectorPage>(director, filmLink);
             return ptr;
         }
         std::ostringstream os;
@@ -132,7 +132,7 @@ std::unique_ptr<Page> DirectorPage::doAction(program_state act,
                          "first place\n";
             waitForInput();
             std::unique_ptr<DirectorPage> ptr =
-                std::make_unique<DirectorPage>(director);
+                std::make_unique<DirectorPage>(director, filmLink);
             return ptr;
         }
         os.str("");
