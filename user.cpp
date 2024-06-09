@@ -71,5 +71,3 @@ void User::log_out() {
     role->setName("guest");
     std::cout << "Logged out successfully" << std::endl;
 };
-
-// UWAGA na zakończenie programu trzeba pamiętać o delete obiektow role!!!!!

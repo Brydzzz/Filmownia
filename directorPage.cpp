@@ -64,22 +64,6 @@ std::unique_ptr<Page> DirectorPage::doAction(program_state act,
             return ptr;
         }
         std::ostringstream os;
-        // std::string old_dir_name = f->getDir();
-        // std::vector<Director> found_director =
-        //     db_mgmt.personSearch<Director>(old_dir_name);
-        // Director old_director = found_director[0];
-        // std::ostringstream os;
-
-        // if (found_director.size() > 0) {
-        //     os << old_director;
-        //     std::string oldRecord = os.str();
-        //     old_director.deleteFilm(*f);
-        //     os.str("");
-        //     os << old_director;
-        //     std::string newRecord = os.str();
-        //     db_mgmt.replaceLine(newRecord, oldRecord, whichDb::directorsDb);
-        //     os.clear();
-        // }
         os << director;
         std::string oldRecord = os.str();
         try {

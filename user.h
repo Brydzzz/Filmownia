@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-// tymczasowo zakładamy ze pierwsze dane w pliku to admin
+// pierwsze dane w pliku z hasłami to admin
 class Role;
 class User {
    private:

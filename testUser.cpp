@@ -53,7 +53,6 @@ TEST(userTest, logIncorrectTest) {
 
     ASSERT_EQ(user.getLogin(), "guest");
     ASSERT_EQ(user.getRole()->getName(), "guest");
-    // ASSERT_NE(output.find("Logged in as admin"), std::string::npos);
 };
 
 TEST(userTest, logOutTest) {
@@ -75,7 +74,7 @@ TEST(userTest, logOutTest) {
 TEST(guestTest, gdefaultTest) {
     // reseting test file
     std::ofstream file;
-    file.open("../testlogin.txt", std::ios::out);  // Open in write mode
+    file.open("../testlogin.txt", std::ios::out);
     if (!file.is_open()) {
         std::cerr << "Could not open the file!" << std::endl;
         return;

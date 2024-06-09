@@ -32,7 +32,7 @@ bool Guest::sign_up(std::string fname) {
     }
     user->setLogin(user_login);
     std::ofstream file;
-    file.open(fname, std::ios::app);  // Open in append mode
+    file.open(fname, std::ios::app);
 
     if (!file.is_open()) {
         std::cerr << "Could not open the file!" << std::endl;
