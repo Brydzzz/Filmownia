@@ -62,7 +62,14 @@ std::unique_ptr<Page> StartPage::doAction(program_state act,
         us_ptr = std::make_unique<Guest>(us_ptr->getUser());
     } else if (act == program_state::SignUp) {
         Guest *guest_ptr = dynamic_cast<Guest *>(us_ptr.get());
-        guest_ptr->sign_up();
+        bool success = false;
+        while (!success) {
+            success = guest_ptr->sign_up();
+        }
+        if (us_ptr->getUser()->getLogin() == "") {
+            std::unique_ptr<Page> ptr = std::make_unique<StartPage>();
+            return ptr;
+        }
     }
     std::unique_ptr<Page> ptr = std::make_unique<StartPage>();
     return ptr;
