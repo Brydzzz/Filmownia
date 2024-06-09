@@ -41,10 +41,8 @@ int main() {
     if (user.getRole()->getName() != "guest") {
         user.log_out();
         delete user.getRole();
-    } else if (user.getRole() != guest) {
-        delete user.getRole();
     } else {
-        delete guest;
+        delete user.getRole();
     }
     return 0;
 }
