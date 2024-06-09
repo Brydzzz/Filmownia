@@ -16,6 +16,7 @@ class User {
 
    public:
     User() = default;
+    ~User() = default;
     const std::string &getLogin() const;
     void setLogin(std::string const &new_login);
     const Role *getRole() const;
