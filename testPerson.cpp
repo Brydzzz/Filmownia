@@ -421,6 +421,30 @@ TEST(director_test, delete_film_film_not_in_films) {
     ASSERT_EQ(d.getFilms()[0], &f1);
 }
 
+TEST(director_test, find_films_by_title) {
+    Director d(3, "Yorgos Lanthimos", 23, 9, 1973);
+    Film f1(3, "The Favourite", 2018, {film_genre::Drama}, {},
+            "England, early 18th century. The close relationship between Queen "
+            "Anne and Sarah Churchill is threatened by the arrival of Sarah's "
+            "cousin, Abigail Hill, resulting in a bitter rivalry between the "
+            "two cousins to be the Queen's favourite.",
+            {}, 120, {}, {}, "");
+    Film f2(4, "Poor Things", 2024, {film_genre::Comedy}, {},
+            "Brought back to life by an unorthodox scientist, a young woman "
+            "runs "
+            "off with a lawyer on a whirlwind adventure across the continents.",
+            {}, 144, {}, {}, "");
+    Film f3(14, "Poor Things3", 2024, {film_genre::Comedy}, {},
+            "Brought back to life by an unorthodox scientist, a young woman "
+            "runs "
+            "off with a lawyer on a whirlwind adventure across the continents.",
+            {}, 144, {}, {}, "");
+    d.addFilm(f1);
+    d.addFilm(f2);
+    d.addFilm(f3);
+    ASSERT_EQ(d.findFilmsByTitle("Poor Th").size(), 2);
+}
+
 TEST(director_test, display_films) {
     Director d(3, "Yorgos Lanthimos", 23, 9, 1973);
     ASSERT_EQ(d.getFilms().empty(), true);
@@ -713,6 +737,32 @@ TEST(producer_test, delete_job_job_not_in_jobs) {
     ASSERT_EQ(p.getJobs().size(), 1);
 }
 
+TEST(producer_test, find_films_byt_title) {
+    Producer p(4, "Kevin Feige", 2, 6, 1973);
+    ASSERT_EQ(p.getJobs().empty(), true);
+    Film f1(3, "The Avengers", 2012, {film_genre::Action}, {},
+            "When an unexpected enemy emerges and threatens global safety and "
+            "security, Nick Fury, director of the international peacekeeping "
+            "agency known as S.H.I.E.L.D., finds himself in need of a team to "
+            "pull the world back from the brink of disaster. Spanning the "
+            "globe, a daring recruitment effort begins!",
+            {}, 143, {}, {}, "");
+    Film f2(
+        4, "Iron Man", 2008, {film_genre::Action}, {},
+        "After being held captive in an Afghan cave, billionaire engineer Tony "
+        "Stark creates a unique weaponized suit of armor to fight evil.",
+        {}, 126, {}, {}, "");
+    Film f3(
+        1344, "Iron Man 24", 2008, {film_genre::Action}, {},
+        "After being held captive in an Afghan cave, billionaire engineer Tony "
+        "Stark creates a unique weaponized suit of armor to fight evil.",
+        {}, 126, {}, {}, "");
+    p.addJob(ProducerType::Producer, f1);
+    p.addJob(ProducerType::Producer, f2);
+    p.addJob(ProducerType::ExecutiveProducer, f3);
+    ASSERT_EQ(p.findFilmsByTitle("Iron M").size(), 2);
+}
+
 TEST(producer_test, display_info) {
     Producer p(4, "Kevin Feige", 2, 6, 1973);
     ASSERT_EQ(p.getJobs().empty(), true);
@@ -963,6 +1013,33 @@ TEST(writer_test, delete_job_job_not_in_jobs) {
     ASSERT_EQ(w.getJobs().size(), 1);
     w.deleteJob(f2);
     ASSERT_EQ(w.getJobs().size(), 1);
+}
+
+TEST(writer_test, find_films_by_title) {
+    Writer w(5, "Jon Spaihts", 4, 2, 1970);
+    ASSERT_EQ(w.getJobs().empty(), true);
+    Film f1(5, "Dune", 2021, {film_genre::SciFi}, {},
+            "Paul Atreides, a brilliant and gifted young man born into a great "
+            "destiny beyond his understanding, must travel to the most "
+            "dangerous planet in the universe to ensure the future of his "
+            "family and his people.",
+            {}, 155, {}, {}, "");
+    Film f2(
+        6, "Passengers", 2016, {film_genre::Romance}, {},
+        "A spacecraft traveling to a distant colony planet and transporting "
+        "thousands of people has a malfunction in its sleep chambers. As a "
+        "result, two passengers are awakened 90 years early.",
+        {}, 116, {}, {}, "");
+    Film f3(
+        1236, "Passengers: The Reunion", 2019, {film_genre::Romance}, {},
+        "A spacecraft traveling to a distant colony planet and transporting "
+        "thousands of people has a malfunction in its sleep chambers. As a "
+        "result, two passengers are awakened 90 years early.",
+        {}, 116, {}, {}, "");
+    w.addJob(WriterType::Screenplay, f1);
+    w.addJob(WriterType::Writer, f2);
+    w.addJob(WriterType::Writer, f3);
+    ASSERT_EQ(w.findFilmsByTitle("Passenger").size(), 2);
 }
 
 TEST(writer_test, display_jobs) {
