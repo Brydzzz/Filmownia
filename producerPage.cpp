@@ -22,6 +22,10 @@ program_state ProducerPage::nextAction() {
         return program_state::GoBack;
     } else if (action == "SeeAllJobs") {
         return program_state::SeeAll;
+    } else if (action == "AddJob") {
+        return program_state::AddJob;
+    } else if (action == "DeleteJob") {
+        return program_state::DeleleteJob;
     }
     return program_state::Exit;  // tylko dla kompilatora taka sytuacja nie
                                  // wystąpi w normalnym działaniu programu
@@ -46,13 +50,61 @@ std::unique_ptr<Page> ProducerPage::doAction(program_state act,
         std::unique_ptr<ProducerPage> ptr =
             std::make_unique<ProducerPage>(prod, filmLink);
         return ptr;
+    } else if (act == program_state::AddJob) {
+        DatabaseManager db_mgmt;
+        int j = 0;
+        while (j != 1 && j != 2) {
+            cppIO::input("Choose job: \n1.Producer \n2.Executive Producer\n",
+                         j);
+        }
+        std::cout << "In movie: " << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::string title;
+        std::getline(std::cin, title);
+        std::vector<Film *> foundFilms = findMovies(title);
+        Film *f = chooseMovie(foundFilms);
+        if (f == nullptr) {
+            waitForInput();
+            std::unique_ptr<ProducerPage> ptr =
+                std::make_unique<ProducerPage>(prod, filmLink);
+            return ptr;
+        }
+        std::ostringstream os;
+        os << prod;
+        std::string oldRecord = os.str();
+        ProducerType pt = static_cast<ProducerType>(j);
+        try {
+            prod.addJob(pt, *f);
+        } catch (const std::invalid_argument &e) {
+            std::cout << "Producer already has a job in this movie\n";
+            waitForInput();
+            std::unique_ptr<ProducerPage> ptr =
+                std::make_unique<ProducerPage>(prod, filmLink);
+            return ptr;
+        }
+        os.str("");
+        os << prod;
+        std::string newRecord = os.str();
+        db_mgmt.replaceLine(newRecord, oldRecord, whichDb::producersDb);
+        os.str("");
+        os << f;
+        std::string oldMovie = os.str();
+        f->addProducer(prod.getName(), ptypeToString(pt));
+        os.str("");
+        os << f;
+        std::string newMovie = os.str();
+        db_mgmt.replaceLine(newMovie, oldMovie, whichDb::moviesDb);
+        std::unique_ptr<ProducerPage> ptr =
+            std::make_unique<ProducerPage>(prod, filmLink);
     } else if (act == program_state::Exit) {
         std::unique_ptr<ProducerPage> ptr =
             std::make_unique<ProducerPage>(prod, filmLink);
         return ptr;
     }
 
-    std::unique_ptr<ProducerPage> ptr = std::make_unique<ProducerPage>(prod, filmLink);
+    std::unique_ptr<ProducerPage> ptr =
+        std::make_unique<ProducerPage>(prod, filmLink);
     return ptr;
 }
 

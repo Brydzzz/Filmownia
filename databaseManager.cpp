@@ -40,6 +40,8 @@ std::string DatabaseManager::enumDbToStr(whichDb db) {
             return directorsDb;
         case whichDb::writersDb:
             return writersDb;
+        case whichDb::producersDb:
+            return producersDb;
         default:
             return "Unknown";
     }
