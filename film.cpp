@@ -53,8 +53,26 @@ void Film::deleteRole(std::string actor) {
     }
     cast.erase(actor);
 }
+void Film::deleteProducer(std::string prod) {
+    if (producers.count(prod) == 0) {
+        throw std::invalid_argument("Producer doesn't have a job");
+    }
+    producers.erase(prod);
+}
+void Film::addRole(std::string actor, std::string role) {
+    if (cast.count(actor) != 0) {
+        throw std::invalid_argument("Actor already has a role in this movie");
+    }
+    cast[actor] = role;
+}
 
-void Film::addRole(std::string actor, std::string role) { cast[actor] = role; }
+void Film::addProducer(std::string prod, std::string job) {
+    if (producers.count(prod) != 0) {
+        throw std::invalid_argument(
+            "Producer already has a role in this movie");
+    }
+    producers[prod] = job;
+}
 
 void Film::changeDirector(std::string new_director) { director = new_director; }
 
@@ -185,10 +203,6 @@ std::string listToStr(std::map<std::string, std::string> mp) {
     result.resize(result.size() - 2);
     result += ']';
     return result;
-}
-
-void Film::addProducer(std::string prod, std::string job) {
-    producers[prod] = job;
 }
 
 std::ostream &Film::write(std::ostream &os) {
