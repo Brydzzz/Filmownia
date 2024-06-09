@@ -38,6 +38,7 @@ void User::log_in(std::string fname) {
     if (it == users.end()) {
         std::cout << "User not found" << std::endl;
         setLogin("guest");
+        delete role;
         Guest *guest = new Guest(this);
         setRole(dynamic_cast<Role *>(guest));
         role->setName("guest");
@@ -45,17 +46,20 @@ void User::log_in(std::string fname) {
 
     else if (it == users.begin()) {
         setLogin(user_login);
+        delete role;
         Admin *admin = new Admin(this);
         setRole(dynamic_cast<Role *>(admin));
         role->setName("admin");
     } else {
         setLogin(user_login);
+        delete role;
         Logged *logged = new Logged(this);
         setRole(dynamic_cast<Role *>(logged));
         role->setName("logged");
     }
 }
 void User::log_out() {
+    delete role;
     login = "guest";
     Guest *guest = new Guest(this);
     setRole(dynamic_cast<Role *>(guest));
