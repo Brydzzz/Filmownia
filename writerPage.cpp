@@ -22,6 +22,10 @@ program_state WriterPage::nextAction() {
         return program_state::GoBack;
     } else if (action == "SeeAllJobs") {
         return program_state::SeeAll;
+    } else if (action == "AddJob") {
+        return program_state::AddElement;
+    } else if (action == "DeleteJob") {
+        return program_state::DeleteElement;
     }
     return program_state::Exit;
 }
@@ -41,6 +45,14 @@ std::unique_ptr<Page> WriterPage::doAction(program_state act,
         writer.displayJobs(std::cout);
         waitForInput();
 
+        std::unique_ptr<WriterPage> ptr =
+            std::make_unique<WriterPage>(writer, filmLink);
+        return ptr;
+    } else if (act == program_state::AddElement) {
+        std::unique_ptr<WriterPage> ptr =
+            std::make_unique<WriterPage>(writer, filmLink);
+        return ptr;
+    } else if (act == program_state::DeleteElement) {
         std::unique_ptr<WriterPage> ptr =
             std::make_unique<WriterPage>(writer, filmLink);
         return ptr;
