@@ -28,7 +28,7 @@ void checkForCinFail(int &answer, int restoreValue) {
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(),
                         '\n');  // Ignore remaining input
         std::cout << "Invalid input. Please enter a number." << std::endl;
-        answer = restoreValue;  // Reset 'a' to ensure the loop continues
+        answer = restoreValue;  // Reset answer to ensure the loop continues
     }
 }
 
