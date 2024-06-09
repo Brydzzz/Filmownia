@@ -41,7 +41,9 @@ bool User::log_in(std::string fname) {
         });
     if (it == users.end()) {
         setLogin("guest");
-        delete role;
+        if (role) {
+            delete role;
+        }
         Guest *guest = new Guest(this);
         setRole(dynamic_cast<Role *>(guest));
         role->setName("guest");
@@ -50,13 +52,17 @@ bool User::log_in(std::string fname) {
 
     else if (it == users.begin()) {
         setLogin(user_login);
-        delete role;
+        if (role) {
+            delete role;
+        }
         Admin *admin = new Admin(this);
         setRole(dynamic_cast<Role *>(admin));
         role->setName("admin");
     } else {
         setLogin(user_login);
-        delete role;
+        if (role) {
+            delete role;
+        }
         Logged *logged = new Logged(this);
         setRole(dynamic_cast<Role *>(logged));
         role->setName("logged");
@@ -64,7 +70,9 @@ bool User::log_in(std::string fname) {
     return true;
 }
 void User::log_out() {
-    delete role;
+    if (role) {
+        delete role;
+    }
     login = "guest";
     Guest *guest = new Guest(this);
     setRole(dynamic_cast<Role *>(guest));
