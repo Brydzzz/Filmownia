@@ -21,10 +21,11 @@ program_state ProducerPage::nextAction() {
     } else if (action == "GoBack") {
         return program_state::GoBack;
     } else if (action == "SeeAllJobs") {
-        return program_state::SeeAll;
+        return program_state::SeeAll;  // tylko dla kompilatora taka sytuacja
+                                       // nie wystąpi w normalnym działaniu
+                                       // programu
     }
-    return program_state::Exit;  // tylko dla kompilatora taka sytuacja nie
-                                 // wystąpi w normalnym działaniu programu
+    return program_state::Exit;
 }
 
 std::unique_ptr<Page> ProducerPage::doAction(program_state act,
@@ -52,7 +53,8 @@ std::unique_ptr<Page> ProducerPage::doAction(program_state act,
         return ptr;
     }
 
-    std::unique_ptr<ProducerPage> ptr = std::make_unique<ProducerPage>(prod, filmLink);
+    std::unique_ptr<ProducerPage> ptr =
+        std::make_unique<ProducerPage>(prod, filmLink);
     return ptr;
 }
 
