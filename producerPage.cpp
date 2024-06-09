@@ -97,6 +97,7 @@ std::unique_ptr<Page> ProducerPage::doAction(program_state act,
         db_mgmt.replaceLine(newMovie, oldMovie, whichDb::moviesDb);
         std::unique_ptr<ProducerPage> ptr =
             std::make_unique<ProducerPage>(prod, filmLink);
+        return ptr;
     } else if (act == program_state::Exit) {
         std::unique_ptr<ProducerPage> ptr =
             std::make_unique<ProducerPage>(prod, filmLink);
