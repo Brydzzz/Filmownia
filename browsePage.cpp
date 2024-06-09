@@ -37,6 +37,9 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                     a);
                 if (a == -1) {
                     break;
+                } else if (a < -1 || a > 10 || a > found.size() || a == 0) {
+                    cppIO::log(
+                        "Invalid number. Choose one of available options.");
                 }
             }
 
@@ -81,6 +84,10 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                     a);
                 if (a == -1) {
                     break;
+                } else if (a < -1 || a > 10 || a > foundActors.size() ||
+                           a == 0) {
+                    cppIO::log(
+                        "Invalid number. Choose one of available options.");
                 }
             }
 
@@ -126,6 +133,10 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                     a);
                 if (a == -1) {
                     break;
+                } else if (a < -1 || a > 10 || a > foundWriters.size() ||
+                           a == 0) {
+                    cppIO::log(
+                        "Invalid number. Choose one of available options.");
                 }
             }
             if (a == -1) {
