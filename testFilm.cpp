@@ -52,7 +52,39 @@ TEST(filmTest, eqOperatorFalseTest) {
     ASSERT_FALSE(f == f2);
 }
 
-TEST(film_test, addProducerTest) {
+TEST(filmTest, addWriterTest) {
+    Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama},
+           {{"Me", "The main character"}, {"Him", "The other character"}},
+           "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
+    f.addWriter("Wir", "Writer");
+    ASSERT_EQ(f.getWriters().size(), 1);
+}
+
+TEST(filmTest, addWriterAlreadyThereTest) {
+    Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama},
+           {{"Me", "The main character"}, {"Him", "The other character"}},
+           "Famous anti war movie based on a novel", {}, 120,
+           {{"Wir", "Writer"}}, {}, "Ich");
+    ASSERT_THROW(f.addWriter("Wir", "Writer"), std::exception);
+}
+
+TEST(filmTest, deleteWriterTest) {
+    Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama},
+           {{"Me", "The main character"}, {"Him", "The other character"}},
+           "Famous anti war movie based on a novel", {}, 120,
+           {{"Wir", "Writer"}}, {}, "Ich");
+    f.deleteWriter("Wir");
+    ASSERT_EQ(f.getWriters().size(), 0);
+}
+
+TEST(filmTest, deleteWriterNotThereTest) {
+    Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama},
+           {{"Me", "The main character"}, {"Him", "The other character"}},
+           "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
+    ASSERT_THROW(f.deleteWriter("Wir"), std::exception);
+}
+
+TEST(filmTest, addProducerTest) {
     Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama},
            {{"Me", "The main character"}, {"Him", "The other character"}},
            "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
@@ -60,7 +92,7 @@ TEST(film_test, addProducerTest) {
     ASSERT_EQ(f.getProducers().size(), 1);
 }
 
-TEST(film_test, addProducerAlreadyThereTest) {
+TEST(filmTest, addProducerAlreadyThereTest) {
     Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama},
            {{"Me", "The main character"}, {"Him", "The other character"}},
            "Famous anti war movie based on a novel", {}, 120, {},
@@ -68,7 +100,7 @@ TEST(film_test, addProducerAlreadyThereTest) {
     ASSERT_THROW(f.addProducer("Wir", "Producer"), std::exception);
 }
 
-TEST(film_test, deleteProducerTest) {
+TEST(filmTest, deleteProducerTest) {
     Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama},
            {{"Me", "The main character"}, {"Him", "The other character"}},
            "Famous anti war movie based on a novel", {}, 120, {},
@@ -77,7 +109,7 @@ TEST(film_test, deleteProducerTest) {
     ASSERT_EQ(f.getProducers().size(), 0);
 }
 
-TEST(film_test, deleteProducerNotThereTest) {
+TEST(filmTest, deleteProducerNotThereTest) {
     Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama},
            {{"Me", "The main character"}, {"Him", "The other character"}},
            "Famous anti war movie based on a novel", {}, 120, {},
