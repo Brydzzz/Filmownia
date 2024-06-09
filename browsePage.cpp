@@ -64,7 +64,6 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
         std::getline(std::cin, name);
         DatabaseManager db_mgmt;
         std::vector<Actor> foundActors = db_mgmt.personSearch<Actor>(name);
-        std::cout << foundActors.size() << std::endl;
         if (foundActors.size() != 0) {
             int a = 0;
             std::cout << "Found actors: " << std::endl;
