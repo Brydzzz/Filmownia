@@ -54,6 +54,7 @@ class Actor : public Person {
     const std::vector<Role> &getRoles() const;
     void addRole(const std::string &character, Film &film);
     void deleteRole(Film &film);
+    std::vector<Film *> findFilmsByTitle(const std::string &title);
     void displayActorInfo(std::ostream &os) const;
     void displayRoles(std::ostream &os) const;
     friend std::ostream &operator<<(std::ostream &os, const Actor &actor);
@@ -109,6 +110,7 @@ class Producer : public Person {
     const std::vector<ProducerJob> &getJobs() const;
     void addJob(ProducerType ptype, Film &film);
     void deleteJob(Film &film);
+    std::vector<Film *> findFilmsByTitle(const std::string &title);
     void displayJobs(std::ostream &os) const;
     void displayProducerInfo(std::ostream &os) const;
     friend std::ostream &operator<<(std::ostream &os, const Producer &producer);
@@ -140,6 +142,7 @@ class Writer : public Person {
     const std::vector<WriterJob> &getJobs() const;
     void addJob(WriterType wtype, Film &film);
     void deleteJob(Film &film);
+    std::vector<Film *> findFilmsByTitle(const std::string &title);
     void displayJobs(std::ostream &os) const;
     void displayWriterInfo(std::ostream &os) const;
     friend std::ostream &operator<<(std::ostream &os, const Writer &writer);

@@ -96,7 +96,7 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::getline(std::cin, title);
-        std::vector<Film *> foundFilms = findMovies(title);
+        std::vector<Film *> foundFilms = actor.findFilmsByTitle(title);
         Film *f = chooseMovie(foundFilms);
         if (f == nullptr) {
             waitForInput();

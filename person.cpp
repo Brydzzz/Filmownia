@@ -95,6 +95,16 @@ void Actor::deleteRole(Film &film) {
     }
 }
 
+std::vector<Film *> Actor::findFilmsByTitle(const std::string &title) {
+    std::vector<Film *> result = {};
+    for (const Actor::Role &role : roles) {
+        if (role.film->getTitle().find(title) != std::string::npos) {
+            result.push_back(role.film);
+        }
+    }
+    return result;
+}
+
 void Actor::displayActorInfo(std::ostream &os) const {
     os << name << '\n';
     os << "Birthdate: " << birthDate << '\n';
@@ -354,6 +364,16 @@ void Producer::deleteJob(Film &film) {
     }
 }
 
+std::vector<Film *> Producer::findFilmsByTitle(const std::string &title) {
+    std::vector<Film *> result = {};
+    for (const Producer::ProducerJob &job : jobs) {
+        if (job.film->getTitle().find(title) != std::string::npos) {
+            result.push_back(job.film);
+        }
+    }
+    return result;
+}
+
 std::string ptypeToString(ProducerType ptype) {
     switch (ptype) {
         case ProducerType::ExecutiveProducer:
@@ -496,6 +516,16 @@ void Writer::deleteJob(Film &film) {
     if (it != jobs.end() && it->film->getID() == film.getID()) {
         jobs.erase(it);
     }
+}
+
+std::vector<Film *> Writer::findFilmsByTitle(const std::string &title) {
+    std::vector<Film *> result = {};
+    for (const Writer::WriterJob &job : jobs) {
+        if (job.film->getTitle().find(title) != std::string::npos) {
+            result.push_back(job.film);
+        }
+    }
+    return result;
 }
 
 std::string wtypeToString(WriterType wtype) {
