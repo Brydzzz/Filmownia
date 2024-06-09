@@ -64,7 +64,7 @@ Reprezentuje recenzję, ktora trzyma pointer na film, który opisuje. Oprócz te
 ### Osoby
 
 ### Strony
-## Page
+#### Page
 Wszystkie strony dziedziczą po klasie Page, która ma zdefiniowane wirtualne metody:
 - showOptions() do drukowania możliwych opcji
 - print() do drukowania informacji specyficznych dla każdej strony
