@@ -104,7 +104,7 @@ Pozwala nam zalogować się albo się zarejestrować,  zobaczyć naszą stronę 
 Wyświetla recenzje naszego użytkownika, pozwala je też usunąć.
 
 #### BrowsePage
-Pozwala na wyszukiwanie Filmów, albo osób (`Actor`, `Director`, `Producer`, `Writer`), i przy każdym wyszukiwaniu współpracuje z DatabaseManager
+Pozwala na wyszukiwanie Filmów, albo osób (`Actor`, `Director`, `Producer`, `Writer`), i przy każdym wyszukiwaniu współpracuje z `DatabaseManager`
 
 #### FilmPage
 Przedstawia informacje o filmie, pozwala na przejscie do stron osób powiązanych z filmem, oraz dodanie recenzji jeśli jesteśmy zalogowani.
