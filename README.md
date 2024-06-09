@@ -11,27 +11,31 @@
 ## Używanie programu
 
 ### Budowanie programu
-
-```
-cmake --build build --config Release --target all
+W katalogu projektu wywołaj:
+```bash
+cmake -S . -B build
+cmake --build build --target main
 ```
 ### Uruchomienie programu
-```
+
+```bash
 (cd build && ./main)
 ```
 
-### Przykładowe użycie
+## Testy jednostkowe
 
-## Podział pracy
-
-## Opisy klas
-
-### Klasy użytkownika
-
-### Klasy filmu i recenzji
-
-### Klasy osób
-
-### Klasy `main.cpp`
-
-## Inne uwagi do wykonaniu projektu
+Należy zbudować wybrany test a następnie go uruchomić:
+```bash
+cmake --build build --target <wybrany test>
+(cd build && ./<nazwa pliku wykonywalnego>)
+```
+np.
+```bash
+cmake --build build --target testPerson
+(cd build && ./testPerson)
+```
+Dostępne testy:
+- `testDate.cpp`
+- `testFilm.cpp`
+- `testPerson.cpp`
+- `testUser.cpp`
