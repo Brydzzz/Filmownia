@@ -123,3 +123,10 @@ Klasa `DatabaseManager` zajmuje się działaniem na naszych plikach `.csv`. Najw
 - `replaceLine()` która z wykorzystaniem pliku `temp.txt` edytuje wybraną bazę danych
 
 ## Inne uwagi do wykonanie projektu
+#### Biblioteki z których korzystaliśmy:
+ - do współpracy ze strumieniem wejściowym: [cppIO](https://github.com/utkuonursahin/cppio)
+ - do współpracy z plikami .csv [fast-cpp-csv-parser](https://github.com/ben-strasser/fast-cpp-csv-parser)
+
+W programie stosujemy kilka praktycznych uproszczeń, np to, że Admin to po prostu pierwszy użytkownik w pliku użytkownikami, albo to że plik `reviews.csv` zawsze musi konczyć się pustą linią.
+
+Początkowo planowaliśmy też dodać więcej opcji modyfikacji bazy danych, np. dodawanie filmu/osoby, ale niestety nie zmieściliśmy się z tym w czasie.
