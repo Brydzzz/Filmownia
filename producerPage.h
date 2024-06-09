@@ -18,9 +18,7 @@ class ProducerPage : public Page {
         "Exit",
     };
     std::vector<std::string> optionsAdmin = {
-        "SeeAllJobs",
-        "GoBack",
-        "Exit",
+        "AddJob", "DeleteJob", "SeeAllJobs", "GoBack", "Exit",
     };
     Producer prod;
     Film* filmLink;

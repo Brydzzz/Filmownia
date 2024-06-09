@@ -36,7 +36,9 @@ enum class program_state {
     SeeWriter,
     LogIn,
     SignUp,
-    LogOut
+    LogOut,
+    AddJob,
+    DeleleteJob,
 };
 
 class Page {
@@ -61,6 +63,6 @@ void printBorder();
 
 void waitForInput();
 
-std::vector<Film*> findMovies(std::string title);
+std::vector<Film *> findMovies(std::string title);
 
 Film *chooseMovie(std::vector<Film *> films);
