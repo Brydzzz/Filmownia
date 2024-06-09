@@ -25,8 +25,6 @@ enum class program_state {
     BrowseDirectors,
     BrowseProducers,
     BrowseWriters,
-    AddRole,
-    DeleteRole,
     SeeAll,
     AddDirectorFilm,
     DeleteDirectorFilm,
@@ -37,8 +35,8 @@ enum class program_state {
     LogIn,
     SignUp,
     LogOut,
-    AddJob,
-    DeleleteJob,
+    AddElement,
+    DeleteElement,
 };
 
 class Page {

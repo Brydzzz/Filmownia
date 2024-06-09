@@ -23,9 +23,9 @@ program_state ProducerPage::nextAction() {
     } else if (action == "SeeAllJobs") {
         return program_state::SeeAll;
     } else if (action == "AddJob") {
-        return program_state::AddJob;
+        return program_state::AddElement;
     } else if (action == "DeleteJob") {
-        return program_state::DeleleteJob;
+        return program_state::DeleteElement;
     }
     return program_state::Exit;  // tylko dla kompilatora taka sytuacja nie
                                  // wystąpi w normalnym działaniu programu
@@ -50,7 +50,7 @@ std::unique_ptr<Page> ProducerPage::doAction(program_state act,
         std::unique_ptr<ProducerPage> ptr =
             std::make_unique<ProducerPage>(prod, filmLink);
         return ptr;
-    } else if (act == program_state::AddJob) {
+    } else if (act == program_state::AddElement) {
         DatabaseManager db_mgmt;
         int j = 0;
         while (j != 1 && j != 2) {
