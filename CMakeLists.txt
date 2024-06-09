@@ -61,9 +61,6 @@ include_directories("${csvreader_SOURCE_DIR}")
 add_executable(main main.cpp ${PROJECT_SOURCES_MAIN})
 target_link_libraries(main PUBLIC ${csvReader_SOURCE_DIR})
 
-add_executable(test test.cpp ${PROJECT_SOURCES_MAIN})
-target_link_libraries(test PUBLIC ${csvReader_SOURCE_DIR})
-
 add_executable(testFilm testFilm.cpp ${PROJECT_SOURCES_FILM})
 target_link_libraries(testFilm PUBLIC gtest_main)
 
@@ -76,5 +73,3 @@ target_link_libraries(testPerson PUBLIC gtest_main)
 add_executable(testDate testDate.cpp date.h date.cpp)
 target_link_libraries(testDate PUBLIC gtest_main)
 
-add_executable(testPage testPage.cpp ${PROJECT_SOURCES_MAIN})
-target_link_libraries(testPage PUBLIC gtest_main)

@@ -13,19 +13,12 @@
 #include "user.h"
 
 // correct login: Lara, 1234
-// extern std::vector<Review> loadReviews(User &user);
 extern std::vector<Film> flist;
 int main() {
     User user;
     Guest *guest = new Guest(&user);
     user.setRole(dynamic_cast<Role *>(guest));
-    // user.log_in();
-    // loadReviews(user);
     std::unique_ptr<Role> us_ptr = std::make_unique<Guest>(&user);
-    // if (user.getRole()->getName() == "logged")
-    // {
-    //     us_ptr = std::make_unique<Logged>(&user, loadReviews(user));
-    // }
     std::unique_ptr<Page> pg_ptr = std::make_unique<StartPage>();
     pg_ptr->print();
     pg_ptr->showOptions(user.getRole());
