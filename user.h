@@ -7,12 +7,12 @@
 #include <string>
 #include <vector>
 
-// tymczasowo zakładamy ze pierwsze dane w pliku to admin
+// pierwsze dane w pliku z hasłami to admin
 class Role;
 class User {
    private:
     std::string login = "guest";
-    Role *role;
+    Role *role = nullptr;
 
    public:
     User() = default;
@@ -20,6 +20,6 @@ class User {
     void setLogin(std::string const &new_login);
     const Role *getRole() const;
     void setRole(Role *new_role);
-    void log_in(std::string fname = "../passwords.txt");
+    bool log_in(std::string fname = "../passwords.txt");
     void log_out();
 };

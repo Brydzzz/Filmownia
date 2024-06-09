@@ -29,8 +29,7 @@ program_state ActorPage::nextAction() {
     } else if (action == "SeeAllRoles") {
         return program_state::SeeAll;
     }
-    return program_state::Exit;  // tylko dla kompilatora taka sytuacja nie
-                                 // wystąpi w normalnym działaniu programu
+    return program_state::Exit;
 }
 
 std::unique_ptr<Page> ActorPage::doAction(program_state act,

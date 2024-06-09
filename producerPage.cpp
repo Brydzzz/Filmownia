@@ -27,8 +27,7 @@ program_state ProducerPage::nextAction() {
     } else if (action == "DeleteJob") {
         return program_state::DeleteElement;
     }
-    return program_state::Exit;  // tylko dla kompilatora taka sytuacja nie
-                                 // wystąpi w normalnym działaniu programu
+    return program_state::Exit;
 }
 
 std::unique_ptr<Page> ProducerPage::doAction(program_state act,
@@ -91,6 +90,49 @@ std::unique_ptr<Page> ProducerPage::doAction(program_state act,
         os << f;
         std::string oldMovie = os.str();
         f->addProducer(prod.getName(), ptypeToString(pt));
+        os.str("");
+        os << f;
+        std::string newMovie = os.str();
+        db_mgmt.replaceLine(newMovie, oldMovie, whichDb::moviesDb);
+        std::unique_ptr<ProducerPage> ptr =
+            std::make_unique<ProducerPage>(prod, filmLink);
+        return ptr;
+    } else if (act == program_state::DeleteElement) {
+        DatabaseManager db_mgmt;
+        std::string title;
+        std::cout << "Delete job from movie: " << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::getline(std::cin, title);
+        std::vector<Film *> foundFilms = prod.findFilmsByTitle(title);
+        Film *f = chooseMovie(foundFilms);
+        if (f == nullptr) {
+            waitForInput();
+            std::unique_ptr<ProducerPage> ptr =
+                std::make_unique<ProducerPage>(prod, filmLink);
+            return ptr;
+        }
+        std::ostringstream os;
+        os << prod;
+        std::string oldRecord = os.str();
+        prod.deleteJob(*f);
+        os.str("");
+        os << prod;
+        std::string newRecord = os.str();
+        db_mgmt.replaceLine(newRecord, oldRecord, whichDb::producersDb);
+        os.str("");
+        os << f;
+        std::string oldMovie = os.str();
+        try {
+            f->deleteProducer(prod.getName());
+        } catch (const std::invalid_argument &e) {
+            std::cout << "This producer never had a job in this movie in the "
+                         "first place\n";
+            waitForInput();
+            std::unique_ptr<ProducerPage> ptr =
+                std::make_unique<ProducerPage>(prod, filmLink);
+            return ptr;
+        }
         os.str("");
         os << f;
         std::string newMovie = os.str();

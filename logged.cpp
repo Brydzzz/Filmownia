@@ -13,9 +13,8 @@ void Logged::delete_review(const Review &to_delete) {
         [&to_delete](const Review &review) { return review == to_delete; });
 
     if (it != reviews.end()) {
-        reviews.erase(it);  // Usuń element, jeśli został znaleziony
+        reviews.erase(it);
     } else {
-        // Element nie został znaleziony
         std::cout << "Review not found" << std::endl;
     }
 }

@@ -42,7 +42,18 @@ std::unique_ptr<Page> StartPage::doAction(program_state act,
             std::make_unique<UserPage>(us_ptr->getUser()->getLogin());
         return ptr;
     } else if (act == program_state::LogIn) {
-        us_ptr->getUser()->log_in();
+        cppIO::log("To quit press enter.");
+        bool is_logged = false;
+        while (!is_logged) {
+            is_logged = us_ptr->getUser()->log_in();
+            if (!is_logged) {
+                cppIO::log("Invalid login or password. Try again.");
+            }
+        }
+        if (us_ptr->getUser()->getLogin() == "") {
+            std::unique_ptr<Page> ptr = std::make_unique<StartPage>();
+            return ptr;
+        }
         loadReviews(*us_ptr->getUser());
         us_ptr = std::make_unique<Logged>(us_ptr->getUser(),
                                           loadReviews(*us_ptr->getUser()));
@@ -51,7 +62,14 @@ std::unique_ptr<Page> StartPage::doAction(program_state act,
         us_ptr = std::make_unique<Guest>(us_ptr->getUser());
     } else if (act == program_state::SignUp) {
         Guest *guest_ptr = dynamic_cast<Guest *>(us_ptr.get());
-        guest_ptr->sign_up();
+        bool success = false;
+        while (!success) {
+            success = guest_ptr->sign_up();
+        }
+        if (us_ptr->getUser()->getLogin() == "") {
+            std::unique_ptr<Page> ptr = std::make_unique<StartPage>();
+            return ptr;
+        }
     }
     std::unique_ptr<Page> ptr = std::make_unique<StartPage>();
     return ptr;
