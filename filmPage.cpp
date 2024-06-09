@@ -89,7 +89,7 @@ std::unique_ptr<Page> FilmPage::doAction(program_state act,
              ++it) {
             actors.push_back(it->first);
         }
-        while (a < -1 || a > 10 || a > actors.size() || a == 0) {
+        while (a < -1 || a > actors.size() || a == 0) {
             cppIO::input(
                 "Choose number of an actor you wish to see or -1 for exit: ",
                 a);

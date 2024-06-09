@@ -63,13 +63,23 @@ std::unique_ptr<Page> DirectorPage::doAction(program_state act,
                 std::make_unique<DirectorPage>(director, filmLink);
             return ptr;
         }
-        std::string old_dir = f->getDir();
-        std::vector<Director> foundDirector =
-            db_mgmt.personSearch<Director>(old_dir);
-        if (foundDirector.size() > 0) {
-            foundDirector[0].deleteFilm(*f);
-        }
         std::ostringstream os;
+        // std::string old_dir_name = f->getDir();
+        // std::vector<Director> found_director =
+        //     db_mgmt.personSearch<Director>(old_dir_name);
+        // Director old_director = found_director[0];
+        // std::ostringstream os;
+
+        // if (found_director.size() > 0) {
+        //     os << old_director;
+        //     std::string oldRecord = os.str();
+        //     old_director.deleteFilm(*f);
+        //     os.str("");
+        //     os << old_director;
+        //     std::string newRecord = os.str();
+        //     db_mgmt.replaceLine(newRecord, oldRecord, whichDb::directorsDb);
+        //     os.clear();
+        // }
         os << director;
         std::string oldRecord = os.str();
         try {
@@ -96,6 +106,7 @@ std::unique_ptr<Page> DirectorPage::doAction(program_state act,
         std::unique_ptr<DirectorPage> ptr =
             std::make_unique<DirectorPage>(director, filmLink);
         return ptr;
+
     } else if (act == program_state::DeleteDirectorFilm) {
         DatabaseManager db_mgmt;
         std::string title;
@@ -113,16 +124,8 @@ std::unique_ptr<Page> DirectorPage::doAction(program_state act,
         std::ostringstream os;
         os << director;
         std::string oldRecord = os.str();
-        director.deleteFilm(*f);
-        os.str("");
-        os << director;
-        std::string newRecord = os.str();
-        db_mgmt.replaceLine(newRecord, oldRecord, whichDb::directorsDb);
-        os.str("");
-        os << f;
-        std::string oldMovie = os.str();
         try {
-            f->deleteDirector(director.getName());
+            director.deleteFilm(*f);
         } catch (const std::invalid_argument &e) {
             std::cout << "This director was never in this movie in the "
                          "first place\n";
@@ -132,9 +135,19 @@ std::unique_ptr<Page> DirectorPage::doAction(program_state act,
             return ptr;
         }
         os.str("");
+        os << director;
+        std::string newRecord = os.str();
+        db_mgmt.replaceLine(newRecord, oldRecord, whichDb::directorsDb);
+        os.str("");
         os << f;
-        std::string newMovie = os.str();
-        db_mgmt.replaceLine(newMovie, oldMovie, whichDb::moviesDb);
+        std::string oldMovie = os.str();
+        if (f->getDir() == director.getName()) {
+            f->deleteDirector(director.getName());
+            os.str("");
+            os << f;
+            std::string newMovie = os.str();
+            db_mgmt.replaceLine(newMovie, oldMovie, whichDb::moviesDb);
+        }
         std::unique_ptr<DirectorPage> ptr =
             std::make_unique<DirectorPage>(director, filmLink);
         return ptr;
