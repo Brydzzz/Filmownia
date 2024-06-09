@@ -255,7 +255,7 @@ program_state BrowsePage::nextAction() {
             std::find(options.begin(), options.end(), action) == options.end();
         if (condition) {
             cppIO::log(
-                "No such option available for this user. Chose one from the "
+                "No such option available for this user. Choose one from the "
                 "list.");
         }
     }
