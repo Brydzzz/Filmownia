@@ -22,6 +22,8 @@ cmake --build build --target main
 (cd build && ./main)
 ```
 
+### Przykładowe użycia
+
 ## Testy jednostkowe
 
 Należy zbudować wybrany test a następnie go uruchomić:
@@ -39,3 +41,17 @@ Dostępne testy:
 - `testFilm.cpp`
 - `testPerson.cpp`
 - `testUser.cpp`
+
+## Klasy w programie
+
+### Użytkownicy
+
+### Film i recenzje
+
+### Osoby
+
+### Strony
+
+### Zarządzanie bazą danych
+
+## Inne uwagi do wykonanie projektu
