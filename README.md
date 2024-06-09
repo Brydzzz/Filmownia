@@ -7,6 +7,7 @@
 - Tomasz Smoleń
 
 ## Temat Projektu
+Nasz projekt to baza filmowa, która w zależności od roli użytkownika umożliwia mu dostęp z różnymi poziomami uprawnień. Użytkownik może wyszukiwać filmy, aktorów, reżyserów, producentów oraz scenarzystów. I w zależności od roli dodawać opinie o filmach oraz modyfikować bazę filmową przez dodanie lub usunięcie osób występujących w filmach.
 
 ## Używanie programu
 
@@ -52,6 +53,20 @@ Dostępne testy:
 ## Klasy w programie
 
 ### Użytkownicy
+#### User
+Reprezentuje użytkownika bazy filmowej, zawiera informację o jego loginie oraz trzyma pointer na rolę jaką ma użytkownik (użytkownik zalogowany, gość lub admin). Posiada możliwość zalogowania (log_in) i wylogowania użytkownika (log_out).
+
+#### Role
+Reprezentuje rolę użytkownika bazy filmowej, zawiera informację o nazwie roli (guest, logged, admin), która ułatwia sprawdzanie jaką rolę pełni użytkownik oraz trzyma pointer na użytkownika. 
+
+#### Guest
+Reprezentuje gościa bazy filmowej, który może jedynie ją przeglądać. Klasa ta dziedziczy po klasie Role i dodatkowo posiada możliwość zarejestrowania użytkownika.
+
+#### Logged
+Reprezentuje zalogowanego użytkownika bazy danych, który dodatkowo może wystawić recenzję, usunąć ją oraz zobaczyć wszystkie swoje recenzje. Klasa ta dziedziczy po klasie Role i dodatkowo zawiera informację o recenzjach użytkownika.
+
+#### Admin
+Reprezentuje administratora bazy danych, który dodatkowo ma możliwość modyfikacji bazy filmowej. Klasa dziedziczy po klasie Role.
 
 ### Film i recenzje
 #### Film
