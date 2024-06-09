@@ -24,6 +24,13 @@ cmake --build build --target main
 
 ### Przykładowe użycia
 
+1. Przeglądanie bazy z poziomu gościa
+![example 1 gif](./docs/example1.gif)
+2. Dodawanie ocen jako zalogowany użytkowik
+![example 2 gif](./docs/example2.gif)
+3. Edycja bazy z poziomu admina
+![example 3 gif](./docs/example3.gif)
+
 ## Testy jednostkowe
 
 Należy zbudować wybrany test a następnie go uruchomić:
