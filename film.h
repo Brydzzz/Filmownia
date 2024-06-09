@@ -74,7 +74,7 @@ class Film {
           director(director) {}
     Film(){};
     void addReview(Review review);
-    void deleteReview(std::string name);
+    void deleteReview(Review review);
     void addRole(std::string actor, std::string role);
     void deleteRole(std::string actor);
     void changeDirector(std::string new_director);
