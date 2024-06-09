@@ -12,7 +12,7 @@ program_state WriterPage::nextAction() {
             std::find(options.begin(), options.end(), action) == options.end();
         if (condition) {
             cppIO::log(
-                "No such option available for this user. Chose one from the "
+                "No such option available for this user. Choose one from the "
                 "list.");
         }
     }
@@ -58,7 +58,7 @@ std::unique_ptr<Page> WriterPage::doAction(program_state act,
 void WriterPage::print() {
     clearTerminal();
     printBorder();
-    std::cout << "Writer PAGE" << std::endl;
+    std::cout << "WRITER PAGE" << std::endl;
     printBorder();
     writer.displayWriterInfo(std::cout);
 }
