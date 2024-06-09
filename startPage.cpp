@@ -61,6 +61,7 @@ std::unique_ptr<Page> StartPage::doAction(program_state act,
         us_ptr->getUser()->log_out();
         us_ptr = std::make_unique<Guest>(us_ptr->getUser());
     } else if (act == program_state::SignUp) {
+        cppIO::log("To quit press -1.");
         Guest *guest_ptr = dynamic_cast<Guest *>(us_ptr.get());
         bool success = false;
         while (!success) {

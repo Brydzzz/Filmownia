@@ -55,7 +55,8 @@ std::unique_ptr<Page> UserPage::doAction(program_state act,
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         while (a < 1 || a > revs.size()) {
-            auto a = cppIO::input<int>("Delete which movie");
+            cppIO::input("Delete which review?: ", a);
+            checkForCinFail(a);
         }
         Review delRev = revs[a - 1];
         std::ostringstream os;

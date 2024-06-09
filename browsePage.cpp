@@ -35,6 +35,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                 cppIO::input(
                     "Choose number of a movie you wish to see or -1 for exit: ",
                     a);
+                checkForCinFail(a);
                 if (a == -1) {
                     break;
                 } else if (a < -1 || a > 10 || a > found.size() || a == 0) {
@@ -57,6 +58,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
             std::cout << "Movie not found\n";
             waitForInput();
             std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
+            ptr->doAction(program_state::BrowseMovies, us_ptr);
             return ptr;
         }
     } else if (act == program_state::BrowseActors) {
@@ -82,6 +84,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                 cppIO::input(
                     "Choose number of a actor you wish to see or -1 for exit: ",
                     a);
+                checkForCinFail(a);
                 if (a == -1) {
                     break;
                 } else if (a < -1 || a > 10 || a > foundActors.size() ||
@@ -105,6 +108,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
             std::cout << "Actor not found\n";
             waitForInput();
             std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
+            ptr->doAction(program_state::BrowseActors, us_ptr);
             return ptr;
         }
     } else if (act == program_state::BrowseWriters) {
@@ -131,6 +135,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                     "Choose number of a writer you wish to see or -1 for "
                     "exit: ",
                     a);
+                checkForCinFail(a);
                 if (a == -1) {
                     break;
                 } else if (a < -1 || a > 10 || a > foundWriters.size() ||
@@ -153,6 +158,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
             std::cout << "Writer not found\n";
             waitForInput();
             std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
+            ptr->doAction(program_state::BrowseWriters, us_ptr);
             return ptr;
         }
     } else if (act == program_state::BrowseProducers) {
@@ -180,6 +186,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                     "Choose number of a producer you wish to see or -1 for "
                     "exit: ",
                     a);
+                checkForCinFail(a);
                 if (a == -1) {
                     break;
                 } else if (a < -1 || a > 10 || a > foundProducers.size() ||
@@ -202,6 +209,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
             std::cout << "Producer not found\n";
             waitForInput();
             std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
+            ptr->doAction(program_state::BrowseProducers, us_ptr);
             return ptr;
         }
     } else if (act == program_state::BrowseDirectors) {
@@ -229,6 +237,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
                     "Choose number of a director you wish to see or -1 for "
                     "exit: ",
                     a);
+                checkForCinFail(a);
                 if (a == -1) {
                     break;
                 } else if (a < -1 || a > 10 || a > foundDirectors.size() ||
@@ -251,6 +260,7 @@ std::unique_ptr<Page> BrowsePage::doAction(program_state act,
             std::cout << "Director not found\n";
             waitForInput();
             std::unique_ptr<BrowsePage> ptr = std::make_unique<BrowsePage>();
+            ptr->doAction(program_state::BrowseDirectors, us_ptr);
             return ptr;
         }
     } else if (act == program_state::Exit) {
