@@ -38,7 +38,11 @@ int main() {
         act = pg_ptr->nextAction();
     };
     std::cout << "Thank you for using Filmownia Software :)" << std::endl;
-    delete guest;
-    // user.log_out();
+    if (user.getRole()->getName() != "guest") {
+        user.log_out();
+        delete user.getRole();
+    } else {
+        delete user.getRole();
+    }
     return 0;
 }

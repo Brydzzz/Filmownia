@@ -1,16 +1,12 @@
 #pragma once
+#include <algorithm>
+#include <iostream>
 #include <limits>
 #include <memory>
 
-#include "film.h"
-// #include "filmPage.h"
-#include <algorithm>
-#include <iostream>
-
-#include "cppio.hpp"
-// #include "main.cpp"
-
 #include "admin.h"
+#include "cppio.hpp"
+#include "film.h"
 #include "global.h"
 #include "guest.h"
 #include "logged.h"
@@ -65,6 +61,6 @@ void printBorder();
 
 void waitForInput();
 
-Film *findAndChooseMovie(std::string title);
+std::vector<Film*> findMovies(std::string title);
 
 Film *chooseMovie(std::vector<Film *> films);
