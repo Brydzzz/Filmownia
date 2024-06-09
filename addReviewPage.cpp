@@ -29,6 +29,7 @@ std::unique_ptr<Page> AddReviewPage::doAction(program_state act,
         int rev = 11;
         while (rev > 10 || rev < 0) {
             cppIO::input("Enter score: ", rev);
+            checkForCinFail(rev, 11);
             if (rev > 10 || rev < 0) {
                 cppIO::log("Score value must be between 1-10.");
             }
