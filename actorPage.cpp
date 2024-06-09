@@ -3,7 +3,7 @@
 #include "databaseManager.h"
 #include "global.h"
 #include "page.h"
-extern Film *findAndChooseMovie(std::string title);
+
 program_state ActorPage::nextAction() {
     std::string action;
     bool condition =
@@ -51,13 +51,15 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::getline(std::cin, character);
-        std::string film;
+        std::string title;
         std::cout << "In movie: " << std::endl;
-        std::getline(std::cin, film);
-        Film *f = findAndChooseMovie(film);
+        std::getline(std::cin, title);
+        std::vector<Film *> foundFilms = findMovies(title);
+        Film *f = chooseMovie(foundFilms);
         if (f == nullptr) {
             waitForInput();
-            std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor, filmLink);
+            std::unique_ptr<ActorPage> ptr =
+                std::make_unique<ActorPage>(actor, filmLink);
             return ptr;
         }
         std::ostringstream os;
@@ -68,7 +70,8 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         } catch (const std::invalid_argument &e) {
             std::cout << "Actor already has a role in this movie\n";
             waitForInput();
-            std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor, filmLink);
+            std::unique_ptr<ActorPage> ptr =
+                std::make_unique<ActorPage>(actor, filmLink);
             return ptr;
         }
         os.str("");
@@ -83,19 +86,22 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
         os << f;
         std::string newMovie = os.str();
         db_mgmt.replaceLine(newMovie, oldMovie, whichDb::moviesDb);
-        std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor, filmLink);
+        std::unique_ptr<ActorPage> ptr =
+            std::make_unique<ActorPage>(actor, filmLink);
         return ptr;
     } else if (act == program_state::DeleteRole) {
         DatabaseManager db_mgmt;
-        std::string film;
+        std::string title;
         std::cout << "Delete role from movie: " << std::endl;
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::getline(std::cin, film);
-        Film *f = findAndChooseMovie(film);
+        std::getline(std::cin, title);
+        std::vector<Film *> foundFilms = findMovies(title);
+        Film *f = chooseMovie(foundFilms);
         if (f == nullptr) {
             waitForInput();
-            std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor, filmLink);
+            std::unique_ptr<ActorPage> ptr =
+                std::make_unique<ActorPage>(actor, filmLink);
             return ptr;
         }
         std::ostringstream os;
@@ -115,14 +121,16 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
             std::cout << "This actor never had a role in this movie in the "
                          "first place\n";
             waitForInput();
-            std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor, filmLink);
+            std::unique_ptr<ActorPage> ptr =
+                std::make_unique<ActorPage>(actor, filmLink);
             return ptr;
         }
         os.str("");
         os << f;
         std::string newMovie = os.str();
         db_mgmt.replaceLine(newMovie, oldMovie, whichDb::moviesDb);
-        std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor, filmLink);
+        std::unique_ptr<ActorPage> ptr =
+            std::make_unique<ActorPage>(actor, filmLink);
         return ptr;
     } else if (act == program_state::SeeAll) {
         clearTerminal();
@@ -130,13 +138,16 @@ std::unique_ptr<Page> ActorPage::doAction(program_state act,
 
         waitForInput();
 
-        std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor, filmLink);
+        std::unique_ptr<ActorPage> ptr =
+            std::make_unique<ActorPage>(actor, filmLink);
         return ptr;
     } else if (act == program_state::Exit) {
-        std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor, filmLink);
+        std::unique_ptr<ActorPage> ptr =
+            std::make_unique<ActorPage>(actor, filmLink);
         return ptr;
     }
-    std::unique_ptr<ActorPage> ptr = std::make_unique<ActorPage>(actor, filmLink);
+    std::unique_ptr<ActorPage> ptr =
+        std::make_unique<ActorPage>(actor, filmLink);
     return ptr;
 }
 
