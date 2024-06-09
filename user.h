@@ -20,6 +20,6 @@ class User {
     void setLogin(std::string const &new_login);
     const Role *getRole() const;
     void setRole(Role *new_role);
-    void log_in(std::string fname = "../passwords.txt");
+    bool log_in(std::string fname = "../passwords.txt");
     void log_out();
 };
