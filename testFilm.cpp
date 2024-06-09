@@ -36,6 +36,22 @@ TEST(filmTest, addReviewUserAlreadyMadeOneTest) {
                  std::exception);
 };
 
+TEST(filmTest, deleteReviewTest) {
+    Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama}, {},
+           "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
+    Review r(&f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
+    f.addReview(r);
+    f.deleteReview(r);
+    ASSERT_EQ(f.getReviews().size(), 0);
+};
+
+TEST(filmTest, deleteReviewNotThereTest) {
+    Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama}, {},
+           "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
+    Review r(&f, 1, std::string("Tomek"), 7, std::string("Very good movie"));
+    ASSERT_THROW(f.deleteReview(r), std::exception);
+};
+
 TEST(filmTest, ratingTest) {
     Film f(1, "All Quiet on The Western Front", 2022, {film_genre::Drama}, {},
            "Famous anti war movie based on a novel", {}, 120, {}, {}, "Ich");
